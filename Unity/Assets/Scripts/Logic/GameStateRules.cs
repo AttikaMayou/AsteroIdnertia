@@ -12,7 +12,7 @@ public class GameStateRules : MonoBehaviour
 
 
 
-        var positions = GetAsteroidsInitialPositions(allAsteroids);
+        var positions = GetAsteroidsInitialPositions(ref gs, allAsteroids);
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Length, Allocator.Persistent);
 
@@ -22,8 +22,8 @@ public class GameStateRules : MonoBehaviour
             {
                 position = positions[i],
                 //TODO : Setup random direction :
-                direction = Vector2.down,
-                size = Random.Range(0.5f, 3f)
+                direction = gs.player.position - new Vector2(0.0f, -10.0f),
+                size = Random.Range(1.0f, 5.0f)
             };
             gs.asteroids.Add(asteroid);
         }
@@ -45,11 +45,11 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Generate random position for asteroids at initialization
-    private static Vector3[] GetAsteroidsInitialPositions(GameObject[] asteroids)
+    private static Vector3[] GetAsteroidsInitialPositions(ref GameState gs, GameObject[] asteroids)
     {
         //Take negatives from these floats to get left player boundaries and positives ones to get right player boundaries
-        var leftBoundary = 30.0f;
-        var rightBoundary = 10.0f;
+        var leftBoundary = 30.0f; //* gs.player == GameSystemScript.player1 ? -1 : 1;
+        var rightBoundary = 10.0f; // * gs.player == GameSystemScript.player2 ? -1 : 1;
 
         //Adjust maximum with number of asteroids (the more there are, the higher maximum should be)
         var minimalX = 50.0f;
