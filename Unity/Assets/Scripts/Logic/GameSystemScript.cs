@@ -6,17 +6,17 @@ using TMPro;
 //Auteur : Arthur & Margot
 public class GameSystemScript : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject AsteroidPrefab;
+    //[SerializeField]
+    //private GameObject AsteroidPrefab;
 
-    [SerializeField]
-    private GameObject ProjectilePrefab;
+    //[SerializeField]
+    //private GameObject ProjectilePrefab;
 
-    [SerializeField]
-    private GameObject Player1;
+    //[SerializeField]
+    //private GameObject Player1;
 
-    [SerializeField]
-    private GameObject Player2;
+    //[SerializeField]
+    //private GameObject Player2;
 
     [SerializeField]
     private TMP_Dropdown Agent1Dropdown;
@@ -24,23 +24,27 @@ public class GameSystemScript : MonoBehaviour
     [SerializeField]
     private TMP_Dropdown Agent2Dropdown;
 
-    private GameState gs;
+    //private GameState gs;
 
-    private readonly List<Transform> asteroidsView = new List<Transform>();
-    private readonly List<Transform> projectilesView = new List<Transform>();
+    //private readonly List<Transform> asteroidsView = new List<Transform>();
+    //private readonly List<Transform> projectilesView = new List<Transform>();
     
-    private Transform Player1View;
-    private Transform Player2View;
+    //private Transform Player1View;
+    //private Transform Player2View;
     private IAgent agentPlayer1;
     private IAgent agentPlayer2;
 
+    PlayerManager player1;
+    PlayerManager player2;
 
     public void StartGame()
     {
-        GameStateRules.Init(ref gs);
+        //GameStateRules.Init(ref gs);
 
-        Player1View = Player1.transform;
-        Player2View = Player2.transform;
+        //Player1View = Player1.transform;
+        //Player2View = Player2.transform;
+        
+
 
         switch (Agent1Dropdown.value)
         {
@@ -86,14 +90,19 @@ public class GameSystemScript : MonoBehaviour
                 break;*/
         }
 
+        player1.StartGame(agentPlayer1, "AsteroidsPlayer1");
+        player2.StartGame(agentPlayer2, "AsteroidsPlayer2");
     }
 
     private void Update()
     {
-        if (gs.player.isGameOver)
-        {
-            return;
-        }
+        //if (gs.player.isGameOver)
+        //{
+        //    return;
+        //}
+
+        player1.UpdatePlayerState();
+        player2.UpdatePlayerState();
 
         //SyncAsteroidsViews();
         //SyncProjectilesViews();
@@ -105,46 +114,46 @@ public class GameSystemScript : MonoBehaviour
         
     }
 
-    private void SyncAsteroidsViews()
-    {
-        var asteroidToSpawn = gs.asteroids.Length - asteroidsView.Count;
+    //private void SyncAsteroidsViews()
+    //{
+    //    var asteroidToSpawn = gs.asteroids.Length - asteroidsView.Count;
 
-        for(int i = 0; i < asteroidToSpawn; i++)
-        {
-            var asteroidView = Instantiate(AsteroidPrefab).GetComponent<Transform>();
-            asteroidsView.Add(asteroidView);
-        }
+    //    for(int i = 0; i < asteroidToSpawn; i++)
+    //    {
+    //        var asteroidView = Instantiate(AsteroidPrefab).GetComponent<Transform>();
+    //        asteroidsView.Add(asteroidView);
+    //    }
 
-        for(int i= 0; i< -asteroidToSpawn; i++)
-        {
-            Destroy(asteroidsView[asteroidsView.Count - 1].gameObject);
-            asteroidsView.RemoveAt(asteroidsView.Count- 1);
-        }
+    //    for(int i= 0; i< -asteroidToSpawn; i++)
+    //    {
+    //        Destroy(asteroidsView[asteroidsView.Count - 1].gameObject);
+    //        asteroidsView.RemoveAt(asteroidsView.Count- 1);
+    //    }
 
-        for(int i = 0; i<asteroidsView.Count; i++)
-        {
-            asteroidsView[i].position = gs.asteroids[i].position;
-        }
-    }
+    //    for(int i = 0; i<asteroidsView.Count; i++)
+    //    {
+    //        asteroidsView[i].position = gs.asteroids[i].position;
+    //    }
+    //}
 
-    private void SyncProjectilesViews()
-    {
-        var projectileToSpawn = gs.projectiles.Length - projectilesView.Count;
-        for (int i = 0; i < projectileToSpawn; i++)
-        {
-            var projectileView = Instantiate(ProjectilePrefab).GetComponent<Transform>();
-            asteroidsView.Add(projectileView);
-        }
+    //private void SyncProjectilesViews()
+    //{
+    //    var projectileToSpawn = gs.projectiles.Length - projectilesView.Count;
+    //    for (int i = 0; i < projectileToSpawn; i++)
+    //    {
+    //        var projectileView = Instantiate(ProjectilePrefab).GetComponent<Transform>();
+    //        asteroidsView.Add(projectileView);
+    //    }
 
-        for (int i = 0; i < -projectileToSpawn; i++)
-        {
-            Destroy(projectilesView[projectilesView.Count - 1].gameObject);
-            projectilesView.RemoveAt(projectilesView.Count - 1);
-        }
+    //    for (int i = 0; i < -projectileToSpawn; i++)
+    //    {
+    //        Destroy(projectilesView[projectilesView.Count - 1].gameObject);
+    //        projectilesView.RemoveAt(projectilesView.Count - 1);
+    //    }
 
-        for (int i = 0; i < projectilesView.Count; i++)
-        {
-            projectilesView[i].position = gs.projectiles[i].position;
-        }
-    }
+    //    for (int i = 0; i < projectilesView.Count; i++)
+    //    {
+    //        projectilesView[i].position = gs.projectiles[i].position;
+    //    }
+    //}
 }

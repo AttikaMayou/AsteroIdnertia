@@ -3,13 +3,16 @@ using Unity.Collections;
 
 public class GameStateRules : MonoBehaviour
 {
-    public static void Init(ref GameState gs)
+    public static void Init(ref GameState gs, string asteroidsTags)
     {
-        // Very Bad !! Ah ça je te fais pas dire hahaha. Et sinon même si c'est pas propre,
-        //oublie pas de vérifier que c'est pas null avant de faire des opérations dessus
-        var allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
-        //TODO : get asteroids from inspector 
+        // Very Bad !! Ah ça je te fais pas dire hahaha
+        var allAsteroids = GameObject.FindGameObjectsWithTag(asteroidsTags);
 
+        //TODO : get asteroids from inspector 
+        if(allAsteroids == null || allAsteroids.Length == 0)
+        {
+            throw new System.Exception("There is no asteroids with tag : " + asteroidsTags);
+        }
 
 
         var positions = GetAsteroidsInitialPositions(ref gs, allAsteroids);
