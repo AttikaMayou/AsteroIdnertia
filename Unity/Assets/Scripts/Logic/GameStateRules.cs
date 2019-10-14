@@ -134,21 +134,26 @@ public class GameStateRules : MonoBehaviour
         {
             case ActionsTypes.Nothing:
                 {
+                    gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
             case ActionsTypes.MoveLeft:
                 {
-                    gs.player.position += Vector2.left * gs.player.speed * Vector2.left;
+                    // gs.player.position += Vector2.left * gs.player.speed;
+                    var targetVel = gs.player.velocity - GameState.ACCELERATION_SPEED * 10;
+                    gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
 
             case ActionsTypes.MoveRight:
                 {
-                    gs.player.position += Vector2.right * gs.player.speed * Vector2.left;
+                    var targetVel = gs.player.velocity + GameState.ACCELERATION_SPEED * 10;
+                    gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
             case ActionsTypes.Shoot:
                 {
+                    gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     if (gs.currentGameStep - gs.player.lastShootStep < GameState.SHOOT_DELAY)
                     {
                         break;
@@ -164,6 +169,8 @@ public class GameStateRules : MonoBehaviour
                     // Shoot Logic
                 }
         }
+        gs.player.velocity = (long)Mathf.Clamp(gs.player.velocity, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
+        gs.player.position.x += gs.player.velocity;
     }
 
     private static readonly ActionsTypes[] AvailableActions = new[] { ActionsTypes.Nothing, ActionsTypes.MoveLeft, ActionsTypes.MoveRight, ActionsTypes.Shoot };
