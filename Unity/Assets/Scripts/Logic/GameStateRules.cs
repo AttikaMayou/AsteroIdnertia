@@ -61,7 +61,12 @@ public class GameStateRules : MonoBehaviour
 
     static void UpdateAsteroidsPosition(ref GameState gs)
     {
-
+        for(var i = 0; i < gs.asteroids.Length; i++)
+        {
+            var asteroid = gs.asteroids[i];
+            asteroid.position += gs.asteroids[i].speed;
+            gs.asteroids[i] = asteroid;
+        }
     } 
 
     static void UpdateProjectiles(ref GameState gs)
