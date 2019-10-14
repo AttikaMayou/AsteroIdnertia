@@ -12,6 +12,9 @@ public struct GameState : ICloneable
     public const float ASTEROID_RADIUS = 0.8f;
     public const float PROJECTILE_SPEED = 0.5f / 60f * 10f;
     public const float INITIAL_PLAYER_SPEED = 0.3f / 60f * 10;
+    public const float ACCELERATION_SPEED = INITIAL_PLAYER_SPEED / 60;
+    public const float DECELERATION_SPEED = 0.025f;
+    public const float MAX_VELOCITY = 0.05f;
 
     
     public NativeList<Asteroid> asteroids;
