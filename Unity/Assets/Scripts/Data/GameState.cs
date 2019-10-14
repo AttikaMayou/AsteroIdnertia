@@ -18,7 +18,7 @@ public struct GameState : ICloneable
 
     public NativeArray<Player> players;
 
-
+    public long currentGameStep;
 
     public object Clone()
     {
