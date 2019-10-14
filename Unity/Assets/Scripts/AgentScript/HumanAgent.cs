@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Auteur : Arthur & Margot
+
 public class HumanAgent : IAgent
 {
     public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions)
