@@ -3,9 +3,17 @@ using Unity.Collections;
 
 public class GameStateRules : MonoBehaviour
 {
+
+
+    public void GetAllAsteroidsFromGameSystem()
+    {
+
+    }
+
     public static void Init(ref GameState gs)
     {
-        // Very Bad !! Ah ça je te fais pas dire hahaha
+        // Very Bad !! Ah ça je te fais pas dire hahaha. Et sinon même si c'est pas propre,
+        //oublie pas de vérifier que c'est pas null avant de faire des opérations dessus
         var allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Length, Allocator.Persistent);
