@@ -3,13 +3,6 @@ using Unity.Collections;
 
 public class GameStateRules : MonoBehaviour
 {
-
-
-    public void GetAllAsteroidsFromGameSystem()
-    {
-
-    }
-
     public static void Init(ref GameState gs)
     {
         // Very Bad !! Ah ça je te fais pas dire hahaha. Et sinon même si c'est pas propre,
