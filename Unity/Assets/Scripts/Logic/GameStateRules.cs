@@ -5,7 +5,8 @@ public class GameStateRules : MonoBehaviour
 {
     public static void Init(ref GameState gs)
     {
-        // Very Bad !! Ah ça je te fais pas dire hahaha
+        // Very Bad !! Ah ça je te fais pas dire hahaha. Et sinon même si c'est pas propre,
+        //oublie pas de vérifier que c'est pas null avant de faire des opérations dessus
         var allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Length, Allocator.Persistent);
@@ -60,12 +61,22 @@ public class GameStateRules : MonoBehaviour
 
     static void UpdateAsteroidsPosition(ref GameState gs)
     {
-
+        for(var i = 0; i < gs.asteroids.Length; i++)
+        {
+            var asteroid = gs.asteroids[i];
+            asteroid.position += gs.asteroids[i].speed;
+            gs.asteroids[i] = asteroid;
+        }
     } 
 
     static void UpdateProjectiles(ref GameState gs)
     {
-
+        for(var i = 0; i < gs.projectiles.Length; i++)
+        {
+            var projectile = gs.projectiles[i];
+            projectile.position += gs.projectiles[i].speed * Vector2.up;
+            gs.projectiles[i] = projectile;
+        }
     }
 
     static void HandleCollisions(ref GameState gs)
