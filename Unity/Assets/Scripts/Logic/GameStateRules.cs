@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Collections;
 
 public class GameStateRules : MonoBehaviour
 {
     public static void Init(ref GameState gs)
     {
-        // Very Bad !!
+        // Very Bad !! Ah ça je te fais pas dire hahaha
         var allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Length, Allocator.Persistent);
@@ -53,7 +51,11 @@ public class GameStateRules : MonoBehaviour
             throw new System.Exception("Player " + playerID + " is in a Game Over State");
         }
 
-        
+        UpdateAsteroidsPosition(ref gs);
+        UpdateProjectiles(ref gs);
+        HandleAgentInputs(ref gs, action);
+        HandleCollisions(ref gs);
+        gs.currentGameStep += 1;
     }
 
     static void UpdateAsteroidsPosition(ref GameState gs)
