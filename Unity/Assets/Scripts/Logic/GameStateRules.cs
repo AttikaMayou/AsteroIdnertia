@@ -78,7 +78,54 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleCollisions(ref GameState gs)
     {
+        for (var i = 0; i < gs.projectiles.Length; i++)
+        {
+            var sqrDistance = (gs.projectiles[i].position - gs.player.position).sqrMagnitude;
 
+            if (!(sqrDistance
+                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.PLAYER_RADIUS,
+                      2)))
+            {
+                continue;
+            }
+
+            //gs.isGameOver = true;
+            // TODO : gérer 
+            return;
+        }
+
+        for(var i = 0; i < gs.projectiles.Length; i++)
+        {
+            if(gs.projectiles[i].position.y > 10)
+            {
+                gs.projectiles.RemoveAtSwapBack(i);
+                i--;
+                continue;
+            }
+
+            for(var j = 0; j < gs.asteroids.Length; j++)
+            {
+                var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;
+
+                if (!(sqrDistance
+                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.ASTEROID_RADIUS,
+                      2)))
+                {
+                    continue;
+                }
+
+                gs.projectiles.RemoveAtSwapBack(i);
+                i--;
+                gs.asteroids.RemoveAtSwapBack(j);
+                j--;
+                break;
+            }
+        }
+
+        if(gs.asteroids.Length == 0)
+        {
+            //gs.isGameOver = true;
+        }
     }
 
     static void HandleAgentInputs(ref GameState gs, ActionsTypes action)

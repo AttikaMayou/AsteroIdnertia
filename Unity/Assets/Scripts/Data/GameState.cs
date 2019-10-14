@@ -9,6 +9,7 @@ public struct GameState : ICloneable
     public const long SHOOT_DELAY = 30;
     public const float PLAYER_RADIUS = 0.5f;
     public const float PROJECTILE_RADIUS = 0.2f;
+    public const float ASTEROID_RADIUS = 0.8f;
     public const float PROJECTILE_SPEED = 0.5f / 60f * 10f;
     public const float INITIAL_PLAYER_SPEED = 0.3f / 60f * 10;
 
