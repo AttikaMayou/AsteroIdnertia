@@ -66,7 +66,12 @@ public class GameStateRules : MonoBehaviour
 
     static void UpdateProjectiles(ref GameState gs)
     {
-
+        for(var i = 0; i < gs.projectiles.Length; i++)
+        {
+            var projectile = gs.projectiles[i];
+            projectile.position += gs.projectiles[i].speed * Vector2.up;
+            gs.projectiles[i] = projectile;
+        }
     }
 
     static void HandleCollisions(ref GameState gs)
