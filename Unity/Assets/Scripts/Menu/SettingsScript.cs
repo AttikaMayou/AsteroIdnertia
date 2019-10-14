@@ -4,6 +4,7 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
 
+//Auteur : Arthur
 public class SettingsScript : MonoBehaviour
 {
     public TMP_Dropdown resolutionDropdown;
@@ -44,7 +45,6 @@ public class SettingsScript : MonoBehaviour
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
-        print("Want to set the resolution to " + resolution);
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 }
