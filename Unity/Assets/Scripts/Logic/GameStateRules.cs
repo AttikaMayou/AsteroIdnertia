@@ -130,7 +130,40 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleAgentInputs(ref GameState gs, ActionsTypes action)
     {
+        switch (action)
+        {
+            case ActionsTypes.Nothing:
+                {
+                    break;
+                }
+            case ActionsTypes.MoveLeft:
+                {
+                    gs.player.position += Vector2.left * gs.player.speed * Vector2.left;
+                    break;
+                }
 
+            case ActionsTypes.MoveRight:
+                {
+                    gs.player.position += Vector2.right * gs.player.speed * Vector2.left;
+                    break;
+                }
+            case ActionsTypes.Shoot:
+                {
+                    if (gs.currentGameStep - gs.player.lastShootStep < GameState.SHOOT_DELAY)
+                    {
+                        break;
+                    }
+
+                    gs.player.lastShootStep = gs.currentGameStep;
+                    gs.projectiles.Add(new Projectile
+                    {
+                        position = gs.player.position + Vector2.up * 1.5f,
+                        speed = GameState.PROJECTILE_SPEED * Vector2.up
+                    });
+                    break;
+                    // Shoot Logic
+                }
+        }
     }
 
     private static readonly ActionsTypes[] AvailableActions = new[] { ActionsTypes.Nothing, ActionsTypes.MoveLeft, ActionsTypes.MoveRight, ActionsTypes.Shoot };
