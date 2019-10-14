@@ -6,5 +6,6 @@ public struct Asteroid
 {
     public Vector2 position;
     public Vector2 speed;
-    public long size;
+    public Vector2 direction;
+    public float size;
 }
