@@ -16,7 +16,7 @@ public struct GameState : ICloneable
     public NativeList<Asteroid> asteroids;
     public NativeList<Projectile> projectiles;
 
-    public NativeArray<Player> players;
+    public Player player;
 
     public long currentGameStep;
     public bool isGameOver;
@@ -26,7 +26,7 @@ public struct GameState : ICloneable
         GameState clone = new GameState();
         clone.asteroids = asteroids;
         clone.projectiles = projectiles;
-        clone.players = players;
+        clone.player = player;
         return clone;
     }
 }
