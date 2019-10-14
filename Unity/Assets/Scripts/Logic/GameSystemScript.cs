@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+//Auteur : Arthur & Margot
 public class GameSystemScript : MonoBehaviour
 {
     [SerializeField]
@@ -86,25 +87,62 @@ public class GameSystemScript : MonoBehaviour
     }
 
     private void Update()
-    {
-        if(gs.players[0].isGameOver || gs.players[1].isGameOver)
+    {/*
+        if(gs.player.isGameOver)
         {
             return;
         }
 
+        //SyncAsteroidsViews();
+        //SyncProjectilesViews();
         //mettre à jour la position des players
+        //Player1View.position = gs.player.position;
+        //Player2View.position = gs.player[1].position;
 
-
-        GameStateRules.Step(ref gs, GameStateRules.GetAvailableActions(ref gs));
-
+        GameStateRules.Step(ref gs, agentPlayer1.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
+        */
     }
 
     private void SyncAsteroidsViews()
     {
         var asteroidToSpawn = gs.asteroids.Length - asteroidsView.Count;
+
         for(int i = 0; i < asteroidToSpawn; i++)
         {
             var asteroidView = Instantiate(AsteroidPrefab).GetComponent<Transform>();
+            asteroidsView.Add(asteroidView);
+        }
+
+        for(int i= 0; i< -asteroidToSpawn; i++)
+        {
+            Destroy(asteroidsView[asteroidsView.Count - 1].gameObject);
+            asteroidsView.RemoveAt(asteroidsView.Count- 1);
+        }
+
+        for(int i = 0; i<asteroidsView.Count; i++)
+        {
+            asteroidsView[i].position = gs.asteroids[i].position;
+        }
+    }
+
+    private void SyncProjectilesViews()
+    {
+        var projectileToSpawn = gs.projectiles.Length - projectilesView.Count;
+        for (int i = 0; i < projectileToSpawn; i++)
+        {
+            var projectileView = Instantiate(ProjectilePrefab).GetComponent<Transform>();
+            asteroidsView.Add(projectileView);
+        }
+
+        for (int i = 0; i < -projectileToSpawn; i++)
+        {
+            Destroy(projectilesView[projectilesView.Count - 1].gameObject);
+            projectilesView.RemoveAt(projectilesView.Count - 1);
+        }
+
+        for (int i = 0; i < projectilesView.Count; i++)
+        {
+            projectilesView[i].position = gs.projectiles[i].position;
         }
     }
 }
