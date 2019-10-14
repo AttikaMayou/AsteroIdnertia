@@ -34,6 +34,7 @@ public class GameSystemScript : MonoBehaviour
     private IAgent agentPlayer1;
     private IAgent agentPlayer2;
 
+
     public void StartGame()
     {
         GameStateRules.Init(ref gs);
@@ -84,23 +85,24 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer2 = new QLearning();
                 break;*/
         }
+
     }
 
     private void Update()
-    {/*
-        if(gs.player.isGameOver)
+    {
+        if (gs.player.isGameOver)
         {
             return;
         }
 
-        //SyncAsteroidsViews();
-        //SyncProjectilesViews();
+        SyncAsteroidsViews();
+        SyncProjectilesViews();
         //mettre à jour la position des players
-        //Player1View.position = gs.player.position;
+        Player1View.position = gs.player.position;
         //Player2View.position = gs.player[1].position;
 
         GameStateRules.Step(ref gs, agentPlayer1.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
-        */
+        
     }
 
     private void SyncAsteroidsViews()
