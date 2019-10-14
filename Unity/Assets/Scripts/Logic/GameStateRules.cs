@@ -8,6 +8,11 @@ public class GameStateRules : MonoBehaviour
         // Very Bad !! Ah ça je te fais pas dire hahaha. Et sinon même si c'est pas propre,
         //oublie pas de vérifier que c'est pas null avant de faire des opérations dessus
         var allAsteroids = GameObject.FindGameObjectsWithTag("Asteroid");
+        //TODO : get asteroids from inspector 
+
+
+
+        var positions = GetAsteroidsInitialPositions(allAsteroids);
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Length, Allocator.Persistent);
 
@@ -15,7 +20,7 @@ public class GameStateRules : MonoBehaviour
         {
             var asteroid = new Asteroid
             {
-                position = allAsteroids[i].transform.position,
+                position = positions[i],
                 //TODO : Setup random direction :
                 direction = Vector2.down,
                 size = Random.Range(0.5f, 3f)
@@ -39,6 +44,26 @@ public class GameStateRules : MonoBehaviour
         gs.player = player;
     }
 
+    //Generate random position for asteroids at initialization
+    private static Vector3[] GetAsteroidsInitialPositions(GameObject[] asteroids)
+    {
+        //Take negatives from these floats to get left player boundaries and positives ones to get right player boundaries
+        var leftBoundary = 30.0f;
+        var rightBoundary = 10.0f;
+
+        //Adjust maximum with number of asteroids (the more there are, the higher maximum should be)
+        var minimalX = 50.0f;
+        var maximalX = 150.0f;
+
+        var positions = new Vector3[asteroids.Length];
+
+        for(var i = 0; i < asteroids.Length; i++)
+        {
+            positions[i] = new Vector3(Random.Range(leftBoundary, rightBoundary), 0.0f, Random.Range(minimalX, maximalX));
+        }
+
+        return positions;
+    }
 
 
     public static void Step(ref GameState gs, ActionsTypes action)
