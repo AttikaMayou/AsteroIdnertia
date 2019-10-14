@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomAgent : MonoBehaviour
+public class RandomAgent : IAgent
 {
-    public int Act(ref GameState gs, ActionsTypes[] availableActions)
+    public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions)
     {
-        return availableActions[Random.Range(0, 4)];
+        return availableActions[Random.Range(0, availableActions.Length)];
     }
 }

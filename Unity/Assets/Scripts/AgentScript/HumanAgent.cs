@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanAgent : MonoBehaviour
+public class HumanAgent : IAgent
 {
-    /*public ActionsTypes Act(ref GameState gs, int[] availableActions)
+    public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions)
     {
         //tirer
         if(Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.UpArrow))
@@ -21,5 +21,7 @@ public class HumanAgent : MonoBehaviour
         {
             return ActionsTypes.MoveRight;
         }
-    }*/
+
+        return ActionsTypes.Nothing;
+    }
 }
