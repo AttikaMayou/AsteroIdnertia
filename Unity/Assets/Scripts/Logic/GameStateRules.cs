@@ -78,12 +78,92 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleCollisions(ref GameState gs)
     {
+        for (var i = 0; i < gs.projectiles.Length; i++)
+        {
+            var sqrDistance = (gs.projectiles[i].position - gs.player.position).sqrMagnitude;
 
+            if (!(sqrDistance
+                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.PLAYER_RADIUS,
+                      2)))
+            {
+                continue;
+            }
+
+            //gs.isGameOver = true;
+            // TODO : gérer 
+            return;
+        }
+
+        for(var i = 0; i < gs.projectiles.Length; i++)
+        {
+            if(gs.projectiles[i].position.y > 10)
+            {
+                gs.projectiles.RemoveAtSwapBack(i);
+                i--;
+                continue;
+            }
+
+            for(var j = 0; j < gs.asteroids.Length; j++)
+            {
+                var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;
+
+                if (!(sqrDistance
+                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.ASTEROID_RADIUS,
+                      2)))
+                {
+                    continue;
+                }
+
+                gs.projectiles.RemoveAtSwapBack(i);
+                i--;
+                gs.asteroids.RemoveAtSwapBack(j);
+                j--;
+                break;
+            }
+        }
+
+        if(gs.asteroids.Length == 0)
+        {
+            //gs.isGameOver = true;
+        }
     }
 
     static void HandleAgentInputs(ref GameState gs, ActionsTypes action)
     {
+        switch (action)
+        {
+            case ActionsTypes.Nothing:
+                {
+                    break;
+                }
+            case ActionsTypes.MoveLeft:
+                {
+                    gs.player.position += Vector2.left * gs.player.speed * Vector2.left;
+                    break;
+                }
 
+            case ActionsTypes.MoveRight:
+                {
+                    gs.player.position += Vector2.right * gs.player.speed * Vector2.left;
+                    break;
+                }
+            case ActionsTypes.Shoot:
+                {
+                    if (gs.currentGameStep - gs.player.lastShootStep < GameState.SHOOT_DELAY)
+                    {
+                        break;
+                    }
+
+                    gs.player.lastShootStep = gs.currentGameStep;
+                    gs.projectiles.Add(new Projectile
+                    {
+                        position = gs.player.position + Vector2.up * 1.5f,
+                        speed = GameState.PROJECTILE_SPEED * Vector2.up
+                    });
+                    break;
+                    // Shoot Logic
+                }
+        }
     }
 
     private static readonly ActionsTypes[] AvailableActions = new[] { ActionsTypes.Nothing, ActionsTypes.MoveLeft, ActionsTypes.MoveRight, ActionsTypes.Shoot };
