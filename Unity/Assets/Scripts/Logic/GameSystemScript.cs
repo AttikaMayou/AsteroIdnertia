@@ -34,8 +34,8 @@ public class GameSystemScript : MonoBehaviour
     private IAgent agentPlayer1;
     private IAgent agentPlayer2;
 
-    PlayerManager player1;
-    PlayerManager player2;
+    [SerializeField]PlayerManager player1;
+    [SerializeField]PlayerManager player2;
 
     public void StartGame()
     {
