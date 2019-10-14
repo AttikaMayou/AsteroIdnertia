@@ -27,29 +27,26 @@ public class GameStateRules : MonoBehaviour
         gs.projectiles = new NativeList<Projectile>(100, Allocator.Persistent);
 
         // Initialisation des players
-        gs.players = new NativeArray<Player>(2, Allocator.Persistent);
-        for (int i = 0; i < 2; i++)
+
+        var player = new Player
         {
-            var player = new Player
-            {
-                score = 0,
-                speed = GameState.INITIAL_PLAYER_SPEED,
-                position = Vector2.zero,
-                lastShootStep = -GameState.SHOOT_DELAY,
-                isGameOver = false,
-                playerID = i
-            };
-            gs.players[i] = player;
-        }
+            score = 0,
+            speed = GameState.INITIAL_PLAYER_SPEED,
+            position = Vector2.zero,
+            lastShootStep = -GameState.SHOOT_DELAY,
+            isGameOver = false
+        };
+        gs.player = player;
     }
 
 
-    public static void Step(ref GameState gs, ActionsTypes action, int playerID)
+
+    public static void Step(ref GameState gs, ActionsTypes action)
     {
-        if (gs.players[playerID].isGameOver)
+        if (gs.player.isGameOver)
         {
             // TODO : Game Over Logic
-            throw new System.Exception("Player " + playerID + " is in a Game Over State");
+            throw new System.Exception("This player is in Game Over State");
         }
 
         UpdateAsteroidsPosition(ref gs);
@@ -61,17 +58,17 @@ public class GameStateRules : MonoBehaviour
 
     static void UpdateAsteroidsPosition(ref GameState gs)
     {
-        for(var i = 0; i < gs.asteroids.Length; i++)
+        for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
             asteroid.position += gs.asteroids[i].speed;
             gs.asteroids[i] = asteroid;
         }
-    } 
+    }
 
     static void UpdateProjectiles(ref GameState gs)
     {
-        for(var i = 0; i < gs.projectiles.Length; i++)
+        for (var i = 0; i < gs.projectiles.Length; i++)
         {
             var projectile = gs.projectiles[i];
             projectile.position += gs.projectiles[i].speed * Vector2.up;
@@ -81,7 +78,7 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleCollisions(ref GameState gs)
     {
-        
+
     }
 
     static void HandleAgentInputs(ref GameState gs, ActionsTypes action)
