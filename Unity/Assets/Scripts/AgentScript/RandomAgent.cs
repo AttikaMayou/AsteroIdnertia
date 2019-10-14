@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomAgent : IAgent
+public class RandomAgent : MonoBehaviour
 {
-    //TODO : récupérer nom du gamestate + availableActions vérifier que ce soit bien une liste
-    /*public int Act(ref GameState gs, int availableActions[])
+    public int Act(ref GameState gs, ActionsTypes[] availableActions)
     {
-        return availableActions[Random.Range(0, availableActions.Length)];
-    }*/
+        return availableActions[Random.Range(0, 4)];
+    }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanAgent : IAgent
+public class HumanAgent : MonoBehaviour
 {
     /*public ActionsTypes Act(ref GameState gs, int[] availableActions)
     {
