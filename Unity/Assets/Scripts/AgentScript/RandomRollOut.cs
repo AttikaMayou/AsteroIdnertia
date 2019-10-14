@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class RandomRollOut : IAgent
 {
-    // Start is called before the first frame update
-    void Start()
+    public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //TODO: implementer la fonction
+        return ActionsTypes.Nothing;
     }
 }
