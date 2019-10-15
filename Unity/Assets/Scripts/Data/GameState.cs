@@ -12,4 +12,5 @@ public struct GameState
     public Player[] players;
 
     public long currentGameStep;
+    public long scoreStepDelay;
 }

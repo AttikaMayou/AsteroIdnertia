@@ -11,6 +11,8 @@ public class GameStateRules : MonoBehaviour
         // Initialisation des players
         Debug.Log("Initialization");
 
+        gs.scoreStepDelay = -GameParameters.Instance.StepScoreDelay;
+
         gs.players = new Player[2];
 
         var player = new Player
@@ -117,6 +119,11 @@ public class GameStateRules : MonoBehaviour
         }
         gs.currentGameStep += 1;
         //TODO : ajouter score aux players en vie
+        if(gs.currentGameStep - gs.scoreStepDelay < GameParameters.Instance.StepScoreDelay)
+        {
+            return;
+        }
+        gs.scoreStepDelay = gs.currentGameStep;
         gs.players[0].score += GameParameters.Instance.StepScore;
         gs.players[1].score += GameParameters.Instance.StepScore;
     }
@@ -215,11 +222,11 @@ public class GameStateRules : MonoBehaviour
                 }
 
                 if (gs.projectiles[i].playerID == k) continue;
-                //TODO : ajouter score au player à qui appartient le projectile
-                gs.players[(int)gs.projectiles[i].playerID].score += GameParameters.Instance.EnemyDestroyScore;
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
                 gs.players[k].isGameOver = true;
+                //TODO : ajouter score au player à qui appartient le projectile
+                gs.players[(int)gs.projectiles[i].playerID].score += GameParameters.Instance.EnemyDestroyScore;
                 return;
             }
 
@@ -246,12 +253,12 @@ public class GameStateRules : MonoBehaviour
                     continue;
                 }
 
-                //TODO : ajouter score au player à qui appartient le projectile
-                gs.players[(int)gs.projectiles[i].playerID].score += GameParameters.Instance.AsteroidDestructionScore;
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
                 gs.asteroids.RemoveAtSwapBack(j);
                 j--;
+                //TODO : ajouter score au player à qui appartient le projectile
+                gs.players[(int)gs.projectiles[i].playerID].score += GameParameters.Instance.AsteroidDestructionScore;
                 break;
             }
         }
