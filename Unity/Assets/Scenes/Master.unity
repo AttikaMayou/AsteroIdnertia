@@ -6218,6 +6218,8 @@ MonoBehaviour:
   - {fileID: 3610517116947739093}
   menuEndGame: {fileID: 127779877}
   playerEndGame: {fileID: 1718855192}
+  finaleScore1: {fileID: 1795331448}
+  finaleScore2: {fileID: 1898962518}
   menuInGame: {fileID: 1157625301}
   scorePlayer1: {fileID: 1103394231}
   scorePlayer2: {fileID: 1232565934}
