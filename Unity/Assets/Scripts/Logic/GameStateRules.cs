@@ -148,7 +148,7 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleCollisions(ref GameState gs)
     {
-        for (var i = 0; i < gs.projectiles.Length; i++)
+       /* for (var i = 0; i < gs.projectiles.Length; i++)
         {
             var sqrDistance = (gs.projectiles[i].position - gs.players[0].position).sqrMagnitude;
 
@@ -162,11 +162,11 @@ public class GameStateRules : MonoBehaviour
             //gs.isGameOver = true;
             // TODO : gérer 
             return;
-        }
+        }*/
 
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
-            if (gs.projectiles[i].position.y > 10)
+            if (gs.projectiles[i].position.y > 80)
             {
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
