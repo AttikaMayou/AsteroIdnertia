@@ -44,7 +44,7 @@ public class GameStateRules : MonoBehaviour
             var asteroid = new Asteroid
             {
                 position = positions[i],
-                direction = positions[i]// - new Vector2(Random.Range(-30f, 30.0f), 0)
+                direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0)
             };
             asteroid.direction = asteroid.direction.normalized * 20;
             gs.asteroids.Add(asteroid);
