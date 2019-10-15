@@ -6,5 +6,5 @@ public struct Projectile
 {
     public Vector2 position;
     public float speed;
-    public int playerParent;
+    public Vector2 direction;
 }
