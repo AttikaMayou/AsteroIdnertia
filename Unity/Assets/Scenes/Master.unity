@@ -6194,7 +6194,7 @@ MonoBehaviour:
   _asteroidMaximumSpeed: 40
   _minimalBoundary: -150
   _maximalBoundary: 150
-  _stepScore: 1
+  _stepScore: 0.01
   _asteroidDestroyScore: 20
   _enemyDestroyScore: 500
 --- !u!114 &1026029444
@@ -6232,46 +6232,6 @@ MonoBehaviour:
   - {fileID: 183620014}
   - {fileID: 1024958570}
   - {fileID: 1431511465}
-  - {fileID: 439283959}
-  - {fileID: 82382689}
-  - {fileID: 1104810466}
-  - {fileID: 462159976}
-  - {fileID: 446313481}
-  - {fileID: 1846192074}
-  - {fileID: 1746119267}
-  - {fileID: 62075725}
-  - {fileID: 292864889}
-  - {fileID: 448884828}
-  - {fileID: 1801721212}
-  - {fileID: 1833289620}
-  - {fileID: 334764549}
-  - {fileID: 533156113}
-  - {fileID: 1603348404}
-  - {fileID: 533503716}
-  - {fileID: 2114502327}
-  - {fileID: 780568301}
-  - {fileID: 1754592067}
-  - {fileID: 1518822111}
-  - {fileID: 1470375119}
-  - {fileID: 33752149}
-  - {fileID: 1612590438}
-  - {fileID: 729707398}
-  - {fileID: 1069369623}
-  - {fileID: 753614233}
-  - {fileID: 773960674}
-  - {fileID: 1514409087}
-  - {fileID: 209439290}
-  - {fileID: 1851579041}
-  - {fileID: 564699585}
-  - {fileID: 823196996}
-  - {fileID: 1309432106}
-  - {fileID: 242199394}
-  - {fileID: 976642445}
-  - {fileID: 756856913}
-  - {fileID: 877436872}
-  - {fileID: 613240224}
-  - {fileID: 2068194042}
-  - {fileID: 279454227}
 --- !u!1001 &1069369622
 PrefabInstance:
   m_ObjectHideFlags: 0

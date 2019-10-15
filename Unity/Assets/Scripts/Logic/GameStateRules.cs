@@ -114,9 +114,12 @@ public class GameStateRules : MonoBehaviour
         }
         else
         {
-            HandleCollisions(ref gs);
-        }*/
+           HandleCollisions(ref gs);
+        }
         gs.currentGameStep += 1;
+        //TODO : ajouter score aux players en vie
+        gs.players[0].score += GameParameters.Instance.StepScore;
+        gs.players[1].score += GameParameters.Instance.StepScore;
     }
 
     static void UpdateAsteroidsPosition(ref GameState gs)
@@ -207,6 +210,20 @@ public class GameStateRules : MonoBehaviour
             {
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
+                //TODO : ajouter score au player à qui appartient le projectile
+                
+                gs.players[k].isGameOver = true;
+                return;
+            }
+
+            //Destroy projectiles when they are on world boundaries
+            if (gs.projectiles[i].position.x > GameParameters.Instance.MaximalBoundary 
+                || gs.projectiles[i].position.x < GameParameters.Instance.MinimalBoundary
+                || gs.projectiles[i].position.y > GameParameters.Instance.MaximalBoundary
+                || gs.projectiles[i].position.y < GameParameters.Instance.MinimalBoundary)
+            {
+                gs.projectiles.RemoveAtSwapBack(i);
+                i--;
                 continue;
             }
 
@@ -226,6 +243,8 @@ public class GameStateRules : MonoBehaviour
                 i--;
                 gs.asteroids.RemoveAtSwapBack(j);
                 j--;
+                //TODO : ajouter score au player à qui appartient le projectile
+                
                 break;
             }
         }

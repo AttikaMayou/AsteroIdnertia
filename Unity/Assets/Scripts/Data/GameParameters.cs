@@ -89,8 +89,8 @@ public class GameParameters : MonoBehaviour
 
     [Header("Score Settings")]
     [Space]
-    [SerializeField] private int _stepScore = 1;
-    public int StepScore { get => _stepScore; }
+    [SerializeField] private float _stepScore = 0.1f;
+    public float StepScore { get => _stepScore; }
 
     [SerializeField] private int _asteroidDestroyScore = 20;
     public int AsteroidDestructionScore { get => _asteroidDestroyScore; }

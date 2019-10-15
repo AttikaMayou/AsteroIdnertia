@@ -72,8 +72,10 @@ public class PlayerManager : MonoBehaviour
         }
 
         //Update score display
-        scorePlayer1.text = gs.players[0].score.ToString();
-        scorePlayer2.text = gs.players[1].score.ToString();
+        var score1 = (int)gs.players[0].score;
+        var score2 = (int)gs.players[1].score;
+        scorePlayer1.text = score1.ToString();
+        scorePlayer2.text = score2.ToString();
 
         SyncAsteroidsViews();
         SyncProjectilesViews();
