@@ -3768,7 +3768,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &841167182
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3789,6 +3789,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &859397116 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1939182838}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &869137500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4625,8 +4631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b2153da0a1ad4940952c40261c08aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AsteroidPrefab: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
-    type: 3}
+  AsteroidPrefab: {fileID: 859397116}
   ProjectilePrefab: {fileID: 449809978225233725, guid: b0f58ada1c964004abdd7c41d445ed02,
     type: 3}
   player: {fileID: 3610517116947739093}
@@ -8247,6 +8252,17 @@ MonoBehaviour:
       - m_Target: {fileID: 731493114}
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1026029440}
+        m_MethodName: StartGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
         //mettre à jour la position du players
         //PlayerView.position = gs.player.position;
 
-        //GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
+       GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
     }
 
 

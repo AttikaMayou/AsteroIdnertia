@@ -37,14 +37,14 @@ public class GameSystemScript : MonoBehaviour
     [SerializeField]PlayerManager player1;
     [SerializeField]PlayerManager player2;
 
+    private bool LaunchGame = false;
+
     public void StartGame()
     {
         //GameStateRules.Init(ref gs);
 
         //Player1View = Player1.transform;
         //Player2View = Player2.transform;
-        
-
 
         switch (Agent1Dropdown.value)
         {
@@ -92,6 +92,7 @@ public class GameSystemScript : MonoBehaviour
 
         player1.StartGame(agentPlayer1, "AsteroidsPlayer1");
         player2.StartGame(agentPlayer2, "AsteroidsPlayer2");
+        LaunchGame = true;
     }
 
     private void Update()
@@ -100,9 +101,11 @@ public class GameSystemScript : MonoBehaviour
         //{
         //    return;
         //}
-
-        player1.UpdatePlayerState();
-        player2.UpdatePlayerState();
+        if (LaunchGame)
+        {
+            player1.UpdatePlayerState();
+            player2.UpdatePlayerState();
+        }
 
         //SyncAsteroidsViews();
         //SyncProjectilesViews();
