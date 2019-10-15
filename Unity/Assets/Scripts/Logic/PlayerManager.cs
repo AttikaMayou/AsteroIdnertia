@@ -76,7 +76,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < projectileToSpawn; i++)
         {
             var projectileView = Instantiate(ProjectilePrefab).GetComponent<Transform>();
-            asteroidsView.Add(projectileView);
+            projectilesView.Add(projectileView);
         }
 
         for (int i = 0; i < -projectileToSpawn; i++)
