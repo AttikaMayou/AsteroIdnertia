@@ -6,4 +6,5 @@ public struct Projectile
 {
     public Vector2 position;
     public float speed;
+    public Vector2 direction;
 }

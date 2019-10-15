@@ -20,6 +20,7 @@ public class GameStateRules : MonoBehaviour
             position = new Vector2(-22.8f, 0f),
             lastShootStep = -GameState.SHOOT_DELAY,
             isGameOver = false,
+            lookDirection = new Vector2(0, 1)
         };
         gs.players[0] = player;
 
@@ -157,7 +158,7 @@ public class GameStateRules : MonoBehaviour
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
             var projectile = gs.projectiles[i];
-            projectile.position += gs.projectiles[i].speed * Vector2.up;
+            projectile.position += gs.projectiles[i].speed * gs.projectiles[i].direction;
             gs.projectiles[i] = projectile;
         }
     }
@@ -229,42 +230,55 @@ public class GameStateRules : MonoBehaviour
                     {
                         gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        
+                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, 0, 1 - Mathf.Exp(-GameState.ROTATION_DECELERATION_SPEED));
                         break;
                     }
                 case ActionsTypes.RotateLeft:
                     {
                         //gs.players[i].position += Vector2.left * gs.players[i].speed;
-                        var targetVel = gs.players[i].velocity.x - GameState.ACCELERATION_SPEED * 200;
-                        gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        var targetRotation = gs.players[i].rotationVelocity + GameState.ROTATION_ACCELERATION_SPEED * 200;
+                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameState.ROTATION_DECELERATION_SPEED));
+
+                        gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        //var targetVel = gs.players[i].velocity.x - GameState.ACCELERATION_SPEED * 200;
+                        //gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
 
                 case ActionsTypes.RotateRight:
                     {
                         //gs.players[i].position += Vector2.right * gs.players[i].speed;
+                        var targetRotation = gs.players[i].rotationVelocity - GameState.ROTATION_ACCELERATION_SPEED * 200;
+                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameState.ROTATION_DECELERATION_SPEED));
 
-                        var targetVel = gs.players[i].velocity.x + GameState.ACCELERATION_SPEED * 200;
-                        gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        //var targetVel = gs.players[i].velocity.x + GameState.ACCELERATION_SPEED * 200;
+                        //gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
 
                         //var targetVel = gs.player.velocity + GameState.ACCELERATION_SPEED * 10;
                         //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
-                        
+
                     }
                 case ActionsTypes.MoveUp:
                     {
-                        var targetVel = gs.players[i].velocity.y + GameState.ACCELERATION_SPEED * 200;
-                        gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        var targetVel = gs.players[i].velocity + gs.players[i].lookDirection * GameState.ACCELERATION_SPEED * 200;
+                        //var target = ;
+                        gs.players[i].velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
                 case ActionsTypes.MoveDown:
                     {
-                        var targetVel = gs.players[i].velocity.y - GameState.ACCELERATION_SPEED * 200;
-                        gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        var targetVel = gs.players[i].velocity - gs.players[i].lookDirection * GameState.ACCELERATION_SPEED * 200;
+                        gs.players[i].velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
                 case ActionsTypes.Shoot:
                     {
+                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, 0, 1 - Mathf.Exp(-GameState.ROTATION_DECELERATION_SPEED));
                         gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         if (gs.currentGameStep - gs.players[i].lastShootStep < GameState.SHOOT_DELAY)
@@ -276,17 +290,23 @@ public class GameStateRules : MonoBehaviour
                         gs.projectiles.Add(new Projectile
                         {
                             position = gs.players[i].position,
-                            speed = GameState.PROJECTILE_SPEED
+                            speed = GameState.PROJECTILE_SPEED,
+                            direction = gs.players[i].lookDirection.normalized
+                            
                         });
                         break;
                         // Shoot Logic
                     }
 
             }
-          //  gs.players[i].velocity = Mathf.Clamp(gs.players[i].velocity.x, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
-            gs.players[i].velocity = Vector2.ClampMagnitude(gs.players[i].velocity, GameState.MAX_VELOCITY);
+            //  gs.players[i].velocity = Mathf.Clamp(gs.players[i].velocity.x, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
             gs.players[i].position += gs.players[i].velocity;
-            Debug.Log(gs.players[i].velocity);
+
+            //gs.players[i].lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
+            gs.players[i].lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
+            
+            gs.players[i].velocity = Vector2.ClampMagnitude(gs.players[i].velocity, GameState.MAX_VELOCITY);
+            gs.players[i].rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
         }
     }
 

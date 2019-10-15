@@ -66,7 +66,9 @@ public class PlayerManager : MonoBehaviour
         //mettre à jour la position du players
         for (int i = 0; i < players.Length; i++)
         {
-            playerViews[i].position = gs.players[i].position;
+            Vector3 lookDir = new Vector3(gs.players[i].lookDirection.x, 0, gs.players[i].lookDirection.y);
+            playerViews[i].position = new Vector3(gs.players[i].position.x, 0, gs.players[i].position.y);
+            playerViews[i].rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         }
 
 
