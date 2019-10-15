@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdatePlayerState()
     {
-        if (gs.player1.isGameOver)
+        if (gs.player.isGameOver)
         {
             return;
         }
@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
         SyncAsteroidsViews();
         SyncProjectilesViews();
         //mettre à jour la position du players
-        playerView.position = gs.player1.position;
+        playerView.position = gs.player.position;
 
         GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
     }
@@ -74,6 +74,7 @@ public class PlayerManager : MonoBehaviour
     private void SyncProjectilesViews()
     {
         var projectileToSpawn = gs.projectiles.Length - projectilesView.Count;
+
         for (int i = 0; i < projectileToSpawn; i++)
         {
             var projectileView = Instantiate(ProjectilePrefab).GetComponent<Transform>();
@@ -88,7 +89,8 @@ public class PlayerManager : MonoBehaviour
 
         for (int i = 0; i < projectilesView.Count; i++)
         {
-            projectilesView[i].position = gs.projectiles[i].position;
+            var newPos = new Vector3(gs.projectiles[i].position.x, 0.0f, (gs.projectiles[i].position.y));
+            projectilesView[i].position = newPos;
         }
     }
 

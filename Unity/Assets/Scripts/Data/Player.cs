@@ -11,6 +11,5 @@ public struct Player
     public long lastShootStep;
     public bool isGameOver;
     public long velocity;
-    //public int playerID;
 
 }

@@ -8,16 +8,6 @@ public class GameStateRules : MonoBehaviour
 {
     public static void Init(ref GameState gs, PlayerManager playerManager)
     {
-        // Very Bad !!
-        //var allAsteroids = GameObject.FindGameObjectsWithTag(asteroidsTags);
-
-        //TODO : get asteroids from inspector 
-        /*if(allAsteroids == null || allAsteroids.Length == 0)
-        {
-            throw new System.Exception("There is no asteroids with tag : " + asteroidsTags);
-        }
-        */
-
         Debug.Log("Initialization");
 
         var allAsteroids = playerManager.asteroidsView;
@@ -32,7 +22,7 @@ public class GameStateRules : MonoBehaviour
             {
                 position = positions[i],
                 //TODO : Setup random direction :
-                speed = gs.player1.position - new Vector2(0.0f, -10.0f),
+                speed = gs.player.position - new Vector2(0.0f, -10.0f),
                 size = Random.Range(1.0f, 5.0f),
                 
                 
@@ -55,17 +45,8 @@ public class GameStateRules : MonoBehaviour
             lastShootStep = -GameState.SHOOT_DELAY,
             isGameOver = false,
         };
-        gs.player1 = player;
-
-        var player2 = new Player
-        {
-            score = 0,
-            speed = GameState.INITIAL_PLAYER_SPEED,
-            position = new Vector2(21.4f, 0f),
-            lastShootStep = -GameState.SHOOT_DELAY,
-            isGameOver = false
-        };
-        gs.player2 = player2;
+        gs.player = player;
+        
     }
 
     //Generate random position for asteroids at initialization
@@ -92,7 +73,7 @@ public class GameStateRules : MonoBehaviour
 
     public static void Step(ref GameState gs, ActionsTypes action)
     {
-        if (gs.player1.isGameOver)
+        if (gs.player.isGameOver)
         {
             // TODO : Game Over Logic
             throw new System.Exception("This player is in Game Over State");
@@ -153,7 +134,7 @@ public class GameStateRules : MonoBehaviour
     {
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
-            var sqrDistance = (gs.projectiles[i].position - gs.player1.position).sqrMagnitude;
+            var sqrDistance = (gs.projectiles[i].position - gs.player.position).sqrMagnitude;
 
             if (!(sqrDistance
                   <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.PLAYER_RADIUS,
@@ -207,12 +188,12 @@ public class GameStateRules : MonoBehaviour
         {
             case ActionsTypes.Nothing:
                 {
-                    gs.player1.velocity = (long)Mathf.Lerp(gs.player1.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                    gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
             case ActionsTypes.MoveLeft:
                 {
-                     gs.player1.position += Vector2.left * gs.player1.speed;
+                     gs.player.position += Vector2.left * gs.player.speed;
                     //var targetVel = gs.player.velocity - GameState.ACCELERATION_SPEED * 10;
                     //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
@@ -220,31 +201,31 @@ public class GameStateRules : MonoBehaviour
 
             case ActionsTypes.MoveRight:
                 {
-                    gs.player1.position += Vector2.right * gs.player1.speed;
+                    gs.player.position += Vector2.right * gs.player.speed;
                     //var targetVel = gs.player.velocity + GameState.ACCELERATION_SPEED * 10;
                     //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
             case ActionsTypes.Shoot:
                 {
-                    gs.player1.velocity = (long)Mathf.Lerp(gs.player1.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
-                    if (gs.currentGameStep - gs.player1.lastShootStep < GameState.SHOOT_DELAY)
+                    gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                    if (gs.currentGameStep - gs.player.lastShootStep < GameState.SHOOT_DELAY)
                     {
                         break;
                     }
 
-                    gs.player1.lastShootStep = gs.currentGameStep;
+                    gs.player.lastShootStep = gs.currentGameStep;
                     gs.projectiles.Add(new Projectile
                     {
-                        position = gs.player1.position + Vector2.up * 1.5f,
+                        position = gs.player.position + Vector2.up * 1.5f,
                         speed = GameState.PROJECTILE_SPEED * Vector2.up
                     });
                     break;
                     // Shoot Logic
                 }
         }
-        gs.player1.velocity = (long)Mathf.Clamp(gs.player1.velocity, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
-        gs.player1.position.x += gs.player1.velocity;
+        gs.player.velocity = (long)Mathf.Clamp(gs.player.velocity, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
+        gs.player.position.x += gs.player.velocity;
     }
 
     private static readonly ActionsTypes[] AvailableActions = new[] { ActionsTypes.Nothing, ActionsTypes.MoveLeft, ActionsTypes.MoveRight, ActionsTypes.Shoot };
