@@ -215,10 +215,10 @@ public class GameStateRules : MonoBehaviour
                 }
 
                 if (gs.projectiles[i].playerID == k) continue;
-
+                //TODO : ajouter score au player à qui appartient le projectile
+                gs.players[(int)gs.projectiles[i].playerID].score += GameParameters.Instance.EnemyDestroyScore;
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
-                //TODO : ajouter score au player à qui appartient le projectile
                 gs.players[k].isGameOver = true;
                 return;
             }
@@ -246,11 +246,12 @@ public class GameStateRules : MonoBehaviour
                     continue;
                 }
 
+                //TODO : ajouter score au player à qui appartient le projectile
+                gs.players[(int)gs.projectiles[i].playerID].score += GameParameters.Instance.AsteroidDestructionScore;
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
                 gs.asteroids.RemoveAtSwapBack(j);
                 j--;
-                //TODO : ajouter score au player à qui appartient le projectile
                 break;
             }
         }
