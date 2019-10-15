@@ -170,6 +170,17 @@ public class GameStateRules : MonoBehaviour
             //Collision entre asteroids et player 
             for (var i = 0; i < gs.asteroids.Length; i++)
             {
+                //Destroy asteroids when they are on world boundaries
+                if (gs.asteroids[i].position.x > 150.0f
+                || gs.asteroids[i].position.x < -150.0f
+                || gs.asteroids[i].position.y > 150.0f
+                || gs.asteroids[i].position.y < -150.0f)
+                {
+                    gs.asteroids.RemoveAtSwapBack(i);
+                    i--;
+                    continue;
+                }
+
                 var sqrDistance = (gs.asteroids[i].position - gs.players[j].position).sqrMagnitude;
 
                 if (!(sqrDistance
@@ -184,9 +195,14 @@ public class GameStateRules : MonoBehaviour
                 return;
             }
         }
+
+        //Destroy projectiles when they are on world boundaries
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
-            if (gs.projectiles[i].position.y > 80)
+            if (gs.projectiles[i].position.x > 150.0f 
+                || gs.projectiles[i].position.x < -150.0f
+                || gs.projectiles[i].position.y > 150.0f
+                || gs.projectiles[i].position.y < -150.0f)
             {
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
