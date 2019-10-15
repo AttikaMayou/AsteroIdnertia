@@ -80,7 +80,7 @@ public class GameStateRules : MonoBehaviour
 
     public static void Step(ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2)
     {
-        if (gs.players[0].isGameOver)
+        if (gs.players[0].isGameOver && gs.players[1].isGameOver)
         {
             // TODO : Game Over Logic
             throw new System.Exception("This player is in Game Over State");
@@ -139,21 +139,22 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleCollisions(ref GameState gs)
     {
-       /* for (var i = 0; i < gs.projectiles.Length; i++)
+        //Collision entre asteroids et player 
+        for (var i = 0; i < gs.asteroids.Length; i++)
         {
-            var sqrDistance = (gs.projectiles[i].position - gs.players[0].position).sqrMagnitude;
+            var sqrDistance = (gs.asteroids[i].position - gs.players[0].position).sqrMagnitude;
 
             if (!(sqrDistance
-                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.PLAYER_RADIUS,
+                  <= Mathf.Pow(GameState.ASTEROID_RADIUS + GameState.PLAYER_RADIUS,
                       2)))
             {
                 continue;
             }
 
             //gs.isGameOver = true;
-            // TODO : gérer 
+            // TODO : gérer s
             return;
-        }*/
+        }
 
         for (var i = 0; i < gs.projectiles.Length; i++)
         {

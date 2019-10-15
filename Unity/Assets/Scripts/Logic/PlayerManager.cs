@@ -24,12 +24,9 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdatePlayerState()
     {
-        for (var i = 0; i < players.Length; i++)
+        if (gs.players[0].isGameOver && gs.players[1].isGameOver)
         {
-            if (gs.players[i].isGameOver)
-            {
-                return;
-            }
+            return;
         }
 
         SyncAsteroidsViews();
