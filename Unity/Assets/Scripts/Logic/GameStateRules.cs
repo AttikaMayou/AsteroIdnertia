@@ -113,6 +113,7 @@ public class GameStateRules : MonoBehaviour
          //   HandleCollisions(ref gs);
         }
         gs.currentGameStep += 1;
+        //TODO : ajouter score aux players en vie
     }
 
     static void UpdateAsteroidsPosition(ref GameState gs)
@@ -211,6 +212,7 @@ public class GameStateRules : MonoBehaviour
 
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
+                //TODO : ajouter score au player à qui appartient le projectile
                 gs.players[k].isGameOver = true;
                 return;
             }
@@ -242,6 +244,7 @@ public class GameStateRules : MonoBehaviour
                 i--;
                 gs.asteroids.RemoveAtSwapBack(j);
                 j--;
+                //TODO : ajouter score au player à qui appartient le projectile
                 break;
             }
         }

@@ -22,6 +22,15 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private TMP_Text playerEndGame;
 
+    [SerializeField]
+    private GameObject menuInGame;
+
+    [SerializeField]
+    private TMP_Text scorePlayer1;
+
+    [SerializeField]
+    private TMP_Text scorePlayer2;
+
     public List<Transform> asteroidsView = new List<Transform>();
     private readonly List<Transform> projectilesView = new List<Transform>();
 
@@ -45,6 +54,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
+            menuInGame.SetActive(false);
+
             if (gs.players[0].isGameOver)
             {
                 playerEndGame.text = "Player 2 wins !";
@@ -60,6 +71,10 @@ public class PlayerManager : MonoBehaviour
             return;
 
         }
+
+        //Update score display
+        scorePlayer1.text = gs.players[0].score.ToString();
+        scorePlayer2.text = gs.players[1].score.ToString();
 
         SyncAsteroidsViews();
         SyncProjectilesViews();
