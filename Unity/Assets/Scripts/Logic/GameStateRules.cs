@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using Unity.Collections;
+using Unity.Jobs;
+using Unity.Burst;
 
 public class GameStateRules : MonoBehaviour
 {
@@ -86,6 +88,13 @@ public class GameStateRules : MonoBehaviour
 
     static void UpdateAsteroidsPosition(ref GameState gs)
     {
+        // Job System Test
+        //AsteroidsMovementsJobs job = new AsteroidsMovementsJobs { asteroids = gs.asteroids };
+
+        //JobHandle handle = job.Schedule();
+        //handle.Complete();
+        
+
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
@@ -94,6 +103,23 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
+    #region Test Job System
+    // Job System Test
+    //[BurstCompile]
+    //public struct AsteroidsMovementsJobs : IJob
+    //{
+    //    public NativeArray<Asteroid> asteroids;
+    //    public void Execute()
+    //    {
+    //        for (var i = 0; i < asteroids.Length; i++)
+    //        {
+    //            var asteroid = asteroids[i];
+    //            asteroid.position += asteroids[i].speed;
+    //            asteroids[i] = asteroid;
+    //        }
+    //    }
+    //}
+    #endregion
     static void UpdateProjectiles(ref GameState gs)
     {
         for (var i = 0; i < gs.projectiles.Length; i++)
@@ -134,7 +160,7 @@ public class GameStateRules : MonoBehaviour
             for(var j = 0; j < gs.asteroids.Length; j++)
             {
                 var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;
-
+                // Asteroid Radius est dépendant de projectile.size
                 if (!(sqrDistance
                   <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.ASTEROID_RADIUS,
                       2)))
