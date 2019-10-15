@@ -24,15 +24,15 @@ public class PlayerManager : MonoBehaviour
 
     public void UpdatePlayerState()
     {
-        if (gs.player.isGameOver)
+        if (gs.player1.isGameOver)
         {
             return;
         }
 
         //SyncAsteroidsViews();
-        //SyncProjectilesViews();
+        SyncProjectilesViews();
         //mettre à jour la position du players
-        //PlayerView.position = gs.player.position;
+        playerView.position = gs.player1.position;
 
        GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
     }

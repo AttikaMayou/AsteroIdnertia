@@ -17,11 +17,13 @@ public class HumanAgent : IAgent
 
         if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow))
         {
+            Debug.Log("left!");
             return ActionsTypes.MoveLeft;
         }
 
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
+            Debug.Log("right!");
             return ActionsTypes.MoveRight;
         }
 
