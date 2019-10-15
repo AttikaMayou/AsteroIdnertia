@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAgent
 {
-    ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions, int playerId);
+    ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId);
 }
