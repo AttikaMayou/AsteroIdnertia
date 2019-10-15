@@ -90,8 +90,8 @@ public class GameSystemScript : MonoBehaviour
                 break;*/
         }
 
-        player1.StartGame(agentPlayer1, "AsteroidsPlayer1");
-        player2.StartGame(agentPlayer2, "AsteroidsPlayer2");
+        player1.StartGame(agentPlayer1, player1);
+        player2.StartGame(agentPlayer2, player2);
         LaunchGame = true;
     }
 

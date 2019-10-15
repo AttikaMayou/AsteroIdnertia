@@ -1,27 +1,32 @@
 ﻿using UnityEngine;
 using Unity.Collections;
+using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.Burst;
 
 public class GameStateRules : MonoBehaviour
 {
-    public static void Init(ref GameState gs, string asteroidsTags)
+    public static void Init(ref GameState gs, PlayerManager playerManager)
     {
-        // Very Bad !! Ah ça je te fais pas dire hahaha
-        var allAsteroids = GameObject.FindGameObjectsWithTag(asteroidsTags);
+        // Very Bad !!
+        //var allAsteroids = GameObject.FindGameObjectsWithTag(asteroidsTags);
 
         //TODO : get asteroids from inspector 
-        if(allAsteroids == null || allAsteroids.Length == 0)
+        /*if(allAsteroids == null || allAsteroids.Length == 0)
         {
             throw new System.Exception("There is no asteroids with tag : " + asteroidsTags);
         }
+        */
 
+        Debug.Log("Initialization");
+
+        var allAsteroids = playerManager.asteroidsView;
 
         var positions = GetAsteroidsInitialPositions(ref gs, allAsteroids);
 
-        gs.asteroids = new NativeList<Asteroid>(allAsteroids.Length, Allocator.Persistent);
+        gs.asteroids = new NativeList<Asteroid>(allAsteroids.Count, Allocator.Persistent);
 
-        for (var i = 0; i < allAsteroids.Length; i++)
+        for (var i = 0; i < allAsteroids.Count; i++)
         {
             var asteroid = new Asteroid
             {
@@ -44,7 +49,7 @@ public class GameStateRules : MonoBehaviour
             speed = GameState.INITIAL_PLAYER_SPEED,
             position = new Vector2(-22.8f, 0f),
             lastShootStep = -GameState.SHOOT_DELAY,
-            isGameOver = false
+            isGameOver = false,
         };
         gs.player1 = player;
 
@@ -60,7 +65,7 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Generate random position for asteroids at initialization
-    private static Vector3[] GetAsteroidsInitialPositions(ref GameState gs, GameObject[] asteroids)
+    private static Vector3[] GetAsteroidsInitialPositions(ref GameState gs, List<Transform> asteroids)
     {
         //Take negatives from these floats to get left player boundaries and positives ones to get right player boundaries
         var leftBoundary = 30.0f; //* gs.player == GameSystemScript.player1 ? -1 : 1;
@@ -70,9 +75,9 @@ public class GameStateRules : MonoBehaviour
         var minimalX = 50.0f;
         var maximalX = 150.0f;
 
-        var positions = new Vector3[asteroids.Length];
+        var positions = new Vector3[asteroids.Count];
 
-        for(var i = 0; i < asteroids.Length; i++)
+        for(var i = 0; i < asteroids.Count; i++)
         {
             positions[i] = new Vector3(Random.Range(leftBoundary, rightBoundary), 0.0f, Random.Range(minimalX, maximalX));
         }

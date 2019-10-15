@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     GameObject player;
 
-    private readonly List<Transform> asteroidsView = new List<Transform>();
+    public List<Transform> asteroidsView = new List<Transform>();
     private readonly List<Transform> projectilesView = new List<Transform>();
 
     private Transform playerView;
@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour
             return;
         }
 
-        //SyncAsteroidsViews();
+        SyncAsteroidsViews();
         SyncProjectilesViews();
         //mettre à jour la position du players
         playerView.position = gs.player1.position;
@@ -37,11 +37,11 @@ public class PlayerManager : MonoBehaviour
        GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
     }
 
-
-    public void StartGame(IAgent agent, string tag)
+    public void StartGame(IAgent agent, PlayerManager player)
     {
+        Debug.Log("Start Game called for player " + this.player.name);
         this.agent = agent;
-        GameStateRules.Init(ref gs, tag);
+        GameStateRules.Init(ref gs, player);
         playerView = player.transform;
     }
 
