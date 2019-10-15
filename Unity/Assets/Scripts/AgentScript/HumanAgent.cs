@@ -63,7 +63,7 @@ public class HumanAgent : IAgent
                 actions[1] = ActionsTypes.RotateRight;
             }
 
-            if (Input.GetKey(KeyCode.KeypadEnter))
+            if (Input.GetKey(KeyCode.Return))
             {
                 actions[2] = ActionsTypes.Shoot;
             }

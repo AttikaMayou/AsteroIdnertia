@@ -31,7 +31,6 @@ public class PlayerManager : MonoBehaviour
 
     public void StartGame(IAgent[] agents)
     {
-        Debug.Log(players.Length);
         for (var i = 0; i < players.Length; i++)
         {
             playerAgents[i] = agents[i];
