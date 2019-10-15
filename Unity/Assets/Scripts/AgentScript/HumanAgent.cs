@@ -12,40 +12,54 @@ public class HumanAgent : IAgent
         {
             if (Input.GetKey(KeyCode.Z))
             {
-                Debug.Log("shoot!");
-                return ActionsTypes.Shoot;
+                return ActionsTypes.MoveUp;
+            }
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                return ActionsTypes.MoveDown;
             }
 
             if (Input.GetKey(KeyCode.Q))
             {
-                Debug.Log("left!");
-                return ActionsTypes.MoveLeft;
+                return ActionsTypes.RotateLeft;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                Debug.Log("right!");
-                return ActionsTypes.MoveRight;
+                return ActionsTypes.RotateRight;
+            }
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                return ActionsTypes.Shoot;
             }
         }
         else if(playerId == 1)
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                Debug.Log("shoot!");
-                return ActionsTypes.Shoot;
+                return ActionsTypes.MoveUp;
+            }
+
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                return ActionsTypes.MoveDown;
             }
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                Debug.Log("left!");
-                return ActionsTypes.MoveLeft;
+                return ActionsTypes.RotateLeft;
             }
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                Debug.Log("right!");
-                return ActionsTypes.MoveRight;
+                return ActionsTypes.RotateRight;
+            }
+
+            if (Input.GetKey(KeyCode.KeypadEnter))
+            {
+                return ActionsTypes.Shoot;
             }
         }
 
