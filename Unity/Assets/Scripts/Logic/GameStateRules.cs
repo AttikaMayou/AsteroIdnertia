@@ -89,7 +89,14 @@ public class GameStateRules : MonoBehaviour
         UpdateAsteroidsPosition(ref gs);
         UpdateProjectiles(ref gs);
         HandleAgentInputs(ref gs, new ActionsTypes[] { actionPlayer1, actionPlayer2 });
-        HandleCollisions(ref gs);
+        if(gs.players[0].isGameOver || gs.players[1].isGameOver)
+        {
+            return;
+        }
+        else
+        {
+            HandleCollisions(ref gs);
+        }
         gs.currentGameStep += 1;
     }
 
@@ -139,23 +146,25 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleCollisions(ref GameState gs)
     {
-        //Collision entre asteroids et player 
-        for (var i = 0; i < gs.asteroids.Length; i++)
+        for (int j = 0; j < gs.players.Length; j++)
         {
-            var sqrDistance = (gs.asteroids[i].position - gs.players[0].position).sqrMagnitude;
-
-            if (!(sqrDistance
-                  <= Mathf.Pow(GameState.ASTEROID_RADIUS + GameState.PLAYER_RADIUS,
-                      2)))
+            //Collision entre asteroids et player 
+            for (var i = 0; i < gs.asteroids.Length; i++)
             {
-                continue;
+                var sqrDistance = (gs.asteroids[i].position - gs.players[j].position).sqrMagnitude;
+
+                if (!(sqrDistance
+                      <= Mathf.Pow(GameState.ASTEROID_RADIUS + GameState.PLAYER_RADIUS,
+                          2)))
+                {
+                    continue;
+                }
+
+                gs.players[j].isGameOver = true;
+
+                return;
             }
-
-            //gs.isGameOver = true;
-            // TODO : gérer s
-            return;
         }
-
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
             if (gs.projectiles[i].position.y > 80)
@@ -165,6 +174,7 @@ public class GameStateRules : MonoBehaviour
                 continue;
             }
 
+            //Collision entre asteroids et projectile 
             for (var j = 0; j < gs.asteroids.Length; j++)
             {
                 var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;

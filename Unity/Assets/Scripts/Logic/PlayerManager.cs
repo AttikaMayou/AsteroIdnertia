@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     GameObject[] players;
 
+    [SerializeField]
+    private GameObject menuEndGame;
+
+    [SerializeField]
+    private TMP_Text playerEndGame;
+
     public List<Transform> asteroidsView = new List<Transform>();
     private readonly List<Transform> projectilesView = new List<Transform>();
 
@@ -22,11 +29,36 @@ public class PlayerManager : MonoBehaviour
 
     private IAgent[] playerAgents = new IAgent[2];
 
+    public void StartGame(IAgent[] agents)
+    {
+        Debug.Log(players.Length);
+        for (var i = 0; i < players.Length; i++)
+        {
+            playerAgents[i] = agents[i];
+            playerViews[i] = players[i].transform;
+        }
+
+        GameStateRules.Init(ref gs, this);
+    }
+
     public void UpdatePlayerState()
     {
-        if (gs.players[0].isGameOver && gs.players[1].isGameOver)
+        if (gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
+            if (gs.players[0].isGameOver)
+            {
+                playerEndGame.text = "Player 2 wins !";
+            }
+
+            if (gs.players[1].isGameOver)
+            {
+                playerEndGame.text = "Player 1 wins !";
+            }
+
+            menuEndGame.SetActive(true);
+
             return;
+
         }
 
         SyncAsteroidsViews();
@@ -40,18 +72,6 @@ public class PlayerManager : MonoBehaviour
 
         GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0), playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
         
-    }
-
-    public void StartGame(IAgent[] agents)
-    {
-        Debug.Log(players.Length);
-        for (var i = 0; i < players.Length; i++)
-        {
-            playerAgents[i] = agents[i];
-            playerViews[i] = players[i].transform;
-        }
-
-        GameStateRules.Init(ref gs, this);
     }
 
     private void SyncAsteroidsViews()
@@ -106,4 +126,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void ResetGameOver()
+    {
+        gs.players[0].isGameOver = false;
+        gs.players[1].isGameOver = false;
+    }
 }
