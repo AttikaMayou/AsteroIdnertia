@@ -63,7 +63,6 @@ public class GameSystemScript : MonoBehaviour
                 break;*/
         }
         IAgent[] agents = { agentPlayer1, agentPlayer2 };
-        Debug.Log(agents.Length);
         playerManager.StartGame(agents);
         LaunchGame = true;
     }

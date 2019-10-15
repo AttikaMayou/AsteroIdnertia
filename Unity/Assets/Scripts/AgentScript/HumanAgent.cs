@@ -6,63 +6,69 @@ using UnityEngine;
 
 public class HumanAgent : IAgent
 {
-    public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions, int playerId)
+    public ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId)
     {
-        if(playerId == 0)
+        ActionsTypes[] actions = new ActionsTypes[3];
+        actions[0] = ActionsTypes.Nothing;
+        actions[1] = ActionsTypes.Nothing;
+        actions[2] = ActionsTypes.NoShoot;
+
+        if (playerId == 0)
         {
+            
             if (Input.GetKey(KeyCode.Z))
             {
-                return ActionsTypes.MoveUp;
+                actions[0] = ActionsTypes.MoveUp;
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                return ActionsTypes.MoveDown;
+                actions[0] = ActionsTypes.MoveDown;
             }
 
             if (Input.GetKey(KeyCode.Q))
             {
-                return ActionsTypes.RotateLeft;
+                actions[1] = ActionsTypes.RotateLeft;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                return ActionsTypes.RotateRight;
+                actions[1] = ActionsTypes.RotateRight;
             }
 
             if (Input.GetKey(KeyCode.Space))
             {
-                return ActionsTypes.Shoot;
+                actions[2] = ActionsTypes.Shoot;
             }
         }
         else if(playerId == 1)
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                return ActionsTypes.MoveUp;
+                actions[0] = ActionsTypes.MoveUp;
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                return ActionsTypes.MoveDown;
+                actions[0] = ActionsTypes.MoveDown;
             }
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                return ActionsTypes.RotateLeft;
+                actions[1] = ActionsTypes.RotateLeft;
             }
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                return ActionsTypes.RotateRight;
+                actions[1] = ActionsTypes.RotateRight;
             }
 
-            if (Input.GetKey(KeyCode.KeypadEnter))
+            if (Input.GetKey(KeyCode.Return))
             {
-                return ActionsTypes.Shoot;
+                actions[2] = ActionsTypes.Shoot;
             }
         }
-
-        return ActionsTypes.Nothing;
+        
+        return actions;
     }
 }

@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class RandomAgent : IAgent
 {
-    public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions, int id = 0)
+    public ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int id = 0)
     {
-        return availableActions[Random.Range(0, availableActions.Length)];
+        Debug.Log(Random.Range(5, 6));
+        return new ActionsTypes[]
+        {
+            availableActions[Random.Range(0, 3)],
+            availableActions[Random.Range(3, 5)],
+            availableActions[Random.Range(5, 6)]
+        };
     }
 }
