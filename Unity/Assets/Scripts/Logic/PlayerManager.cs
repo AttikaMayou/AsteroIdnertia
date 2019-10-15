@@ -59,7 +59,6 @@ public class PlayerManager : MonoBehaviour
 
     private void SyncAsteroidsViews()
     {
-
         var asteroidToSpawn = gs.asteroids.Length - asteroidsView.Count;
 
         for (int i = 0; i < asteroidToSpawn; i++)
@@ -74,9 +73,11 @@ public class PlayerManager : MonoBehaviour
             asteroidsView.RemoveAt(asteroidsView.Count - 1);
         }
 
+
         for (int i = 0; i < asteroidsView.Count; i++)
         {
-            asteroidsView[i].position = gs.asteroids[i].position;
+            Vector3 newPos = new Vector3(gs.asteroids[i].position.x, 0.0f, gs.asteroids[i].position.y);
+            asteroidsView[i].position = newPos;
         }
     }
 

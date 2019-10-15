@@ -8,16 +8,6 @@ public class GameStateRules : MonoBehaviour
 {
     public static void Init(ref GameState gs, PlayerManager playerManager)
     {
-        // Very Bad !!
-        //var allAsteroids = GameObject.FindGameObjectsWithTag(asteroidsTags);
-
-        //TODO : get asteroids from inspector 
-        /*if(allAsteroids == null || allAsteroids.Length == 0)
-        {
-            throw new System.Exception("There is no asteroids with tag : " + asteroidsTags);
-        }
-        */
-
         // Initialisation des players
         Debug.Log("Initialization");
 
@@ -59,6 +49,8 @@ public class GameStateRules : MonoBehaviour
                 size = Random.Range(1.0f, 5.0f)
             };
             gs.asteroids.Add(asteroid);
+
+            allAsteroids[i].position = positions[i];
         }
 
         // Taille de la liste à déterminer
@@ -68,19 +60,18 @@ public class GameStateRules : MonoBehaviour
     //Generate random position for asteroids at initialization
     private static Vector2[] GetAsteroidsInitialPositions(ref GameState gs, List<Transform> asteroids)
     {
-        //Take negatives from these floats to get left player boundaries and positives ones to get right player boundaries
-        var leftBoundary = 30.0f; //* gs.player == GameSystemScript.player1 ? -1 : 1;
-        var rightBoundary = 10.0f; // * gs.player == GameSystemScript.player2 ? -1 : 1;
+        var leftBoundary = -50.0f;
+        var rightBoundary = 70.0f;
 
         //Adjust maximum with number of asteroids (the more there are, the higher maximum should be)
-        var minimalX = 50.0f;
-        var maximalX = 150.0f;
+        var minimalZ = 30.0f;
+        var maximalZ = 150.0f;
 
         var positions = new Vector2[asteroids.Count];
 
         for (var i = 0; i < asteroids.Count; i++)
         {
-            positions[i] = new Vector2(Random.Range(leftBoundary, rightBoundary), Random.Range(minimalX, maximalX));
+            positions[i] = new Vector2(Random.Range(leftBoundary, rightBoundary), Random.Range(minimalZ, maximalZ));
         }
 
         return positions;
