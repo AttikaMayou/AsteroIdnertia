@@ -11,6 +11,7 @@ public class HumanAgent : IAgent
         //tirer
         if(Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.UpArrow))
         {
+            Debug.Log("shoot!");
             return ActionsTypes.Shoot;
         }
 
