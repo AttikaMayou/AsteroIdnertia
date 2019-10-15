@@ -70,6 +70,9 @@ public class PlayerManager : MonoBehaviour
             {
                 playerEndGame.text = "Player 1 wins !";
             }
+
+            ResetGameOver();
+
             finaleScore1.text = scorePlayer1.text;
             finaleScore2.text = scorePlayer2.text;
 
@@ -149,6 +152,8 @@ public class PlayerManager : MonoBehaviour
 
     public void ResetGameOver()
     {
+        gs.players[0].position = new Vector2(170f, 170f);
+        gs.players[1].position = new Vector2(170f, 170f);
         gs.players[0].isGameOver = false;
         gs.players[1].isGameOver = false;
     }
