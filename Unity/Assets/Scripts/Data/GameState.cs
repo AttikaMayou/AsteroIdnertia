@@ -9,7 +9,7 @@ public struct GameState : ICloneable
     public const long SHOOT_DELAY = 30;
     public const float PLAYER_RADIUS = 0.5f;
     public const float PROJECTILE_RADIUS = 0.2f;
-    public const float ASTEROID_RADIUS = 0.8f;
+    public const float ASTEROID_RADIUS = 5.0f;
     public const float PROJECTILE_SPEED = 0.5f / 60f * 10f;
     public const float INITIAL_PLAYER_SPEED = 0.3f / 60f * 10;
     public const float ACCELERATION_SPEED = INITIAL_PLAYER_SPEED / 60;
@@ -20,8 +20,7 @@ public struct GameState : ICloneable
     public NativeList<Asteroid> asteroids;
     public NativeList<Projectile> projectiles;
 
-    public Player player1;
-    public Player player2;
+    public Player[] players;
 
     public long currentGameStep;
 
@@ -30,8 +29,8 @@ public struct GameState : ICloneable
         GameState clone = new GameState();
         clone.asteroids = asteroids;
         clone.projectiles = projectiles;
-        clone.player1 = player1;
-        clone.player2 = player2;
+        clone.players[0] = players[0];
+        clone.players[1] = players[1];
         return clone;
     }
 }

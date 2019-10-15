@@ -13,36 +13,47 @@ public class PlayerManager : MonoBehaviour
     private GameState gs;
 
     [SerializeField]
-    GameObject player;
+    GameObject[] players;
 
     public List<Transform> asteroidsView = new List<Transform>();
     private readonly List<Transform> projectilesView = new List<Transform>();
 
-    private Transform playerView;
-    private IAgent agent;
+    private Transform[] playerViews = new Transform[2];
 
+    private IAgent[] playerAgents = new IAgent[2];
 
     public void UpdatePlayerState()
     {
-        if (gs.player1.isGameOver)
+        for (var i = 0; i < players.Length; i++)
         {
-            return;
+            if (gs.players[i].isGameOver)
+            {
+                return;
+            }
         }
 
         SyncAsteroidsViews();
         SyncProjectilesViews();
         //mettre à jour la position du players
-        playerView.position = gs.player1.position;
+        for (var i = 0; i < players.Length; i++)
+        {
+            playerViews[i].position = gs.players[i].position;
+        }
 
-        GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
+        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
+                                    playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
     }
 
-    public void StartGame(IAgent agent, PlayerManager player)
+    public void StartGame(IAgent[] agents)
     {
-        Debug.Log("Start Game called for player " + this.player.name);
-        this.agent = agent;
-        GameStateRules.Init(ref gs, player);
-        playerView = player.transform;
+        Debug.Log(players.Length);
+        for(var i = 0; i < players.Length; i++)
+        {
+            playerAgents[i] = agents[i];
+            playerViews[i] = players[i].transform;
+        }
+
+        GameStateRules.Init(ref gs, this);
     }
 
     private void SyncAsteroidsViews()
@@ -61,13 +72,9 @@ public class PlayerManager : MonoBehaviour
             asteroidsView.RemoveAt(asteroidsView.Count - 1);
         }
 
-        Vector3 newPos = new Vector3();
         for (int i = 0; i < asteroidsView.Count; i++)
         {
-            newPos.x = gs.asteroids[i].position.x;
-            newPos.y = 0;
-            newPos.z = gs.asteroids[i].position.y;
-            asteroidsView[i].position = newPos;
+            asteroidsView[i].position = gs.asteroids[i].position;
         }
     }
 
