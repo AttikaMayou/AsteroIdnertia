@@ -45,10 +45,10 @@ public class GameStateRules : MonoBehaviour
             {
                 position = positions[i],
                 //TODO : Setup random direction :
-                speed = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0)
+                direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0)
                 //size = Random.Range(1.0f, 5.0f)
             };
-            asteroid.speed = asteroid.speed.normalized * 20;
+            asteroid.direction = asteroid.direction.normalized * 20;
             gs.asteroids.Add(asteroid);
 
             allAsteroids[i].position = positions[i];
@@ -61,18 +61,14 @@ public class GameStateRules : MonoBehaviour
     //Generate random position for asteroids at initialization
     private static Vector2[] GetAsteroidsInitialPositions(ref GameState gs, List<Transform> asteroids)
     {
-        var leftBoundary = -50.0f;
-        var rightBoundary = 70.0f;
-
-        //Adjust maximum with number of asteroids (the more there are, the higher maximum should be)
-        var minimalZ = 30.0f;
-        var maximalZ = 150.0f;
+        var minimalBoundary = -150.0f;
+        var maximumBoundary = 150.0f;
 
         var positions = new Vector2[asteroids.Count];
 
         for (var i = 0; i < asteroids.Count; i++)
         {
-            positions[i] = new Vector2(Random.Range(leftBoundary, rightBoundary), Random.Range(minimalZ, maximalZ));
+            positions[i] = new Vector2(Random.Range(minimalBoundary, maximumBoundary), Random.Range(minimalBoundary, maximumBoundary));
         }
 
         return positions;
@@ -105,7 +101,7 @@ public class GameStateRules : MonoBehaviour
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
-            asteroid.position += -gs.asteroids[i].speed * 0.005f;
+            asteroid.position += -gs.asteroids[i].direction * 0.005f;
             gs.asteroids[i] = asteroid;
         }
     }
