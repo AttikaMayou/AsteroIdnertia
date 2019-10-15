@@ -45,9 +45,10 @@ public class GameStateRules : MonoBehaviour
             {
                 position = positions[i],
                 //TODO : Setup random direction :
-                direction = gs.players[0].position - new Vector2(0.0f, -10.0f),
-                size = Random.Range(1.0f, 5.0f)
+                speed = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0)
+                //size = Random.Range(1.0f, 5.0f)
             };
+            asteroid.speed = asteroid.speed.normalized * 20;
             gs.asteroids.Add(asteroid);
 
             allAsteroids[i].position = positions[i];
@@ -105,7 +106,7 @@ public class GameStateRules : MonoBehaviour
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
-            asteroid.position += gs.asteroids[i].speed;
+            asteroid.position += -gs.asteroids[i].speed * 0.005f;
             gs.asteroids[i] = asteroid;
         }
     }
