@@ -117,7 +117,6 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < projectilesView.Count; i++)
         {
             Vector3 newPos = new Vector3(gs.projectiles[i].position.x, 0.0f, gs.projectiles[i].position.y);
-            Debug.LogWarning(newPos);
             projectilesView[i].position = newPos;
         }
     }
