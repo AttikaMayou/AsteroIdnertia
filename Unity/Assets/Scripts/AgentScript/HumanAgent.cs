@@ -9,19 +9,19 @@ public class HumanAgent : IAgent
     public ActionsTypes Act(ref GameState gs, ActionsTypes[] availableActions)
     {
         //tirer
-        if(Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.UpArrow))
+        if(Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             Debug.Log("shoot!");
             return ActionsTypes.Shoot;
         }
 
-        if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Debug.Log("left!");
             return ActionsTypes.MoveLeft;
         }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             Debug.Log("right!");
             return ActionsTypes.MoveRight;
