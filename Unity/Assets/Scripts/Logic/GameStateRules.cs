@@ -96,7 +96,7 @@ public class GameStateRules : MonoBehaviour
         gs.asteroids.Add(asteroid);
     }
 
-    public static void Step(ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2, ActionsTypes action2Player1, ActionsTypes action2Player2, ActionsTypes action3Player1, ActionsTypes action3Player2)
+    public static void Step(ref GameState gs, ActionsTypes[] actionPlayer1, ActionsTypes[] actionPlayer2)
     {
         if (gs.players[0].isGameOver && gs.players[1].isGameOver)
         {
@@ -106,7 +106,7 @@ public class GameStateRules : MonoBehaviour
 
         UpdateAsteroidsPosition(ref gs);
         UpdateProjectiles(ref gs);
-        HandleAgentInputs(ref gs, new ActionsTypes[] { actionPlayer1, actionPlayer2, action2Player1, action2Player2, action3Player1, action3Player2 });
+        HandleAgentInputs(ref gs, new ActionsTypes[] { actionPlayer1[0], actionPlayer2[0], actionPlayer1[1], actionPlayer2[1], actionPlayer1[2], actionPlayer2[2] });
         /*if(gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
             return;
