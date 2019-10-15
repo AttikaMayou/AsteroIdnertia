@@ -307,8 +307,8 @@ public class GameStateRules : MonoBehaviour
                         {
                             position = gs.players[i].position,
                             speed = GameState.PROJECTILE_SPEED,
-                            direction = gs.players[i].lookDirection.normalized
-                            
+                            direction = gs.players[i].lookDirection.normalized,
+                            playerID = i
                         });
                         break;
                         // Shoot Logic
