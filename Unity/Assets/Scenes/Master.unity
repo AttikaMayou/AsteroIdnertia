@@ -614,7 +614,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 34.5
+  m_fontSize: 42.8
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1554,7 +1554,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 20.15
+  m_fontSize: 25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3789,12 +3789,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &859397116 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
-    type: 3}
-  m_PrefabInstance: {fileID: 1939182838}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &869137500
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4404,7 +4398,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 46.35
+  m_fontSize: 54.45
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4568,7 +4562,6 @@ GameObject:
   - component: {fileID: 1026029440}
   - component: {fileID: 1026029442}
   - component: {fileID: 1026029444}
-  - component: {fileID: 1026029443}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4590,8 +4583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Agent1Dropdown: {fileID: 1979348660}
   Agent2Dropdown: {fileID: 1288029923}
-  player1: {fileID: 1026029444}
-  player2: {fileID: 1026029443}
+  playerManager: {fileID: 1026029444}
 --- !u!4 &1026029441
 Transform:
   m_ObjectHideFlags: 0
@@ -4619,34 +4611,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 299049916}
---- !u!114 &1026029443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026029439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b2153da0a1ad4940952c40261c08aa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AsteroidPrefab: {fileID: 859397116}
-  ProjectilePrefab: {fileID: 449809978225233725, guid: b0f58ada1c964004abdd7c41d445ed02,
-    type: 3}
-  player: {fileID: 3610517116947739093}
-  asteroidsView:
-  - {fileID: 1939182839}
-  - {fileID: 1408580009}
-  - {fileID: 585539914}
-  - {fileID: 1733633527}
-  - {fileID: 1134734677}
-  - {fileID: 1896429333}
-  - {fileID: 869137501}
-  - {fileID: 1383997880}
-  - {fileID: 874084833}
-  - {fileID: 1130345945}
-  - {fileID: 1037874816}
 --- !u!114 &1026029444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4663,7 +4627,9 @@ MonoBehaviour:
     type: 3}
   ProjectilePrefab: {fileID: 449809978225233725, guid: b0f58ada1c964004abdd7c41d445ed02,
     type: 3}
-  player: {fileID: 3146229332118627773}
+  players:
+  - {fileID: 3146229332118627773}
+  - {fileID: 3610517116947739093}
   asteroidsView:
   - {fileID: 428120628}
   - {fileID: 800869632}
@@ -5416,7 +5382,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 26.75
+  m_fontSize: 44.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7464,7 +7430,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 33.8
+  m_fontSize: 42.05
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
