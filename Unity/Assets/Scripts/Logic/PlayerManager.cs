@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviour
         SyncAsteroidsViews();
         SyncProjectilesViews();
         //mettre à jour la position du players
-        playerView.position = gs.player.position;
+        player.transform.position = gs.player.position;
 
         GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
     }

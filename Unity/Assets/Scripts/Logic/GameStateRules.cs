@@ -191,6 +191,7 @@ public class GameStateRules : MonoBehaviour
                     gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
+
             case ActionsTypes.MoveLeft:
                 {
                      gs.player.position += Vector2.left * gs.player.speed;
@@ -206,6 +207,7 @@ public class GameStateRules : MonoBehaviour
                     //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                     break;
                 }
+
             case ActionsTypes.Shoot:
                 {
                     gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
