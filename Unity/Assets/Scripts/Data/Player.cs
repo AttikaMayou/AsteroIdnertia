@@ -10,7 +10,7 @@ public struct Player
     public Vector2 position;
     public long lastShootStep;
     public bool isGameOver;
-    public float velocity;
+    public Vector2 velocity;
     //public int playerID;
 
 }
