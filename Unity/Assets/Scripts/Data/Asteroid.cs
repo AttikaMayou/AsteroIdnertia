@@ -5,7 +5,7 @@ using UnityEngine;
 public struct Asteroid
 {
     public Vector2 position;
-    public Vector2 speed;
     public Vector2 direction;
-    public float size;
+    public Vector2 initialPosition;
+    //public float size;
 }
