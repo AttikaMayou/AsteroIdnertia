@@ -35,19 +35,20 @@ public class PlayerManager : MonoBehaviour
         SyncAsteroidsViews();
         SyncProjectilesViews();
         //mettre à jour la position du players
-        for (var i = 0; i < players.Length; i++)
+        for (int i = 0; i < players.Length; i++)
         {
             playerViews[i].position = gs.players[i].position;
         }
 
-        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
-                                    playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
+
+        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0), playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
+        
     }
 
     public void StartGame(IAgent[] agents)
     {
         Debug.Log(players.Length);
-        for(var i = 0; i < players.Length; i++)
+        for (var i = 0; i < players.Length; i++)
         {
             playerAgents[i] = agents[i];
             playerViews[i] = players[i].transform;
@@ -58,6 +59,7 @@ public class PlayerManager : MonoBehaviour
 
     private void SyncAsteroidsViews()
     {
+
         var asteroidToSpawn = gs.asteroids.Length - asteroidsView.Count;
 
         for (int i = 0; i < asteroidToSpawn; i++)
@@ -81,10 +83,12 @@ public class PlayerManager : MonoBehaviour
     private void SyncProjectilesViews()
     {
         var projectileToSpawn = gs.projectiles.Length - projectilesView.Count;
+        Debug.Log(gs.projectiles.Length);
         for (int i = 0; i < projectileToSpawn; i++)
         {
-            var projectileView = Instantiate(ProjectilePrefab).GetComponent<Transform>();
-            asteroidsView.Add(projectileView);
+            var projectileView = Instantiate(ProjectilePrefab/*, new Vector3(0, 0, 5), Quaternion.identity*/);
+            //projectilesView[i].position = gs.projectiles[i].position;
+            projectilesView.Add(projectileView.transform);
         }
 
         for (int i = 0; i < -projectileToSpawn; i++)
@@ -93,9 +97,14 @@ public class PlayerManager : MonoBehaviour
             projectilesView.RemoveAt(projectilesView.Count - 1);
         }
 
+        Vector3 newPos = new Vector3();
         for (int i = 0; i < projectilesView.Count; i++)
         {
-            projectilesView[i].position = gs.projectiles[i].position;
+            newPos.x = gs.projectiles[i].position.x;
+            newPos.y = 0;
+            newPos.z = gs.projectiles[i].position.y;
+            Debug.LogWarning(newPos);
+            projectilesView[i].position = newPos;
         }
     }
 

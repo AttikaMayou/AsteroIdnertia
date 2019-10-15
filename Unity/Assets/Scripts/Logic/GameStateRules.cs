@@ -78,7 +78,7 @@ public class GameStateRules : MonoBehaviour
 
         var positions = new Vector2[asteroids.Count];
 
-        for(var i = 0; i < asteroids.Count; i++)
+        for (var i = 0; i < asteroids.Count; i++)
         {
             positions[i] = new Vector2(Random.Range(leftBoundary, rightBoundary), Random.Range(minimalX, maximalX));
         }
@@ -109,7 +109,7 @@ public class GameStateRules : MonoBehaviour
 
         //JobHandle handle = job.Schedule();
         //handle.Complete();
-        
+
 
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
@@ -164,16 +164,16 @@ public class GameStateRules : MonoBehaviour
             return;
         }
 
-        for(var i = 0; i < gs.projectiles.Length; i++)
+        for (var i = 0; i < gs.projectiles.Length; i++)
         {
-            if(gs.projectiles[i].position.y > 10)
+            if (gs.projectiles[i].position.y > 10)
             {
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
                 continue;
             }
 
-            for(var j = 0; j < gs.asteroids.Length; j++)
+            for (var j = 0; j < gs.asteroids.Length; j++)
             {
                 var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;
                 // Asteroid Radius est dépendant de projectile.size
@@ -192,7 +192,7 @@ public class GameStateRules : MonoBehaviour
             }
         }
 
-        if(gs.asteroids.Length == 0)
+        if (gs.asteroids.Length == 0)
         {
             //gs.isGameOver = true;
         }
@@ -236,15 +236,13 @@ public class GameStateRules : MonoBehaviour
                         gs.players[i].lastShootStep = gs.currentGameStep;
                         gs.projectiles.Add(new Projectile
                         {
-                            position = gs.players[i].position + Vector2.up * 1.5f,
-                            speed = GameState.PROJECTILE_SPEED * Vector2.up
+                            position = gs.players[i].position,
+                            speed = GameState.PROJECTILE_SPEED
                         });
                         break;
                         // Shoot Logic
                     }
             }
-            gs.players[i].velocity = (long)Mathf.Clamp(gs.players[i].velocity, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
-            gs.players[i].position.x += gs.players[i].velocity;
         }
     }
 

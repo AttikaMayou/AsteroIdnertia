@@ -22,6 +22,8 @@ public struct GameState : ICloneable
 
     public Player[] players;
 
+    
+
     public long currentGameStep;
 
     public object Clone()
