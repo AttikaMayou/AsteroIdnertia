@@ -196,9 +196,29 @@ public class GameStateRules : MonoBehaviour
             }
         }
 
-        //Destroy projectiles when they are on world boundaries
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
+            //Collisions entre projectiles et players
+            for (int k = 0; k < gs.players.Length; k++)
+            {
+                var sqrDistance = (gs.projectiles[i].position - gs.players[0].position).sqrMagnitude;
+
+                if(!(sqrDistance
+                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.PLAYER_RADIUS,
+                      2)))
+                {
+                    continue;
+                }
+
+                if (gs.projectiles[i].playerID == k) continue;
+
+                gs.projectiles.RemoveAtSwapBack(i);
+                i--;
+                gs.players[k].isGameOver = true;
+                return;
+            }
+
+            //Destroy projectiles when they are on world boundaries
             if (gs.projectiles[i].position.x > 150.0f 
                 || gs.projectiles[i].position.x < -150.0f
                 || gs.projectiles[i].position.y > 150.0f
