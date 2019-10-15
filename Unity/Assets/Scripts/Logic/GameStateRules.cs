@@ -80,6 +80,21 @@ public class GameStateRules : MonoBehaviour
         return position;
     }
 
+    private static void GenerateNewAsteroid(ref GameState gs)
+    {
+        var position = GetRandomPosition();
+
+        var asteroid = new Asteroid
+        {
+            position = position,
+            direction = position - new Vector2(Random.Range(-30f, 30.0f), 0),
+            initialPosition = position
+        };
+
+        asteroid.direction = asteroid.direction.normalized * Random.Range(GameState.ASTEROID_MINIMUM_SPEED, GameState.ASTEROID_MAXIMUM_SPEED);
+        gs.asteroids.Add(asteroid);
+    }
+
     public static void Step(ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2)
     {
         if (gs.players[0].isGameOver && gs.players[1].isGameOver)
