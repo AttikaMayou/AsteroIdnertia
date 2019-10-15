@@ -89,7 +89,7 @@ public class GameStateRules : MonoBehaviour
             initialPosition = position
         };
 
-        asteroid.direction = asteroid.direction.normalized * Random.Range(GameParameters.Instance.AsteroidMinimumSpeed, GameParameters.Instance.AsteroidMinimumSpeed);
+        asteroid.direction = asteroid.direction.normalized * Random.Range(GameParameters.Instance.AsteroidMinimumSpeed, GameParameters.Instance.AsteroidMaximumSpeed);
         gs.asteroids.Add(asteroid);
     }
 
@@ -127,7 +127,7 @@ public class GameStateRules : MonoBehaviour
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
-            asteroid.position += -gs.asteroids[i].direction/* * 0.005f*/;
+            asteroid.position += -gs.asteroids[i].direction * 0.005f;
             gs.asteroids[i] = asteroid;
         }
     }
