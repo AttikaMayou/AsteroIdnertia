@@ -108,7 +108,7 @@ public class GameStateRules : MonoBehaviour
         UpdateAsteroidsPosition(ref gs);
         UpdateProjectiles(ref gs);
         HandleAgentInputs(ref gs, new ActionsTypes[] { actionPlayer1[0], actionPlayer2[0], actionPlayer1[1], actionPlayer2[1], actionPlayer1[2], actionPlayer2[2] });
-        /*if(gs.players[0].isGameOver || gs.players[1].isGameOver)
+        if(gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
             return;
         }
@@ -200,24 +200,31 @@ public class GameStateRules : MonoBehaviour
             }
         }
 
-        //Destroy projectiles when they are on world boundaries
         for (var i = 0; i < gs.projectiles.Length; i++)
         {
-            if (gs.projectiles[i].position.x > 150.0f
-                || gs.projectiles[i].position.x < -150.0f
-                || gs.projectiles[i].position.y > 150.0f
-                || gs.projectiles[i].position.y < -150.0f)
+            //Collisions entre projectiles et players
+            for (int k = 0; k < gs.players.Length; k++)
             {
+                var sqrDistance = (gs.projectiles[i].position - gs.players[0].position).sqrMagnitude;
+
+                if (!(sqrDistance
+                  <= Mathf.Pow(GameParameters.Instance.ProjectileRadius + GameParameters.Instance.PlayerRadius,
+                      2)))
+                {
+                    continue;
+                }
+
+                if (gs.projectiles[i].playerID == k) continue;
+
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
                 //TODO : ajouter score au player à qui appartient le projectile
-                
                 gs.players[k].isGameOver = true;
                 return;
             }
 
             //Destroy projectiles when they are on world boundaries
-            if (gs.projectiles[i].position.x > GameParameters.Instance.MaximalBoundary 
+            if (gs.projectiles[i].position.x > GameParameters.Instance.MaximalBoundary
                 || gs.projectiles[i].position.x < GameParameters.Instance.MinimalBoundary
                 || gs.projectiles[i].position.y > GameParameters.Instance.MaximalBoundary
                 || gs.projectiles[i].position.y < GameParameters.Instance.MinimalBoundary)
@@ -233,7 +240,7 @@ public class GameStateRules : MonoBehaviour
                 var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;
                 // Asteroid Radius est dépendant de projectile.size
                 if (!(sqrDistance
-                  <= Mathf.Pow(GameState.PROJECTILE_RADIUS + GameState.ASTEROID_RADIUS,
+                  <= Mathf.Pow(GameParameters.Instance.ProjectileRadius + GameParameters.Instance.AsteroidRadius,
                       2)))
                 {
                     continue;
@@ -244,7 +251,6 @@ public class GameStateRules : MonoBehaviour
                 gs.asteroids.RemoveAtSwapBack(j);
                 j--;
                 //TODO : ajouter score au player à qui appartient le projectile
-                
                 break;
             }
         }

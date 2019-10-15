@@ -23,6 +23,12 @@ public class PlayerManager : MonoBehaviour
     private TMP_Text playerEndGame;
 
     [SerializeField]
+    private TMP_Text finaleScore1;
+
+    [SerializeField]
+    private TMP_Text finaleScore2;
+
+    [SerializeField]
     private GameObject menuInGame;
 
     [SerializeField]
@@ -64,6 +70,8 @@ public class PlayerManager : MonoBehaviour
             {
                 playerEndGame.text = "Player 1 wins !";
             }
+            finaleScore1.text = scorePlayer1.text;
+            finaleScore2.text = scorePlayer2.text;
 
             menuEndGame.SetActive(true);
 
