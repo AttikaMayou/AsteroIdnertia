@@ -35,7 +35,7 @@ public class GameStateRules : MonoBehaviour
 
         var allAsteroids = playerManager.asteroidsView;
 
-        var positions = GetAsteroidsInitialPositions(ref gs, allAsteroids);
+        var positions = GetAsteroidsInitialPositions(allAsteroids);
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Count, Allocator.Persistent);
 
@@ -44,9 +44,10 @@ public class GameStateRules : MonoBehaviour
             var asteroid = new Asteroid
             {
                 position = positions[i],
-                direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0)
+                direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0),
+                initialPosition = positions[i]
             };
-            asteroid.direction = asteroid.direction.normalized * 20;
+            asteroid.direction = asteroid.direction.normalized * Random.Range(GameState.ASTEROID_MINIMUM_SPEED, GameState.ASTEROID_MAXIMUM_SPEED);
             gs.asteroids.Add(asteroid);
 
             allAsteroids[i].position = positions[i];
@@ -56,20 +57,27 @@ public class GameStateRules : MonoBehaviour
         gs.projectiles = new NativeList<Projectile>(100, Allocator.Persistent);
     }
 
-    //Generate random position for asteroids at initialization
-    private static Vector2[] GetAsteroidsInitialPositions(ref GameState gs, List<Transform> asteroids)
+    //Generate random position for all asteroids at initialization
+    private static Vector2[] GetAsteroidsInitialPositions(List<Transform> asteroids)
     {
-        var minimalBoundary = -150.0f;
-        var maximumBoundary = 150.0f;
-
         var positions = new Vector2[asteroids.Count];
 
         for (var i = 0; i < asteroids.Count; i++)
         {
-            positions[i] = new Vector2(Random.Range(minimalBoundary, maximumBoundary), Random.Range(minimalBoundary, maximumBoundary));
+            positions[i] = GetRandomPosition();
         }
 
         return positions;
+    }
+
+    //Generate a random position within the world
+    private static Vector2 GetRandomPosition()
+    {
+        var minimalBoundary = -150.0f;
+        var maximumBoundary = 150.0f;
+
+        var position = new Vector2(Random.Range(minimalBoundary, maximumBoundary), Random.Range(minimalBoundary, maximumBoundary));
+        return position;
     }
 
     public static void Step(ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2)

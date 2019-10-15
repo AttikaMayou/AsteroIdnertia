@@ -70,7 +70,6 @@ public class PlayerManager : MonoBehaviour
             asteroidsView.RemoveAt(asteroidsView.Count - 1);
         }
 
-
         for (int i = 0; i < asteroidsView.Count; i++)
         {
             Vector3 newPos = new Vector3(gs.asteroids[i].position.x, 0.0f, gs.asteroids[i].position.y);
@@ -95,12 +94,9 @@ public class PlayerManager : MonoBehaviour
             projectilesView.RemoveAt(projectilesView.Count - 1);
         }
 
-        Vector3 newPos = new Vector3();
         for (int i = 0; i < projectilesView.Count; i++)
         {
-            newPos.x = gs.projectiles[i].position.x;
-            newPos.y = 0;
-            newPos.z = gs.projectiles[i].position.y;
+            Vector3 newPos = new Vector3(gs.projectiles[i].position.x, 0.0f, gs.projectiles[i].position.y);
             Debug.LogWarning(newPos);
             projectilesView[i].position = newPos;
         }
