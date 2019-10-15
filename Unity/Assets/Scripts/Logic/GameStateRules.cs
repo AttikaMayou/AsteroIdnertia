@@ -238,7 +238,7 @@ public class GameStateRules : MonoBehaviour
     static void HandleAgentInputs(ref GameState gs, ActionsTypes[] actionPlayers)
     {
         //Switch between Rotation
-        for (var i = 0; i < actionPlayers.Length - 4; i++)
+        for (var i = 0; i < actionPlayers.Length; i++)
         {
             switch (actionPlayers[i])
             {
@@ -279,12 +279,7 @@ public class GameStateRules : MonoBehaviour
                         //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
 
                     }
-            }
-        }
-        for (var i = 2; i < actionPlayers.Length - 2; i++)
-        {
-            switch (actionPlayers[i])
-            {
+
                 case ActionsTypes.MoveUp:
                     {
                         var targetVel = gs.players[i % 2].velocity + gs.players[i % 2].lookDirection * GameState.ACCELERATION_SPEED * 200;
@@ -298,13 +293,7 @@ public class GameStateRules : MonoBehaviour
                         gs.players[i % 2].velocity = Vector2.Lerp(gs.players[i % 2].velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
-            }
-        }
 
-        for (var i = 4; i < actionPlayers.Length; i++)
-        {
-            switch (actionPlayers[i])
-            {
                 case ActionsTypes.Shoot:
                     {
                         gs.players[i % 2].rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, 0, 1 - Mathf.Exp(-GameState.ROTATION_DECELERATION_SPEED));
@@ -330,19 +319,16 @@ public class GameStateRules : MonoBehaviour
                     {
                         break;
                     }
-
             }
-        }
-        for (int i = 0; i < 2; i++)
-        {
+
             //  gs.players[i].velocity = Mathf.Clamp(gs.players[i].velocity.x, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
-            gs.players[i].position += gs.players[i].velocity;
-
+            gs.players[i%2].position += gs.players[i % 2].velocity;
             //gs.players[i].lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
-            gs.players[i].lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
+            gs.players[i % 2].lookDirection = Quaternion.Euler(0, 0, gs.players[i % 2].rotationVelocity) * gs.players[i % 2].lookDirection;
 
-            gs.players[i].velocity = Vector2.ClampMagnitude(gs.players[i].velocity, GameState.MAX_VELOCITY);
-            gs.players[i].rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
+            gs.players[i % 2].velocity = Vector2.ClampMagnitude(gs.players[i % 2].velocity, GameState.MAX_VELOCITY);
+            gs.players[i % 2].rotationVelocity = Mathf.Clamp(gs.players[i % 2].rotationVelocity, -2, 2);
+            Debug.Log("players i :" + i%2);
         }
     }
 
