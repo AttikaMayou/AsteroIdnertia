@@ -110,7 +110,7 @@ public class GameStateRules : MonoBehaviour
         }
         else
         {
-            HandleCollisions(ref gs);
+         //   HandleCollisions(ref gs);
         }
         gs.currentGameStep += 1;
     }
@@ -271,7 +271,7 @@ public class GameStateRules : MonoBehaviour
                     {
                         //gs.players[i].position += Vector2.left * gs.players[i].speed;
                         var targetRotation = gs.players[i].rotationVelocity + GameParameters.Instance.RotationAccelerationSpeed;
-                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
+                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameParameters.Instance.RotationAccelerationSpeed));
 
                         gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.AccelerationSpeed));
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.AccelerationSpeed));
@@ -284,7 +284,7 @@ public class GameStateRules : MonoBehaviour
                     {
                         //gs.players[i].position += Vector2.right * gs.players[i].speed;
                         var targetRotation = gs.players[i].rotationVelocity - GameParameters.Instance.RotationAccelerationSpeed;
-                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
+                        gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameParameters.Instance.RotationAccelerationSpeed));
 
                         gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
@@ -298,22 +298,22 @@ public class GameStateRules : MonoBehaviour
                     }
                 case ActionsTypes.MoveUp:
                     {
-                        var targetVel = gs.players[i].velocity + gs.players[i].lookDirection * GameParameters.Instance.RotationAccelerationSpeed;
+                        var targetVel = gs.players[i].velocity + gs.players[i].lookDirection * GameParameters.Instance.AccelerationSpeed;
                         //var target = ;
-                        gs.players[i].velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
+                        gs.players[i].velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameParameters.Instance.AccelerationSpeed));
                         break;
                     }
                 case ActionsTypes.MoveDown:
                     {
-                        var targetVel = gs.players[i].velocity - gs.players[i].lookDirection * GameParameters.Instance.RotationAccelerationSpeed;
-                        gs.players[i].velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
+                        var targetVel = gs.players[i].velocity - gs.players[i].lookDirection * GameParameters.Instance.AccelerationSpeed;
+                        gs.players[i].velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameParameters.Instance.AccelerationSpeed));
                         break;
                     }
                 case ActionsTypes.Shoot:
                     {
                         gs.players[i].rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
-                        gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
-                        gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
+                        gs.players[i].velocity.x = Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed));
+                        gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed));
                         if (gs.currentGameStep - gs.players[i].lastShootStep < GameParameters.Instance.ShootDelay)
                         {
                             break;

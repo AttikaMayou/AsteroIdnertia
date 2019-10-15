@@ -854,7 +854,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 49.8
+  m_fontSize: 50.1
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1096,7 +1096,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &127779878
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2118,7 +2118,7 @@ MonoBehaviour:
     spaceCount: 3
     wordCount: 3
     linkCount: 0
-    lineCount: 1
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -4297,7 +4297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &731493115
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5795,7 +5795,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 61.35
+  m_fontSize: 58.9
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6024,17 +6024,22 @@ MonoBehaviour:
   _shootDelay: 30
   _playerRadius: 0.5
   _initialPlayerSpeed: 0.1
-  _accelerationSpeed: 0.2
-  _decelerationSpeed: 0.025
-  _maxVelocity: 0.2
-  _rotationAccelerationSpeed: 0.2
-  _rotationDecelerationSpeed: 0.025
-  _maxRotationVelocity: 0.05
+  _accelerationSpeed: 0.15
+  _decelerationSpeed: 0.03
+  _maxVelocity: 0.3
+  _rotationAccelerationSpeed: 0.15
+  _rotationDecelerationSpeed: 0.01
+  _maxRotationVelocity: 0.03
   _projectileRadius: 0.2
-  _projectileSpeed: 0.083333336
+  _projectileSpeed: 0.2
   _asteroidRadius: 5
   _asteroidMinimumSpeed: 10
   _asteroidMaximumSpeed: 30
+  _minimalBoundary: -150
+  _maximalBoundary: 150
+  _stepScore: 1
+  _asteroidDestroyScore: 20
+  _enemyDestroyScore: 500
 --- !u!114 &1026029444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6722,7 +6727,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 42.7
+  m_fontSize: 33.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7478,7 +7483,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
+  m_fontSize: 18
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8986,7 +8991,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 49.05
+  m_fontSize: 51.35
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
