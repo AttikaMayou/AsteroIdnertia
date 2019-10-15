@@ -78,7 +78,6 @@ public class GameStateRules : MonoBehaviour
         return positions;
     }
 
-
     public static void Step(ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2)
     {
         if (gs.players[0].isGameOver && gs.players[1].isGameOver)
@@ -255,7 +254,10 @@ public class GameStateRules : MonoBehaviour
         return AvailableActions;
     }
 
+    public void GameOver(ref GameState gs)
+    {
 
+    }
 
 }
 
