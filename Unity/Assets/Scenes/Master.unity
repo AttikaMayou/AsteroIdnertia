@@ -614,7 +614,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 44.65
+  m_fontSize: 34.5
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1633,7 +1633,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 25
+  m_fontSize: 20.15
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4628,7 +4628,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 56.3
+  m_fontSize: 46.35
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4929,17 +4929,7 @@ MonoBehaviour:
     type: 3}
   player: {fileID: 3610517116947739093}
   asteroidsView:
-  - {fileID: 1939182839}
-  - {fileID: 1408580009}
-  - {fileID: 585539914}
-  - {fileID: 1733633527}
-  - {fileID: 1134734677}
-  - {fileID: 1896429333}
-  - {fileID: 869137501}
-  - {fileID: 1383997880}
-  - {fileID: 874084833}
-  - {fileID: 1130345945}
-  - {fileID: 1037874816}
+  - {fileID: 1221027175}
 --- !u!114 &1026029444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4958,17 +4948,7 @@ MonoBehaviour:
     type: 3}
   player: {fileID: 3146229332118627773}
   asteroidsView:
-  - {fileID: 428120628}
-  - {fileID: 800869632}
-  - {fileID: 260205336}
-  - {fileID: 2013874147}
-  - {fileID: 981634589}
-  - {fileID: 496315498}
-  - {fileID: 1088557779}
-  - {fileID: 183620014}
-  - {fileID: 1024958570}
-  - {fileID: 1431511465}
-  - {fileID: 439283959}
+  - {fileID: 1702223031}
 --- !u!1001 &1037874815
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5741,7 +5721,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 39.5
+  m_fontSize: 26.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7830,7 +7810,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 43.9
+  m_fontSize: 33.8
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
