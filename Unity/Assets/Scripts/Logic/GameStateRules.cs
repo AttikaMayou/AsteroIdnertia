@@ -203,7 +203,7 @@ public class GameStateRules : MonoBehaviour
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
-                case ActionsTypes.MoveLeft:
+                case ActionsTypes.RotateLeft:
                     {
                         //gs.players[i].position += Vector2.left * gs.players[i].speed;
                         var targetVel = gs.players[i].velocity.x - GameState.ACCELERATION_SPEED * 200;
@@ -211,7 +211,7 @@ public class GameStateRules : MonoBehaviour
                         break;
                     }
 
-                case ActionsTypes.MoveRight:
+                case ActionsTypes.RotateRight:
                     {
                         //gs.players[i].position += Vector2.right * gs.players[i].speed;
 
@@ -223,13 +223,13 @@ public class GameStateRules : MonoBehaviour
                         //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         
                     }
-                case ActionsTypes.MoveForward:
+                case ActionsTypes.MoveUp:
                     {
                         var targetVel = gs.players[i].velocity.y + GameState.ACCELERATION_SPEED * 200;
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
-                case ActionsTypes.MoveBackward:
+                case ActionsTypes.MoveDown:
                     {
                         var targetVel = gs.players[i].velocity.y - GameState.ACCELERATION_SPEED * 200;
                         gs.players[i].velocity.y = Mathf.Lerp(gs.players[i].velocity.y, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
@@ -262,7 +262,7 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
-    private static readonly ActionsTypes[] AvailableActions = new[] { ActionsTypes.Nothing, ActionsTypes.MoveLeft, ActionsTypes.MoveRight, ActionsTypes.Shoot };
+    private static readonly ActionsTypes[] AvailableActions = new[] { ActionsTypes.Nothing, ActionsTypes.RotateLeft, ActionsTypes.RotateRight, ActionsTypes.MoveUp, ActionsTypes.MoveDown, ActionsTypes.Shoot };
 
     public static ActionsTypes[] GetAvailableActions(ref GameState gs)
     {
