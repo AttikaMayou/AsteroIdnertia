@@ -20,7 +20,8 @@ public struct GameState : ICloneable
     public NativeList<Asteroid> asteroids;
     public NativeList<Projectile> projectiles;
 
-    public Player player;
+    public Player player1;
+    public Player player2;
 
     public long currentGameStep;
 
@@ -29,7 +30,8 @@ public struct GameState : ICloneable
         GameState clone = new GameState();
         clone.asteroids = asteroids;
         clone.projectiles = projectiles;
-        clone.player = player;
+        clone.player1 = player1;
+        clone.player2 = player2;
         return clone;
     }
 }
