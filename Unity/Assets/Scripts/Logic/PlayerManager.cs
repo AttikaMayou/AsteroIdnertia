@@ -71,8 +71,8 @@ public class PlayerManager : MonoBehaviour
             playerViews[i].rotation = Quaternion.LookRotation(lookDir, Vector3.up);
         }
 
-
-        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0), playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0), playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0), playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1), playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1), playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
+        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
+                                    playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
         
     }
 
