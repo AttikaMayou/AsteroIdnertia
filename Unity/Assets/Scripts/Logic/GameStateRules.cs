@@ -96,7 +96,7 @@ public class GameStateRules : MonoBehaviour
         asteroid.direction = asteroid.direction.normalized * Random.Range(GameState.ASTEROID_MINIMUM_SPEED, GameState.ASTEROID_MAXIMUM_SPEED);
         gs.asteroids.Add(asteroid);
     }
-
+    //comment
     public static void Step(ref GameState gs, ActionsTypes[] actionPlayer1, ActionsTypes[] actionPlayer2)
     {
         if (gs.players[0].isGameOver && gs.players[1].isGameOver)
