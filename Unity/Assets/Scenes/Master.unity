@@ -5959,6 +5959,7 @@ GameObject:
   - component: {fileID: 1026029440}
   - component: {fileID: 1026029442}
   - component: {fileID: 1026029444}
+  - component: {fileID: 1026029443}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -6008,6 +6009,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 299049916}
+--- !u!114 &1026029443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026029439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0de582dab470f4bb327191e6b0cf33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootDelay: 30
+  _playerRadius: 0.5
+  _initialPlayerSpeed: 0.1
+  _accelerationSpeed: 0.2
+  _decelerationSpeed: 0.025
+  _maxVelocity: 0.2
+  _rotationAccelerationSpeed: 0.2
+  _rotationDecelerationSpeed: 0.025
+  _maxRotationVelocity: 0.05
+  _projectileRadius: 0.2
+  _projectileSpeed: 0.083333336
+  _asteroidRadius: 5
+  _asteroidMinimumSpeed: 10
+  _asteroidMaximumSpeed: 30
 --- !u!114 &1026029444
 MonoBehaviour:
   m_ObjectHideFlags: 0
