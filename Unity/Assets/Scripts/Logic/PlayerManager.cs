@@ -40,8 +40,8 @@ public class PlayerManager : MonoBehaviour
             playerViews[i].position = gs.players[i].position;
         }
 
-        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs)),
-                                    playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
+        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
+                                    playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
     }
 
     public void StartGame(IAgent[] agents)
