@@ -198,27 +198,32 @@ public class GameStateRules : MonoBehaviour
             {
                 case ActionsTypes.Nothing:
                     {
-                        gs.players[i].velocity = (long)Mathf.Lerp(gs.players[i].velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        gs.players[i].velocity = Mathf.Lerp(gs.players[i].velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
                 case ActionsTypes.MoveLeft:
                     {
-                        gs.players[i].position += Vector2.left * gs.players[i].speed;
-                        //var targetVel = gs.player.velocity - GameState.ACCELERATION_SPEED * 10;
-                        //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        //gs.players[i].position += Vector2.left * gs.players[i].speed;
+                        var targetVel = gs.players[i].velocity - GameState.ACCELERATION_SPEED * 200;
+                        gs.players[i].velocity = Mathf.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         break;
                     }
 
                 case ActionsTypes.MoveRight:
                     {
-                        gs.players[i].position += Vector2.right * gs.players[i].speed;
+                        //gs.players[i].position += Vector2.right * gs.players[i].speed;
+
+                        var targetVel = gs.players[i].velocity + GameState.ACCELERATION_SPEED * 200;
+                        gs.players[i].velocity = Mathf.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        break;
+
                         //var targetVel = gs.player.velocity + GameState.ACCELERATION_SPEED * 10;
                         //gs.player.velocity = (long)Mathf.Lerp(gs.player.velocity, targetVel, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
-                        break;
+                        
                     }
                 case ActionsTypes.Shoot:
                     {
-                        gs.players[i].velocity = (long)Mathf.Lerp(gs.players[i].velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
+                        gs.players[i].velocity = Mathf.Lerp(gs.players[i].velocity, 0, 1 - Mathf.Exp(-GameState.DECELERATION_SPEED));
                         if (gs.currentGameStep - gs.players[i].lastShootStep < GameState.SHOOT_DELAY)
                         {
                             break;
@@ -233,7 +238,11 @@ public class GameStateRules : MonoBehaviour
                         break;
                         // Shoot Logic
                     }
+
             }
+            gs.players[i].velocity = Mathf.Clamp(gs.players[i].velocity, -GameState.MAX_VELOCITY, GameState.MAX_VELOCITY);
+            gs.players[i].position.x += gs.players[i].velocity;
+            Debug.Log(gs.players[i].velocity);
         }
     }
 

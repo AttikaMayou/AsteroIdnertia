@@ -84,7 +84,7 @@ public class PlayerManager : MonoBehaviour
     private void SyncProjectilesViews()
     {
         var projectileToSpawn = gs.projectiles.Length - projectilesView.Count;
-        Debug.Log(gs.projectiles.Length);
+
         for (int i = 0; i < projectileToSpawn; i++)
         {
             var projectileView = Instantiate(ProjectilePrefab/*, new Vector3(0, 0, 5), Quaternion.identity*/);
