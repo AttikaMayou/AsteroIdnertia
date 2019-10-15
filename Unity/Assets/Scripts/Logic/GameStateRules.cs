@@ -121,6 +121,7 @@ public class GameStateRules : MonoBehaviour
     //    }
     //}
     #endregion
+
     static void UpdateProjectiles(ref GameState gs)
     {
         for (var i = 0; i < gs.projectiles.Length; i++)
