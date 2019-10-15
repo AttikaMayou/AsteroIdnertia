@@ -14,16 +14,14 @@ public class RandomRollOut : IAgent
         //TODO : Change to Long
         var summedScores = new NativeArray<float>(availableActions.Length, Allocator.Temp);
 
-
         for (var i = 0; i < availableActions.Length; i++)
         {
             for (var n = 0; n < epochs; n++)
             {
                 var gsCopy = GameStateRules.Clone(ref gs);
                 GameStateRules.Step(ref gsCopy,
-               agent.Act(ref gsCopy, GameStateRules.GetAvailableActions(ref gs), 0),
-               agent.Act(ref gsCopy, GameStateRules.GetAvailableActions(ref gs), 0));
-
+                agent.Act(ref gsCopy, GameStateRules.GetAvailableActions(ref gs), 0),
+                agent.Act(ref gsCopy, GameStateRules.GetAvailableActions(ref gs), 0));
 
                 var currentDepth = 0;
                 var maxIteration = 150;

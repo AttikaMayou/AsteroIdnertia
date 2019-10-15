@@ -5,7 +5,7 @@ using UnityEngine;
 
 public struct Player
 {
-    public float score;
+    public long score;
     public float speed;
     public Vector2 position;
     public long lastShootStep;
