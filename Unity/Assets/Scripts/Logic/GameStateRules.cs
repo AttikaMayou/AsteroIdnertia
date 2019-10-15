@@ -30,6 +30,8 @@ public class GameStateRules : MonoBehaviour
             asteroid.speed = asteroid.speed.normalized;
             asteroid.speed *= -0.5f;
             gs.asteroids.Add(asteroid);
+
+            allAsteroids[i].position = positions[i];
         }
 
         // Taille de la liste à déterminer
@@ -50,21 +52,20 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Generate random position for asteroids at initialization
-    private static Vector3[] GetAsteroidsInitialPositions(ref GameState gs, List<Transform> asteroids)
+    private static Vector2[] GetAsteroidsInitialPositions(ref GameState gs, List<Transform> asteroids)
     {
-        //Take negatives from these floats to get left player boundaries and positives ones to get right player boundaries
-        var leftBoundary = 30.0f; //* gs.player == GameSystemScript.player1 ? -1 : 1;
-        var rightBoundary = 10.0f; // * gs.player == GameSystemScript.player2 ? -1 : 1;
+        var leftBoundary = -50.0f; 
+        var rightBoundary = 70.0f;
 
         //Adjust maximum with number of asteroids (the more there are, the higher maximum should be)
-        var minimalX = 50.0f;
-        var maximalX = 150.0f;
+        var minimalZ = 30.0f;
+        var maximalZ = 150.0f;
 
-        var positions = new Vector3[asteroids.Count];
+        var positions = new Vector2[asteroids.Count];
 
         for(var i = 0; i < asteroids.Count; i++)
         {
-            positions[i] = new Vector3(Random.Range(leftBoundary, rightBoundary), 0.0f, Random.Range(minimalX, maximalX));
+            positions[i] = new Vector2(Random.Range(leftBoundary, rightBoundary), Random.Range(minimalZ, maximalZ));
         }
 
         return positions;

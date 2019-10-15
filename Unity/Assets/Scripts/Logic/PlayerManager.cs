@@ -61,12 +61,10 @@ public class PlayerManager : MonoBehaviour
             asteroidsView.RemoveAt(asteroidsView.Count - 1);
         }
 
-        Vector3 newPos = new Vector3();
+       
         for (int i = 0; i < asteroidsView.Count; i++)
         {
-            newPos.x = gs.asteroids[i].position.x;
-            newPos.y = 0;
-            newPos.z = gs.asteroids[i].position.y;
+            Vector3 newPos = new Vector3(gs.asteroids[i].position.x, 0.0f, gs.asteroids[i].position.y);
             asteroidsView[i].position = newPos;
         }
     }
