@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 52.5
+  m_fontSize: 34.5
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5512,7 +5512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921294679}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -70, y: 0, z: 50}
+  m_LocalPosition: {x: -110, y: 0, z: 163}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 428120628}
@@ -5952,7 +5952,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 64.05
+  m_fontSize: 46.35
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6194,7 +6194,7 @@ MonoBehaviour:
   _asteroidMaximumSpeed: 40
   _minimalBoundary: -150
   _maximalBoundary: 150
-  _stepScore: 0.01
+  _stepScore: 1
   _asteroidDestroyScore: 20
   _enemyDestroyScore: 500
 --- !u!114 &1026029444
@@ -7014,7 +7014,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 52.6
+  m_fontSize: 41.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9463,7 +9463,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 51.8
+  m_fontSize: 33.8
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1

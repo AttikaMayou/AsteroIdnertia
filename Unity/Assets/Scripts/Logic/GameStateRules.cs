@@ -76,10 +76,8 @@ public class GameStateRules : MonoBehaviour
     //Generate a random position within the world
     private static Vector2 GetRandomPosition()
     {
-        var minimalBoundary = -150.0f;
-        var maximumBoundary = 150.0f;
-
-        var position = new Vector2(Random.Range(minimalBoundary, maximumBoundary), Random.Range(minimalBoundary, maximumBoundary));
+        var position = new Vector2(Random.Range(-GameParameters.Instance.Boundary, GameParameters.Instance.Boundary), 
+            Random.Range(-GameParameters.Instance.Boundary, GameParameters.Instance.Boundary));
         return position;
     }
 
@@ -176,10 +174,10 @@ public class GameStateRules : MonoBehaviour
             for (var i = 0; i < gs.asteroids.Length; i++)
             {
                 //Destroy asteroids when they are on world boundaries
-                if (gs.asteroids[i].position.x > 150.0f
-                || gs.asteroids[i].position.x < -150.0f
-                || gs.asteroids[i].position.y > 150.0f
-                || gs.asteroids[i].position.y < -150.0f)
+                if (gs.asteroids[i].position.x > GameParameters.Instance.Boundary
+                || gs.asteroids[i].position.x < -GameParameters.Instance.Boundary
+                || gs.asteroids[i].position.y > GameParameters.Instance.Boundary
+                || gs.asteroids[i].position.y < -GameParameters.Instance.Boundary)
                 {
                     gs.asteroids.RemoveAtSwapBack(i);
                     i--;
@@ -207,7 +205,7 @@ public class GameStateRules : MonoBehaviour
             //Collisions entre projectiles et players
             for (int k = 0; k < gs.players.Length; k++)
             {
-                var sqrDistance = (gs.projectiles[i].position - gs.players[0].position).sqrMagnitude;
+                var sqrDistance = (gs.projectiles[i].position - gs.players[k].position).sqrMagnitude;
 
                 if (!(sqrDistance
                   <= Mathf.Pow(GameParameters.Instance.ProjectileRadius + GameParameters.Instance.PlayerRadius,
@@ -226,10 +224,10 @@ public class GameStateRules : MonoBehaviour
             }
 
             //Destroy projectiles when they are on world boundaries
-            if (gs.projectiles[i].position.x > GameParameters.Instance.MaximalBoundary
-                || gs.projectiles[i].position.x < GameParameters.Instance.MinimalBoundary
-                || gs.projectiles[i].position.y > GameParameters.Instance.MaximalBoundary
-                || gs.projectiles[i].position.y < GameParameters.Instance.MinimalBoundary)
+            if (gs.projectiles[i].position.x > GameParameters.Instance.Boundary
+                || gs.projectiles[i].position.x < -GameParameters.Instance.Boundary
+                || gs.projectiles[i].position.y > GameParameters.Instance.Boundary
+                || gs.projectiles[i].position.y < -GameParameters.Instance.Boundary)
             {
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
@@ -269,7 +267,6 @@ public class GameStateRules : MonoBehaviour
         //Switch between Rotation
         for (var i = 0; i < actionPlayers.Length; i++)
         {
-
             switch (actionPlayers[i])
             {
                 case ActionsTypes.Nothing:
