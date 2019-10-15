@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
         //mettre à jour la position du players
         playerView.position = gs.player1.position;
 
-       GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
+        GameStateRules.Step(ref gs, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs)));
     }
 
     public void StartGame(IAgent agent, PlayerManager player)
@@ -61,9 +61,13 @@ public class PlayerManager : MonoBehaviour
             asteroidsView.RemoveAt(asteroidsView.Count - 1);
         }
 
+        Vector3 newPos = new Vector3();
         for (int i = 0; i < asteroidsView.Count; i++)
         {
-            asteroidsView[i].position = gs.asteroids[i].position;
+            newPos.x = gs.asteroids[i].position.x;
+            newPos.y = 0;
+            newPos.z = gs.asteroids[i].position.y;
+            asteroidsView[i].position = newPos;
         }
     }
 
