@@ -26,7 +26,7 @@ public class GameParameters : MonoBehaviour
     }
     #endregion
 
-    [Header("Player Settings")]
+    [Header("Player Settings")][Space]
     [SerializeField] private long _shootDelay = 30;
     public long ShootDelay { get => _shootDelay; }
 
@@ -58,6 +58,7 @@ public class GameParameters : MonoBehaviour
     
 
     [Header("Projectile Settings")]
+    [Space]
     [SerializeField] private float _projectileRadius = 0.2f;
     public float ProjectileRadius { get => _projectileRadius; }
 
@@ -68,6 +69,7 @@ public class GameParameters : MonoBehaviour
 
 
     [Header("Asteroids Settings")]
+    [Space]
     [SerializeField] private float _asteroidRadius = 5.0f;
     public float AsteroidRadius { get => _asteroidRadius; }
 
@@ -86,6 +88,7 @@ public class GameParameters : MonoBehaviour
     public float MaximalBoundary { get => _maximalBoundary; }
 
     [Header("Score Settings")]
+    [Space]
     [SerializeField] private int _stepScore = 1;
     public int StepScore { get => _stepScore; }
 
