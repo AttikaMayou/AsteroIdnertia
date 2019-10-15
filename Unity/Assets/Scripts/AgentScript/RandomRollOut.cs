@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
 
+//Auteur : Félix
+
 public class RandomRollOut : IAgent
 {
     public ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId)

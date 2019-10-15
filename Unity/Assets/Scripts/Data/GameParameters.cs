@@ -36,6 +36,7 @@ public class GameParameters : MonoBehaviour
     [SerializeField] private float _initialPlayerSpeed = 0.1f;
     public float InitialPlayerSpeed { get => _initialPlayerSpeed; }
 
+
     [Header("Player Inertia Settings")]
     [SerializeField] private float _accelerationSpeed = 0.2f;
     public float AccelerationSpeed { get => _accelerationSpeed; }
@@ -55,7 +56,6 @@ public class GameParameters : MonoBehaviour
     [SerializeField] private float _maxRotationVelocity = 0.05f;
     public float MaxRotationVelocity { get => _maxRotationVelocity; }
 
-    
 
     [Header("Projectile Settings")]
     [Space]
@@ -66,23 +66,20 @@ public class GameParameters : MonoBehaviour
     public float ProjectileSpeed { get => _projectileSpeed; }
 
 
-
-
     [Header("Asteroids Settings")]
     [Space]
     [SerializeField] private float _asteroidRadius = 5.0f;
     public float AsteroidRadius { get => _asteroidRadius; }
 
-
     [SerializeField] private float _asteroidMinimumSpeed = 10.0f;
     public float AsteroidMinimumSpeed { get => _asteroidMinimumSpeed; }
-
 
     [SerializeField] private float _asteroidMaximumSpeed = 30.0f;
     public float AsteroidMaximumSpeed { get => _asteroidMaximumSpeed; }
 
     [SerializeField] private float _boundary = 150f;
     public float Boundary { get => _boundary; }
+
 
     [Header("Score Settings")]
     [Space]

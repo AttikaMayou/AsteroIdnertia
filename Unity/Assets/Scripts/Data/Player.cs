@@ -13,6 +13,4 @@ public struct Player
     public Vector2 velocity;
     public float rotationVelocity;
     public Vector2 lookDirection;
-    //public int playerID;
-
 }
