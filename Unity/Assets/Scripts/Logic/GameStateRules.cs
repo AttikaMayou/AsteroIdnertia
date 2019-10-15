@@ -373,6 +373,18 @@ public class GameStateRules : MonoBehaviour
 
     }
 
+
+    public static GameState Clone(ref GameState gs)
+    {
+        GameState clone = new GameState();
+        clone.asteroids = gs.asteroids;
+        clone.projectiles = gs.projectiles;
+        clone.players[0] = gs.players[0];
+        clone.players[1] = gs.players[1];
+        clone.currentGameStep = gs.currentGameStep;
+        return clone;
+    }
+
 }
 
 

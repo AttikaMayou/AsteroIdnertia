@@ -27,18 +27,18 @@ public class GameSystemScript : MonoBehaviour
             case 1:
                 agentPlayer1 = new RandomAgent();
                 break;
-            /*case 2:
+            case 2:
                 agentPlayer1 = new RandomRollOut();
                 break;
-            case 3:
-                agentPlayer1 = new Dijktra();
-                break;
-            case 4:
-                agentPlayer1 = new MCTS();
-                break;
-            case 5:
-                agentPlayer1 = new QLearning();
-                break;*/
+                /* case 3:
+                     agentPlayer1 = new Dijktra();
+                     break;
+                 case 4:
+                     agentPlayer1 = new MCTS();
+                     break;
+                 case 5:
+                     agentPlayer1 = new QLearning();
+                     break;*/
         }
 
         switch (Agent2Dropdown.value)
@@ -49,10 +49,10 @@ public class GameSystemScript : MonoBehaviour
             case 1:
                 agentPlayer2 = new RandomAgent();
                 break;
-            /*case 2:
+            case 2:
                 agentPlayer2 = new RandomRollOut();
                 break;
-            case 3:
+            /*case 3:
                 agentPlayer2 = new Dijktra();
                 break;
             case 4:
