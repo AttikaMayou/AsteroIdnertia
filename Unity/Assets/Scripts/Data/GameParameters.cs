@@ -78,4 +78,16 @@ public class GameParameters : MonoBehaviour
 
     [SerializeField] private float _asteroidMaximumSpeed = 30.0f;
     public float AsteroidMaximumSpeed { get => _asteroidMaximumSpeed; }
+
+
+
+    [Header("Score Settings")]
+    [SerializeField] private int _stepScore = 1;
+    public int StepScore { get => _stepScore; }
+
+    [SerializeField] private int _asteroidDestroyScore = 20;
+    public int AsteroidDestructionScore { get => _asteroidDestroyScore; }
+
+    [SerializeField] private int _enemyDestroyScore = 500;
+    public int EnemyDestroyScore { get => _enemyDestroyScore; }
 }
