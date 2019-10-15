@@ -79,7 +79,11 @@ public class GameParameters : MonoBehaviour
     [SerializeField] private float _asteroidMaximumSpeed = 30.0f;
     public float AsteroidMaximumSpeed { get => _asteroidMaximumSpeed; }
 
+    [SerializeField] private float _minimalBoundary = -150f;
+    public float MinimalBoundary { get => _minimalBoundary; }
 
+    [SerializeField] private float _maximalBoundary = 150f;
+    public float MaximalBoundary { get => _maximalBoundary; }
 
     [Header("Score Settings")]
     [SerializeField] private int _stepScore = 1;
