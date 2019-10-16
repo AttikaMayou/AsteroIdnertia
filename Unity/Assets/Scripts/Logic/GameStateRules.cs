@@ -110,7 +110,7 @@ public class GameStateRules : MonoBehaviour
         gs.asteroids.Add(asteroid);
     }
 
-    public static void Step(ref GameParametersStruct gameParameters, ref GameState gs, NativeArray<ActionsTypes> actionPlayer1, NativeArray<ActionsTypes> actionPlayer2)
+    public static void Step(ref GameParametersStruct gameParameters, ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2)
     {
         //if (gs.players[0].isGameOver && gs.players[1].isGameOver)
         //{
@@ -120,16 +120,9 @@ public class GameStateRules : MonoBehaviour
 
         UpdateAsteroidsPosition(ref gs);
         UpdateProjectiles(ref gs);
-        NativeArray<ActionsTypes> tempActionsTypeArray = new NativeArray<ActionsTypes>(6, Allocator.Temp);
-        tempActionsTypeArray[0] = actionPlayer1[0];
-        tempActionsTypeArray[1] = actionPlayer2[0];
-        tempActionsTypeArray[2] = actionPlayer1[1];
-        tempActionsTypeArray[3] = actionPlayer2[1];
-        tempActionsTypeArray[4] = actionPlayer1[2];
-        tempActionsTypeArray[5] = actionPlayer2[2];
 
+        HandleAgentInputs(ref gameParameters, ref gs, actionPlayer1, actionPlayer2);
 
-        HandleAgentInputs(ref gameParameters, ref gs, tempActionsTypeArray);
         if(gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
             return;
@@ -302,51 +295,51 @@ public class GameStateRules : MonoBehaviour
             {
                 case ActionsTypes.RotateRightNS:
                     {
-                        RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         break;
                     }
 
                 case ActionsTypes.RotateRightS:
                     {
-                        RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
-                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref  oldPlayer, i);
+                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
 
                         break;
                     }
 
                 case ActionsTypes.RotateLeftNS:
                     {
-                        RotateLeftAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        RotateLeftAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
 
                         break;
                     }
                 case ActionsTypes.RotateLeftS:
                     {
-                        RotateLeftAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
-                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        RotateLeftAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
+                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         break;
                     }
 
                 case ActionsTypes.MoveUpNS:
                     {
-                        MoveUpAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        MoveUpAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         break;
                     }
                 case ActionsTypes.MoveUpS:
                     {
-                        RotateLeftAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
-                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        RotateLeftAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
+                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         break;
                     }
                 case ActionsTypes.MoveDownNS:
                     {
-                        MoveDownAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        MoveDownAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         break;
                     }
                 case ActionsTypes.MoveDownS:
                     {
-                        MoveDownAgent(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
-                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, oldPlayer, i);
+                        MoveDownAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
+                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         break;
                     }
             }
@@ -359,14 +352,14 @@ public class GameStateRules : MonoBehaviour
             velocity = Vector2.ClampMagnitude(gs.players[i].velocity, gameParameters.MaxVelocity);
             rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
 
-            gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, position,
+            gs.players[i] = createPlayer(oldPlayer.score, oldPlayer.speed, position,
                    oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, lookDirection);
         }
 
     }
 
     //Movement when rotate right
-    static private void RotateRightAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, Player oldPlayer, int i)
+    static private void RotateRightAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetRotation = gs.players[i].rotationVelocity - gameParameters.RotationAccelerationSpeed * 200;
 
@@ -379,7 +372,7 @@ public class GameStateRules : MonoBehaviour
 
     }
     //rotate left 
-    static private void RotateLeftAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, Player oldPlayer,  int i)
+    static private void RotateLeftAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer,  int i)
     {
         var targetRotation = gs.players[i].rotationVelocity + gameParameters.RotationAccelerationSpeed * 200;
 
@@ -392,7 +385,7 @@ public class GameStateRules : MonoBehaviour
     }
     
     //Movement when up
-    static private void MoveUpAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, Player oldPlayer, int i)
+    static private void MoveUpAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetVel = gs.players[i].velocity + gs.players[i].lookDirection * gameParameters.AccelerationSpeed * 200;
         velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
@@ -402,7 +395,7 @@ public class GameStateRules : MonoBehaviour
   
     }
     //Movement when down
-    static private void MoveDownAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, Player oldPlayer, int i)
+    static private void MoveDownAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetVel = gs.players[i].velocity - gs.players[i].lookDirection * gameParameters.AccelerationSpeed * 200;
         velocity = Vector2.Lerp(gs.players[i].velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
@@ -412,7 +405,7 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Shoot
-    static private void Shoot(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, Player oldPlayer, int i)
+    static private void Shoot(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
         velocity = new Vector2(Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
@@ -426,7 +419,7 @@ public class GameStateRules : MonoBehaviour
             long lastShootStep = gs.currentGameStep;
             gs.projectiles.Add(new Projectile
             {
-                position = gs.players[% 2].position,
+                position = gs.players[i].position,
                 speed = gameParameters.ProjectileSpeed,
                 direction = gs.players[i].lookDirection.normalized,
                 playerID = i
@@ -440,17 +433,10 @@ public class GameStateRules : MonoBehaviour
 
 
     [NativeDisableParallelForRestriction]
-    private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(7, Allocator.Persistent);
+    private static int[] AvailableActions = new int[7];
     
-    public static NativeArray<ActionsTypes> GetAvailableActions(ref GameState gs)
+    public static int[] GetAvailableActions(ref GameState gs)
     {
-        AvailableActions[0] = ActionsTypes.Nothing;
-        AvailableActions[1] = ActionsTypes.RotateRight;
-        AvailableActions[2] = ActionsTypes.RotateLeft;
-        AvailableActions[3] = ActionsTypes.MoveDown;
-        AvailableActions[4] = ActionsTypes.MoveUp;
-        AvailableActions[5] = ActionsTypes.Shoot;
-        AvailableActions[6] = ActionsTypes.NoShoot;
         return AvailableActions;
     }
 
