@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 52.45
+  m_fontSize: 35.2
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5503,7 +5503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &921294680
 Transform:
   m_ObjectHideFlags: 0
@@ -5952,7 +5952,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 63.95
+  m_fontSize: 47
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6191,11 +6191,11 @@ MonoBehaviour:
     ProjectileRadius: 2
     ProjectileSpeed: 0.2
     AsteroidRadius: 5
-    AsteroidMinimumSpeed: 20
-    AsteroidMaximumSpeed: 50
+    AsteroidMinimumSpeed: 0.2
+    AsteroidMaximumSpeed: 0.5
     Boundary: 150
     StepScoreDelay: 100
-    StepScore: 20
+    StepScore: 1
     AsteroidDestructionScore: 20
     EnemyDestroyScore: 500
 --- !u!114 &1026029444
@@ -6224,7 +6224,6 @@ MonoBehaviour:
   menuInGame: {fileID: 466222104}
   scorePlayer1: {fileID: 1103394231}
   scorePlayer2: {fileID: 1232565934}
-  asteroidsView: []
 --- !u!1001 &1069369622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7005,7 +7004,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 44.35
+  m_fontSize: 39.45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9454,7 +9453,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 51.7
+  m_fontSize: 34.45
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
