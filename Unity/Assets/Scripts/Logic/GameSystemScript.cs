@@ -49,7 +49,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer2 = new HumanAgent();
                 break;
             case 1:
-                agentPlayer2 = new RandomAgent { rdm = new Random((uint)Time.frameCount) };
+                agentPlayer2 = new RandomAgent { rdm = new Random((uint)Time.frameCount + 150) };
                 break;
             case 2:
                 agentPlayer2 = new RandomRollOut();
