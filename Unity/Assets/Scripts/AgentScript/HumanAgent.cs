@@ -1,17 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 //Auteur : Arthur & Margot
 
 public class HumanAgent : IAgent
 {
-    public ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId)
+    public NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int playerId)
     {
-        ActionsTypes[] actions = new ActionsTypes[3];
-        actions[0] = ActionsTypes.Nothing;
-        actions[1] = ActionsTypes.Nothing;
-        actions[2] = ActionsTypes.NoShoot;
+        NativeList<ActionsTypes> actions = new NativeList<ActionsTypes>
+        {
+            ActionsTypes.Nothing,
+            ActionsTypes.Nothing,
+            ActionsTypes.NoShoot
+        };
 
         if (playerId == 0)
         {

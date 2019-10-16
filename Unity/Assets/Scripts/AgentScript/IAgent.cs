@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Unity.Collections;
 
 public interface IAgent
 {
-    ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId);
+    NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int playerId);
 }

@@ -10,7 +10,7 @@ using Rules = GameStateRules;
 
 public class RandomRollOut : IAgent
 {
-    public ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId)
+    public NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int playerId)
     {
         var job = new RandomRolloutJob
         {
@@ -55,7 +55,7 @@ public class RandomRollOut : IAgent
 
         job.summedScores.Dispose();
 
-        return new ActionsTypes[]
+        return new NativeList<ActionsTypes>
         {
             availableActions[bestActionIndex[0]],
             availableActions[bestActionIndex[1]],
@@ -69,7 +69,7 @@ public class RandomRollOut : IAgent
         public GameState gs;
 
         [ReadOnly]
-        public ActionsTypes[] availableActions;
+        public NativeList<ActionsTypes> availableActions;
 
         public RandomAgent rdmAgent;
 
