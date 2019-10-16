@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 44.45
+  m_fontSize: 48.65
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5952,7 +5952,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 56.1
+  m_fontSize: 60.25
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6178,25 +6178,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0de582dab470f4bb327191e6b0cf33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootDelay: 30
-  _playerRadius: 0.5
-  _initialPlayerSpeed: 0.1
-  _accelerationSpeed: 0.15
-  _decelerationSpeed: 0.03
-  _maxVelocity: 0.3
-  _rotationAccelerationSpeed: 0.15
-  _rotationDecelerationSpeed: 0.01
-  _maxRotationVelocity: 0.03
-  _projectileRadius: 0.2
-  _projectileSpeed: 0.2
-  _asteroidRadius: 5
-  _asteroidMinimumSpeed: 10
-  _asteroidMaximumSpeed: 40
-  _boundary: 150
-  _stepScoreDelay: 100
-  _stepScore: 1
-  _asteroidDestroyScore: 20
-  _enemyDestroyScore: 500
+  Parameters:
+    ShootDelay: 30
+    PlayerRadius: 0.2
+    InitialPlayerSpeed: 0
+    AccelerationSpeed: 0.02
+    DecelerationSpeed: 0.02
+    MaxVelocity: 1
+    RotationAccelerationSpeed: 0.02
+    RotationDecelerationSpeed: 0.02
+    MaxRotationVelocity: 5
+    ProjectileRadius: 2
+    ProjectileSpeed: 0.2
+    AsteroidRadius: 5
+    AsteroidMinimumSpeed: 20
+    AsteroidMaximumSpeed: 50
+    Boundary: 150
+    StepScoreDelay: 100
+    StepScore: 20
+    AsteroidDestructionScore: 20
+    EnemyDestroyScore: 500
 --- !u!114 &1026029444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6223,17 +6224,7 @@ MonoBehaviour:
   menuInGame: {fileID: 466222104}
   scorePlayer1: {fileID: 1103394231}
   scorePlayer2: {fileID: 1232565934}
-  asteroidsView:
-  - {fileID: 428120628}
-  - {fileID: 800869632}
-  - {fileID: 260205336}
-  - {fileID: 2013874147}
-  - {fileID: 981634589}
-  - {fileID: 496315498}
-  - {fileID: 1088557779}
-  - {fileID: 183620014}
-  - {fileID: 1024958570}
-  - {fileID: 1431511465}
+  asteroidsView: []
 --- !u!1001 &1069369622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7014,7 +7005,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 39.4
+  m_fontSize: 42
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9463,7 +9454,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 43.7
+  m_fontSize: 47.9
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1

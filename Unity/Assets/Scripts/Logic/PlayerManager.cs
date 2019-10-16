@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviour
             playerViews[i] = players[i].transform;
         }
 
-        GameStateRules.Init(ref gs, this);
+        GameStateRules.Init(ref GameParameters.Instance.Parameters, ref gs, this);
     }
 
     public void UpdatePlayerState()
@@ -98,9 +98,9 @@ public class PlayerManager : MonoBehaviour
             Vector3 lookDir = new Vector3(gs.players[i].lookDirection.x, 0, gs.players[i].lookDirection.y);
             playerViews[i].position = new Vector3(gs.players[i].position.x, 0, gs.players[i].position.y);
             playerViews[i].rotation = Quaternion.LookRotation(lookDir, Vector3.up);
-        }
+        } 
 
-        GameStateRules.Step(ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
+        GameStateRules.Step(ref GameParameters.Instance.Parameters, ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
                                     playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
         
     }

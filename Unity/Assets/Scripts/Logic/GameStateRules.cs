@@ -9,7 +9,7 @@ using Unity.Burst;
 
 public class GameStateRules : MonoBehaviour
 {
-    public static void Init(ref GameState gs, PlayerManager playerManager)
+    public static void Init(ref GameParametersStruct gameParameters, ref GameState gs, PlayerManager playerManager)
     {
         // Initialisation des players
         Debug.Log("Initialization");
@@ -24,16 +24,16 @@ public class GameStateRules : MonoBehaviour
             ActionsTypes.Shoot
         };*/
 
-        gs.scoreStepDelay = -GameParameters.Instance.StepScoreDelay;
+        gs.scoreStepDelay = -gameParameters.StepScoreDelay;
 
         gs.players = new NativeList<Player>(2, Allocator.Persistent);
 
         var player = new Player
         {
             score = 0,
-            speed = GameParameters.Instance.InitialPlayerSpeed,
+            speed = gameParameters.InitialPlayerSpeed,
             position = new Vector2(-22.8f, 0f),
-            lastShootStep = -GameParameters.Instance.ShootDelay,
+            lastShootStep = -gameParameters.ShootDelay,
             isGameOver = false,
             lookDirection = new Vector2(0, 1)
         };
@@ -42,9 +42,9 @@ public class GameStateRules : MonoBehaviour
         var player2 = new Player
         {
             score = 0,
-            speed = GameParameters.Instance.InitialPlayerSpeed,
+            speed = gameParameters.InitialPlayerSpeed,
             position = new Vector2(21.4f, 0f),
-            lastShootStep = -GameParameters.Instance.ShootDelay,
+            lastShootStep = -gameParameters.ShootDelay,
             isGameOver = false,
             lookDirection = new Vector2(0, 1)
         };
@@ -52,7 +52,7 @@ public class GameStateRules : MonoBehaviour
 
         var allAsteroids = playerManager.asteroidsView;
 
-        var positions = GetAsteroidsInitialPositions(allAsteroids);
+        var positions = GetAsteroidsInitialPositions(ref gameParameters, allAsteroids);
 
         gs.asteroids = new NativeList<Asteroid>(allAsteroids.Count, Allocator.Persistent);
 
@@ -64,7 +64,7 @@ public class GameStateRules : MonoBehaviour
                 direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0),
                 initialPosition = positions[i]
             };
-            asteroid.direction = asteroid.direction.normalized * Random.Range(GameParameters.Instance.AsteroidMinimumSpeed, GameParameters.Instance.AsteroidMaximumSpeed);
+            asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
             gs.asteroids.Add(asteroid);
 
             allAsteroids[i].position = positions[i];
@@ -75,29 +75,29 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Generate random position for all asteroids at initialization
-    private static Vector2[] GetAsteroidsInitialPositions(List<Transform> asteroids)
+    private static Vector2[] GetAsteroidsInitialPositions(ref GameParametersStruct gameParameters, List<Transform> asteroids)
     {
         var positions = new Vector2[asteroids.Count];
 
         for (var i = 0; i < asteroids.Count; i++)
         {
-            positions[i] = GetRandomPosition();
+            positions[i] = GetRandomPosition(ref gameParameters);
         }
 
         return positions;
     }
 
     //Generate a random position within the world
-    private static Vector2 GetRandomPosition()
+    private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
     {
-        var position = new Vector2(Random.Range(-GameParameters.Instance.Boundary, GameParameters.Instance.Boundary), 
-            Random.Range(-GameParameters.Instance.Boundary, GameParameters.Instance.Boundary));
+        var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary), 
+            Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
         return position;
     }
 
-    private static void GenerateNewAsteroid(ref GameState gs)
+    private static void GenerateNewAsteroid(ref GameParametersStruct gameParameters, ref GameState gs)
     {
-        var position = GetRandomPosition();
+        var position = GetRandomPosition(ref gameParameters);
 
         var asteroid = new Asteroid
         {
@@ -106,11 +106,11 @@ public class GameStateRules : MonoBehaviour
             initialPosition = position
         };
 
-        asteroid.direction = asteroid.direction.normalized * Random.Range(GameParameters.Instance.AsteroidMinimumSpeed, GameParameters.Instance.AsteroidMaximumSpeed);
+        asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
         gs.asteroids.Add(asteroid);
     }
 
-    public static void Step(ref GameState gs, NativeArray<ActionsTypes> actionPlayer1, NativeArray<ActionsTypes> actionPlayer2)
+    public static void Step(ref GameParametersStruct gameParameters, ref GameState gs, NativeArray<ActionsTypes> actionPlayer1, NativeArray<ActionsTypes> actionPlayer2)
     {
         //if (gs.players[0].isGameOver && gs.players[1].isGameOver)
         //{
@@ -129,28 +129,28 @@ public class GameStateRules : MonoBehaviour
         tempActionsTypeArray[5] = actionPlayer2[2];
 
 
-        HandleAgentInputs(ref gs, tempActionsTypeArray);
+        HandleAgentInputs(ref gameParameters, ref gs, tempActionsTypeArray);
         if(gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
             return;
         }
         else
         {
-             HandleCollisions(ref gs);
+             HandleCollisions(ref gameParameters, ref gs);
         }
         gs.currentGameStep += 1;
-        if(gs.currentGameStep - gs.scoreStepDelay < GameParameters.Instance.StepScoreDelay)
+        if(gs.currentGameStep - gs.scoreStepDelay < 100)
         {
             return;
         }
         gs.scoreStepDelay = gs.currentGameStep;
 
         Player oldPlayer1 = gs.players[0];
-        gs.players[0] = createPlayer(oldPlayer1.score += GameParameters.Instance.StepScore, oldPlayer1.speed, oldPlayer1.position,
+        gs.players[0] = createPlayer(oldPlayer1.score += gameParameters.StepScore, oldPlayer1.speed, oldPlayer1.position,
             oldPlayer1.lastShootStep, oldPlayer1.isGameOver, oldPlayer1.velocity, oldPlayer1.rotationVelocity, oldPlayer1.lookDirection);
 
         Player oldPlayer2 = gs.players[1];
-        gs.players[1] = createPlayer(oldPlayer2.score += GameParameters.Instance.StepScore, oldPlayer2.speed, oldPlayer2.position,
+        gs.players[1] = createPlayer(oldPlayer2.score += gameParameters.StepScore, oldPlayer2.speed, oldPlayer2.position,
             oldPlayer2.lastShootStep, oldPlayer2.isGameOver, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
     }
 
@@ -174,7 +174,7 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
-    static void HandleCollisions(ref GameState gs)
+    static void HandleCollisions(ref GameParametersStruct gameParameters, ref GameState gs)
     {
         for (int j = 0; j < gs.players.Length; j++)
         {
@@ -182,10 +182,10 @@ public class GameStateRules : MonoBehaviour
             for (var i = 0; i < gs.asteroids.Length; i++)
             {
                 //Destroy asteroids when they are on world boundaries
-                if (gs.asteroids[i].position.x > GameParameters.Instance.Boundary
-                || gs.asteroids[i].position.x < -GameParameters.Instance.Boundary
-                || gs.asteroids[i].position.y > GameParameters.Instance.Boundary
-                || gs.asteroids[i].position.y < -GameParameters.Instance.Boundary)
+                if (gs.asteroids[i].position.x > gameParameters.Boundary
+                || gs.asteroids[i].position.x < -gameParameters.Boundary
+                || gs.asteroids[i].position.y > gameParameters.Boundary
+                || gs.asteroids[i].position.y < -gameParameters.Boundary)
                 {
                     gs.asteroids.RemoveAtSwapBack(i);
                     i--;
@@ -195,7 +195,7 @@ public class GameStateRules : MonoBehaviour
                 var sqrDistance = (gs.asteroids[i].position - gs.players[j].position).sqrMagnitude;
 
                 if (!(sqrDistance
-                      <= Mathf.Pow(GameParameters.Instance.AsteroidRadius + GameParameters.Instance.PlayerRadius,
+                      <= Mathf.Pow(gameParameters.AsteroidRadius + gameParameters.PlayerRadius,
                           2)))
                 {
                     continue;
@@ -217,7 +217,7 @@ public class GameStateRules : MonoBehaviour
                 var sqrDistance = (gs.projectiles[i].position - gs.players[k].position).sqrMagnitude;
 
                 if (!(sqrDistance
-                  <= Mathf.Pow(GameParameters.Instance.ProjectileRadius + GameParameters.Instance.PlayerRadius,
+                  <= Mathf.Pow(gameParameters.ProjectileRadius + gameParameters.PlayerRadius,
                       2)))
                 {
                     continue;
@@ -225,21 +225,23 @@ public class GameStateRules : MonoBehaviour
 
                 if (gs.projectiles[i].playerID == k) continue;
 
+                Player oldPlayer = gs.players[(int)gs.projectiles[i].playerID];
+                gs.players[(int)gs.projectiles[i].playerID] = createPlayer(oldPlayer.score += gameParameters.EnemyDestroyScore, oldPlayer.speed, oldPlayer.position,
+                     oldPlayer.lastShootStep, true, oldPlayer.velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
+
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
 
-                Player oldPlayer = gs.players[(int)gs.projectiles[i].playerID];
-                gs.players[(int)gs.projectiles[i].playerID] = createPlayer(oldPlayer.score += GameParameters.Instance.EnemyDestroyScore, oldPlayer.speed, oldPlayer.position,
-                    oldPlayer.lastShootStep, true, oldPlayer.velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
+                
 
                 return;
             }
 
             //Destroy projectiles when they are on world boundaries
-            if (gs.projectiles[i].position.x > GameParameters.Instance.Boundary
-                || gs.projectiles[i].position.x < -GameParameters.Instance.Boundary
-                || gs.projectiles[i].position.y > GameParameters.Instance.Boundary
-                || gs.projectiles[i].position.y < -GameParameters.Instance.Boundary)
+            if (gs.projectiles[i].position.x > gameParameters.Boundary
+                || gs.projectiles[i].position.x < -gameParameters.Boundary
+                || gs.projectiles[i].position.y > gameParameters.Boundary
+                || gs.projectiles[i].position.y < -gameParameters.Boundary)
             {
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
@@ -252,14 +254,14 @@ public class GameStateRules : MonoBehaviour
                 var sqrDistance = (gs.projectiles[i].position - gs.asteroids[j].position).sqrMagnitude;
                 // Asteroid Radius est dépendant de projectile.size
                 if (!(sqrDistance
-                  <= Mathf.Pow(GameParameters.Instance.ProjectileRadius + GameParameters.Instance.AsteroidRadius,
+                  <= Mathf.Pow(gameParameters.ProjectileRadius + gameParameters.AsteroidRadius,
                       2)))
                 {
                     continue;
                 }
 
                 Player oldPlayer = gs.players[(int)gs.projectiles[i].playerID];
-                gs.players[(int)gs.projectiles[i].playerID] = createPlayer(oldPlayer.score += GameParameters.Instance.AsteroidDestructionScore, oldPlayer.speed, oldPlayer.position,
+                gs.players[(int)gs.projectiles[i].playerID] = createPlayer(oldPlayer.score += gameParameters.AsteroidDestructionScore, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, false, oldPlayer.velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
 
                 gs.projectiles.RemoveAtSwapBack(i);
@@ -276,10 +278,10 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
-    static void HandleAgentInputs(ref GameState gs, NativeArray<ActionsTypes> actionPlayers)
+    static void HandleAgentInputs(ref GameParametersStruct gameParameters, ref GameState gs, NativeArray<ActionsTypes> actionPlayers)
     {
 
-        Debug.Log(gs.players.Length);
+//        Debug.Log(gs.players.Length);
         //Switch between Rotation
         for (var i = 0; i < actionPlayers.Length; i++)
         {
@@ -290,9 +292,9 @@ public class GameStateRules : MonoBehaviour
             {
                 case ActionsTypes.Nothing:
                     {
-                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)),
-                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)));
-                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
+                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
+                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
+                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
 
                         gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
@@ -301,11 +303,11 @@ public class GameStateRules : MonoBehaviour
                     }
                 case ActionsTypes.RotateLeft:
                     {
-                        var targetRotation = gs.players[i % 2].rotationVelocity + GameParameters.Instance.RotationAccelerationSpeed * 200;
+                        var targetRotation = gs.players[i % 2].rotationVelocity + gameParameters.RotationAccelerationSpeed * 200;
 
-                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
-                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)),
-                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)));
+                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
+                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
                        
                         gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
@@ -315,11 +317,11 @@ public class GameStateRules : MonoBehaviour
 
                 case ActionsTypes.RotateRight:
                     {
-                        var targetRotation = gs.players[i % 2].rotationVelocity - GameParameters.Instance.RotationAccelerationSpeed * 200;
+                        var targetRotation = gs.players[i % 2].rotationVelocity - gameParameters.RotationAccelerationSpeed * 200;
 
-                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, targetRotation, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
-                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)),
-                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)));
+                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
+                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
                         gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
@@ -329,8 +331,8 @@ public class GameStateRules : MonoBehaviour
 
                 case ActionsTypes.MoveUp:
                     {
-                        var targetVel = gs.players[i % 2].velocity + gs.players[i % 2].lookDirection * GameParameters.Instance.AccelerationSpeed * 200;
-                        velocity = Vector2.Lerp(gs.players[i % 2].velocity, targetVel, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed));
+                        var targetVel = gs.players[i % 2].velocity + gs.players[i % 2].lookDirection * gameParameters.AccelerationSpeed * 200;
+                        velocity = Vector2.Lerp(gs.players[i % 2].velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
 
                         gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
@@ -339,8 +341,8 @@ public class GameStateRules : MonoBehaviour
                     }
                 case ActionsTypes.MoveDown:
                     {
-                        var targetVel = gs.players[i % 2].velocity - gs.players[i % 2].lookDirection * GameParameters.Instance.AccelerationSpeed * 200;
-                       velocity = Vector2.Lerp(gs.players[i % 2].velocity, targetVel, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed));
+                        var targetVel = gs.players[i % 2].velocity - gs.players[i % 2].lookDirection * gameParameters.AccelerationSpeed * 200;
+                       velocity = Vector2.Lerp(gs.players[i % 2].velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
 
                         gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
@@ -350,14 +352,14 @@ public class GameStateRules : MonoBehaviour
 
                 case ActionsTypes.Shoot:
                     {
-                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, 0, 1 - Mathf.Exp(-GameParameters.Instance.RotationDecelerationSpeed));
-                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)),
-                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-GameParameters.Instance.DecelerationSpeed)));
+                        rotationVelocity = Mathf.Lerp(gs.players[i % 2].rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+                        velocity = new Vector2(Mathf.Lerp(gs.players[i % 2].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
+                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
                         gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
 
-                        if (gs.currentGameStep - gs.players[i % 2].lastShootStep < GameParameters.Instance.ShootDelay)
+                        if (gs.currentGameStep - gs.players[i % 2].lastShootStep < gameParameters.ShootDelay)
                         {
                             break;
                         }
@@ -366,7 +368,7 @@ public class GameStateRules : MonoBehaviour
                         gs.projectiles.Add(new Projectile
                         {
                             position = gs.players[i % 2].position,
-                            speed = GameParameters.Instance.ProjectileSpeed,
+                            speed = gameParameters.ProjectileSpeed,
                             direction = gs.players[i % 2].lookDirection.normalized,
                             playerID = i % 2
                         });
@@ -394,7 +396,7 @@ public class GameStateRules : MonoBehaviour
 
             Vector2 lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
 
-            Vector2 velocity = Vector2.ClampMagnitude(gs.players[i].velocity, GameParameters.Instance.MaxVelocity);
+            Vector2 velocity = Vector2.ClampMagnitude(gs.players[i].velocity, gameParameters.MaxVelocity);
             float rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
 
             gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, position,

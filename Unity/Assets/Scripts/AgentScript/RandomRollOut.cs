@@ -17,7 +17,8 @@ public struct RandomRollOut : IAgent
             gs = gs,
             summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob),
             rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
-            playerId = playerId
+            playerId = playerId,
+            gameParameters = GameParameters.Instance.Parameters
         };
 
         var handle = job.Schedule(availableActions.Length, 2);
@@ -90,24 +91,26 @@ public struct RandomRollOut : IAgent
         return tempReturnBestActionIndex;
     }
 
-   // [BurstCompile]
+    [BurstCompile]
     struct RandomRolloutJob : IJobParallelFor
     {
         public GameState gs;
 
-        [NativeDisableParallelForRestriction]
+        public GameParametersStruct gameParameters;
+
+        [ReadOnly]
         public NativeArray<ActionsTypes> availableActions;
 
         public RandomAgent rdmAgent;
 
-        [NativeDisableParallelForRestriction]
+        [WriteOnly]
         public NativeArray<long> summedScores;
 
         public int playerId;
 
         public void Execute(int index)
         {
-            var epochs = 100;
+            var epochs = 5;
             var agent = rdmAgent;
 
             var gsCopy = Rules.Clone(ref gs);
@@ -115,15 +118,15 @@ public struct RandomRollOut : IAgent
             for(var n = 0; n < epochs; n++)
             {
                 Rules.CopyTo(ref gs, ref gsCopy);
-                Rules.Step(ref gsCopy,
+                Rules.Step(ref gameParameters, ref gsCopy,
                     agent.Act(ref gsCopy, availableActions, 0),
                     agent.Act(ref gsCopy, availableActions, 1));
 
                 var currentDepth = 0;
-                var maxIteration = 150;
+                var maxIteration = 5;
                 while(!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
-                    Rules.Step(ref gsCopy,
+                    Rules.Step(ref gameParameters, ref gsCopy,
                     agent.Act(ref gsCopy, availableActions, 0),
                     agent.Act(ref gsCopy, availableActions, 1));
                     currentDepth++;
