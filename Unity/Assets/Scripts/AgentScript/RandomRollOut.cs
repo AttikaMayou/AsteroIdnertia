@@ -7,7 +7,7 @@ using Rules = GameStateRules;
 
 //Auteur : Félix et Attika
 
-public class RandomRollOut : IAgent
+public struct RandomRollOut : IAgent
 {
     public NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
     {
@@ -20,7 +20,7 @@ public class RandomRollOut : IAgent
             playerId = playerId
         };
 
-        var handle = job.Schedule(availableActions.Length, 1);
+        var handle = job.Schedule(availableActions.Length, 2);
         handle.Complete();
 
         int[] bestActionIndex = new int[] { -1, -1, -1 };
@@ -95,12 +95,12 @@ public class RandomRollOut : IAgent
     {
         public GameState gs;
 
-        [ReadOnly]
+        [NativeDisableParallelForRestriction]
         public NativeArray<ActionsTypes> availableActions;
 
         public RandomAgent rdmAgent;
 
-        //[WriteOnly]
+        [NativeDisableParallelForRestriction]
         public NativeArray<long> summedScores;
 
         public int playerId;
@@ -115,7 +115,7 @@ public class RandomRollOut : IAgent
             for(var n = 0; n < epochs; n++)
             {
                 Rules.CopyTo(ref gs, ref gsCopy);
-                Rules.Step(ref gsCopy, 
+                Rules.Step(ref gsCopy,
                     agent.Act(ref gsCopy, availableActions, 0),
                     agent.Act(ref gsCopy, availableActions, 1));
 
