@@ -91,6 +91,6 @@ public class HumanAgent : IAgent
             }
         }
 
-        return ActionsTypes.RotateRightNS;
+        return ActionsTypes.Nothing;
     }
 }

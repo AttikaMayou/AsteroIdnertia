@@ -1,18 +1,20 @@
 ﻿public enum ActionsTypes
 {
+    Nothing = 0,
+
     //rotate right 
-    RotateRightNS = 0,
-    RotateRightS = 1,
+    RotateRightNS = 1,
+    RotateRightS = 2,
 
     //rotateLeft
-    RotateLeftNS = 2,
-    RotateLeftS = 3,
+    RotateLeftNS = 3,
+    RotateLeftS = 4,
 
     //moveDown
-    MoveDownNS = 4,
-    MoveDownS = 5,
+    MoveDownNS = 5,
+    MoveDownS = 6,
 
     //MoveUp
-    MoveUpNS = 6,
-    MoveUpS = 7,
+    MoveUpNS = 7,
+    MoveUpS = 8,
 }
