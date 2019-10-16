@@ -39,7 +39,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private TMP_Text scorePlayer2;
 
-    public List<Transform> asteroidsView = new List<Transform>();
+    private readonly List<Transform> asteroidsView = new List<Transform>();
     private readonly List<Transform> projectilesView = new List<Transform>();
 
     private Transform[] playerViews = new Transform[2];
