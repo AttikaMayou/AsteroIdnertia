@@ -17,4 +17,8 @@
     //MoveUp
     MoveUpNS = 7,
     MoveUpS = 8,
+
+    NothingS = 9,
+    RotateRightUp = 10,
+    RotateLeftUp = 11
 }
