@@ -260,7 +260,7 @@ public class GameStateRules : MonoBehaviour
 
                 Player oldPlayer = gs.players[(int)gs.projectiles[i].playerID];
                 gs.players[(int)gs.projectiles[i].playerID] = createPlayer(oldPlayer.score += GameParameters.Instance.AsteroidDestructionScore, oldPlayer.speed, oldPlayer.position,
-                    oldPlayer.lastShootStep, true, oldPlayer.velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
+                    oldPlayer.lastShootStep, false, oldPlayer.velocity, oldPlayer.rotationVelocity, oldPlayer.lookDirection);
 
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
