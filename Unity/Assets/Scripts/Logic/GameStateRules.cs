@@ -123,6 +123,15 @@ public class GameStateRules : MonoBehaviour
     {
         for (int j = 0; j < gs.players.Length; j++)
         {
+            //Block players within screenBoundaries
+            if(gs.players[j].position.x > gameParameters.screenSideBoundary
+                || gs.players[j].position.x < -gameParameters.screenSideBoundary
+                || gs.players[j].position.y > gameParameters.screenBoundary
+                || gs.players[j].position.y < -gameParameters.screenBoundary)
+            {
+                //players on boundaries
+            }
+
             //Collision entre asteroids et player 
             for (var i = 0; i < gs.asteroids.Length; i++)
             {
