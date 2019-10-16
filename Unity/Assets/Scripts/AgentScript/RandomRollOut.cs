@@ -5,8 +5,7 @@ using Unity.Collections;
 using Random = Unity.Mathematics.Random;
 using Rules = GameStateRules;
 
-//Auteur : Félix
-//Modifications : Attika
+//Auteur : Félix et Attika
 
 public class RandomRollOut : IAgent
 {
