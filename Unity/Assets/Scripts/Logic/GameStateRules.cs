@@ -5,7 +5,7 @@ using Unity.Jobs;
 using Unity.Burst;
 
 //Auteur : Félix
-//Modifications : Margot et Attika
+//Modifications : Margot, Arthur et Attika
 
 public class GameStateRules : MonoBehaviour
 {
@@ -14,7 +14,15 @@ public class GameStateRules : MonoBehaviour
         // Initialisation des players
         Debug.Log("Initialization");
 
-        
+        //TODO : Debug initialization of AvailableActions (declared line 403)
+        AvailableActions = new NativeArray<ActionsTypes> {
+            AvailableActions[0] = ActionsTypes.Nothing,
+            ActionsTypes.RotateLeft,
+            ActionsTypes.RotateRight,
+            ActionsTypes.MoveUp,
+            ActionsTypes.MoveDown,
+            ActionsTypes.Shoot
+        };
 
         gs.scoreStepDelay = -GameParameters.Instance.StepScoreDelay;
 
@@ -142,7 +150,7 @@ public class GameStateRules : MonoBehaviour
             oldPlayer1.lastShootStep, oldPlayer1.isGameOver, oldPlayer1.velocity, oldPlayer1.rotationVelocity, oldPlayer1.lookDirection);
 
         Player oldPlayer2 = gs.players[1];
-        gs.players[0] = createPlayer(oldPlayer2.score += GameParameters.Instance.StepScore, oldPlayer2.speed, oldPlayer2.position,
+        gs.players[1] = createPlayer(oldPlayer2.score += GameParameters.Instance.StepScore, oldPlayer2.speed, oldPlayer2.position,
             oldPlayer2.lastShootStep, oldPlayer2.isGameOver, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
     }
 
@@ -392,7 +400,7 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
-    private static readonly NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(6, Allocator.Persistent);
+    private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(6, Allocator.Persistent);
     
     public static NativeArray<ActionsTypes> GetAvailableActions(ref GameState gs)
     {
