@@ -6,13 +6,13 @@ using System;
 
 public struct GameState
 {
-    [ReadOnly]
+    [NativeDisableParallelForRestriction]
     public NativeList<Asteroid> asteroids;
-    [ReadOnly]
+    [NativeDisableParallelForRestriction]
     public NativeList<Projectile> projectiles;
 
     //public Player[] players;
-    [ReadOnly]
+    [NativeDisableParallelForRestriction]
     public NativeList<Player> players;
 
     public long currentGameStep;

@@ -112,11 +112,11 @@ public class GameStateRules : MonoBehaviour
 
     public static void Step(ref GameState gs, NativeArray<ActionsTypes> actionPlayer1, NativeArray<ActionsTypes> actionPlayer2)
     {
-        if (gs.players[0].isGameOver && gs.players[1].isGameOver)
-        {
-            // TODO : Game Over Logic => ??
-            throw new System.Exception("This player is in Game Over State");
-        }
+        //if (gs.players[0].isGameOver && gs.players[1].isGameOver)
+        //{
+        //    // TODO : Game Over Logic => ??
+        //    throw new System.Exception("This player is in Game Over State");
+        //}
 
         UpdateAsteroidsPosition(ref gs);
         UpdateProjectiles(ref gs);
@@ -278,6 +278,8 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleAgentInputs(ref GameState gs, NativeArray<ActionsTypes> actionPlayers)
     {
+
+        Debug.Log(gs.players.Length);
         //Switch between Rotation
         for (var i = 0; i < actionPlayers.Length; i++)
         {
@@ -399,7 +401,7 @@ public class GameStateRules : MonoBehaviour
                    oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, lookDirection);
         }
     }
-    
+    [NativeDisableParallelForRestriction]
     private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(7, Allocator.Persistent);
     
     public static NativeArray<ActionsTypes> GetAvailableActions(ref GameState gs)
