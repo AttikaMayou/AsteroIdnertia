@@ -24,71 +24,24 @@ public struct RandomRollOut : IAgent
         var handle = job.Schedule(availableActions.Length, 2);
         handle.Complete();
 
-        int[] bestActionIndex = new int[] { -1, -1, -1 };
-        int indexFound = 0;
-        var currBestActionIdex = -1;
-        var bestScoreValue = long.MinValue;
-        var i = 0;
+        int bestActionIndex = -1;
+        var bestScore = long.MinValue;
 
-        while(bestActionIndex[2] == -1)
+        for (var i = 0; i < job.summedScores.Length; i++)
         {
-            if (bestScoreValue > job.summedScores[i] || !isValidIndex(i))
+            if (bestScore > job.summedScores[i])
             {
-                i++;
-                if (i >= job.summedScores.Length) i = 0;
                 continue;
             }
 
-            bestScoreValue = job.summedScores[i];
-            currBestActionIdex = i;
-            bestActionIndex[indexFound] = currBestActionIdex;
-            indexFound += 1;
-            i++;
-            if (i >= job.summedScores.Length) i = 0;
+            bestScore = job.summedScores[i];
+            bestActionIndex = i;
         }
 
-        /*for ( i = 0; i < job.summedScores.Length; i++)
-        {
-            if (bestScoreValue > job.summedScores[i] || !isValidIndex(i))
-                continue;
-
-            bestScoreValue = job.summedScores[i];
-            currBestActionIdex = i;
-
-            var bestActionId = i;
-            var bestScore = long.MinValue;
-            for (var j = 0; j < job.summedScores.Length; j++)
-            {
-                if (bestScore > job.summedScores[j] || !isValidIndex(j))
-                {
-                    continue;
-                }
-                bestScore = job.summedScores[i];
-                bestActionId = i;
-            }
-
-            if(bestActionId != -1)
-                bestActionIndex[indexFound] = bestActionId;
-            indexFound += 1;
-        }*/
-
-        bool isValidIndex(int index)
-        {
-            for (var j = 0; j < bestActionIndex.Length; j++)
-            {
-                if (bestActionIndex[j] == index)
-                    return false;
-            }
-            return true;
-        }
-
+        ActionsTypes chosenAction = availableActions[bestActionIndex];
         job.summedScores.Dispose();
 
-        NativeArray<ActionsTypes> tempReturnBestActionIndex = new NativeArray<ActionsTypes>(3, Allocator.Temp);
-        tempReturnBestActionIndex[0] = availableActions[bestActionIndex[0]];
-        tempReturnBestActionIndex[1] = availableActions[bestActionIndex[1]];
-        tempReturnBestActionIndex[2] = availableActions[bestActionIndex[2]];
-        return ActionsTypes.RotateLeftS;
+        return chosenAction;
     }
 
     [BurstCompile]
@@ -118,12 +71,14 @@ public struct RandomRollOut : IAgent
             for(var n = 0; n < epochs; n++)
             {
                 Rules.CopyTo(ref gs, ref gsCopy);
-                Rules.Step(ref gameParameters, ref gsCopy,
-                    agent.Act(ref gsCopy, availableActions, 0),
-                    agent.Act(ref gsCopy, availableActions, 1));
+                Rules.Step(ref gameParameters, ref gsCopy, availableActions[index], 0);
+
+                //Rules.Step(ref gameParameters, ref gsCopy, availableActions[index], 0);
+                    //agent.Act(ref gsCopy, availableActions[0], 0),
+                    //agent.Act(ref gsCopy, availableActions, 1));
 
                 var currentDepth = 0;
-                var maxIteration = 5;
+                var maxIteration = 500;
                 while(!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
                     Rules.Step(ref gameParameters, ref gsCopy,
