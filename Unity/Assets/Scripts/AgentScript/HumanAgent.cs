@@ -32,7 +32,7 @@ public class HumanAgent : IAgent
                 return ActionsTypes.RotateRightS;
             }
 
-            else if(Input.GetKey(KeyCode.Z) && Input.GetKey(KeyCode.D))
+            else if (Input.GetKey(KeyCode.Z) && Input.GetKey(KeyCode.D))
             {
                 return ActionsTypes.RotateRightUp;
             }
@@ -62,7 +62,7 @@ public class HumanAgent : IAgent
                 return ActionsTypes.RotateRightNS;
             }
 
-            else if(Input.GetKey(KeyCode.Space))
+            else if (Input.GetKey(KeyCode.Space))
             {
                 return ActionsTypes.NothingS;
             }

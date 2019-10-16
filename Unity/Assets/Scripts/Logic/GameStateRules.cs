@@ -54,7 +54,7 @@ public class GameStateRules : MonoBehaviour
     //Generate a random position within the world
     private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
     {
-        var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary), 
+        var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
             Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
         return position;
     }
@@ -83,16 +83,16 @@ public class GameStateRules : MonoBehaviour
 
         HandleAgentInputs(ref gameParameters, ref gs, actionPlayer1, actionPlayer2);
 
-        if(gs.players[0].isGameOver || gs.players[1].isGameOver)
+        if (gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
             return;
         }
         else
         {
-             HandleCollisions(ref gameParameters, ref gs);
+            HandleCollisions(ref gameParameters, ref gs);
         }
         gs.currentGameStep += 1;
-        if(gs.currentGameStep - gs.scoreStepDelay < 100)
+        if (gs.currentGameStep - gs.scoreStepDelay < 100)
         {
             return;
         }
@@ -123,14 +123,7 @@ public class GameStateRules : MonoBehaviour
     {
         for (int j = 0; j < gs.players.Length; j++)
         {
-            //Block players within screenBoundaries
-            if(gs.players[j].position.x > gameParameters.screenSideBoundary
-                || gs.players[j].position.x < -gameParameters.screenSideBoundary
-                || gs.players[j].position.y > gameParameters.screenBoundary
-                || gs.players[j].position.y < -gameParameters.screenBoundary)
-            {
-                //players on boundaries
-            }
+
 
             //Collision entre asteroids et player 
             for (var i = 0; i < gs.asteroids.Length; i++)
@@ -187,7 +180,7 @@ public class GameStateRules : MonoBehaviour
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
 
-                
+
 
                 return;
             }
@@ -247,7 +240,7 @@ public class GameStateRules : MonoBehaviour
             {
                 tempChosenActionPlayer = chosenPlayer1Actions;
             }
-            else if(i == 1)
+            else if (i == 1)
             {
                 tempChosenActionPlayer = chosenPlayer2Actions;
             }
@@ -316,7 +309,7 @@ public class GameStateRules : MonoBehaviour
                         MoveDownAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         DecelerateRotation(ref gameParameters, ref gs, ref oldPlayer, i);
                         gs.players[i] = oldPlayer;
-                        
+
                         break;
                     }
                 case ActionsTypes.MoveDownS:
@@ -361,10 +354,16 @@ public class GameStateRules : MonoBehaviour
             Player oldPlayer = gs.players[i];
 
             Vector2 position = oldPlayer.position;
-            position += gs.players[i].velocity;
+            Vector2 velocity = oldPlayer.velocity;
+            if (AllowMovement(ref gameParameters, ref gs, position + gs.players[i].velocity))
+                position += gs.players[i].velocity;
+            else
+            {
+                velocity = new Vector2(0,0);
+            }
             Vector2 lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
 
-            Vector2 velocity = Vector2.ClampMagnitude(gs.players[i].velocity, gameParameters.MaxVelocity);
+            velocity = Vector2.ClampMagnitude(velocity, gameParameters.MaxVelocity);
             float rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
 
             gs.players[i] = createPlayer(oldPlayer.score, oldPlayer.speed, position,
@@ -381,34 +380,34 @@ public class GameStateRules : MonoBehaviour
         oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
             Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
-        
+
 
     }
     //rotate left 
-    static private void RotateLeftAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer,  int i)
+    static private void RotateLeftAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetRotation = oldPlayer.rotationVelocity + gameParameters.RotationAccelerationSpeed * 200;
 
         oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
             Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
-        
+
     }
-    
+
     //Movement when up
     static private void MoveUpAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetVel = oldPlayer.velocity + oldPlayer.lookDirection * gameParameters.AccelerationSpeed * 200;
         oldPlayer.velocity = Vector2.Lerp(oldPlayer.velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
-        
-  
+
+
     }
     //Movement when down
     static private void MoveDownAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetVel = oldPlayer.velocity - oldPlayer.lookDirection * gameParameters.AccelerationSpeed * 200;
         oldPlayer.velocity = Vector2.Lerp(oldPlayer.velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
-        
+
     }
 
     //Shoot
@@ -435,7 +434,7 @@ public class GameStateRules : MonoBehaviour
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
                            Mathf.Lerp(oldPlayer.velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
-        if(oldPlayer.velocity.magnitude <= 0.05f)
+        if (oldPlayer.velocity.magnitude <= 0.05f)
         {
             oldPlayer.velocity = Vector2.zero;
         }
@@ -445,7 +444,7 @@ public class GameStateRules : MonoBehaviour
     {
         oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
 
-        if(oldPlayer.rotationVelocity <= 0.05f)
+        if (oldPlayer.rotationVelocity <= 0.05f)
         {
             oldPlayer.rotationVelocity = 0;
         }
@@ -499,7 +498,7 @@ public class GameStateRules : MonoBehaviour
         gsCopy.players.AddRange(gs.players);
         gsCopy.currentGameStep = gs.currentGameStep;
     }
-    
+
     public static Player createPlayer(long sore, float speed, Vector2 position, long lastShootStep, bool isGameOver, Vector2 velocity, float rotationVelocity, Vector2 lookDirection)
     {
         return new Player
@@ -515,7 +514,21 @@ public class GameStateRules : MonoBehaviour
         };
     }
 
-    
+    public static bool AllowMovement(ref GameParametersStruct gameParameters, ref GameState gs, Vector2 pos)
+    {
+        //Block players within screenBoundaries
+        if (pos.x + gameParameters.PlayerRadius > gameParameters.ScreenBordersBoundaryX.y
+            || pos.x - gameParameters.PlayerRadius < gameParameters.ScreenBordersBoundaryX.x
+            || pos.y + gameParameters.PlayerRadius > gameParameters.ScreenBordersBoundaryY.y
+            || pos.y - gameParameters.PlayerRadius < gameParameters.ScreenBordersBoundaryY.x)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
 
 }
 

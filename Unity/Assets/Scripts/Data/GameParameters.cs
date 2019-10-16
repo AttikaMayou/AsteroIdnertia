@@ -24,6 +24,14 @@ public struct GameParametersStruct
     public int StepScore;
     public int AsteroidDestructionScore;
     public int EnemyDestroyScore;
+    /// <summary>
+    /// x = min, y = max
+    /// </summary>
+    public Vector2 ScreenBordersBoundaryX;
+    /// <summary>
+    /// x = min, y = max
+    /// </summary>
+    public Vector2 ScreenBordersBoundaryY;
 }
 
 public class GameParameters : MonoBehaviour

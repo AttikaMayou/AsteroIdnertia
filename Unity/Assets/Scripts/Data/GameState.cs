@@ -17,4 +17,5 @@ public struct GameState
 
     public long currentGameStep;
     public long scoreStepDelay;
+    public bool isPaused;
 }

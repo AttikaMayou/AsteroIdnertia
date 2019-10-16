@@ -17,7 +17,7 @@ public struct RandomRollOut : IAgent
             availableActions = availableActions,
             gs = gs,
             summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob),
-            rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
+            rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount + (uint)playerId) },
             playerId = playerId,
             gameParameters = GameParameters.Instance.Parameters
         };
@@ -64,7 +64,7 @@ public struct RandomRollOut : IAgent
 
         public void Execute(int index)
         {
-            var epochs = 5;
+            var epochs = 100;
             var agent = rdmAgent;
 
             var gsCopy = Rules.Clone(ref gs);
