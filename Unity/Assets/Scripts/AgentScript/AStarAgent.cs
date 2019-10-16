@@ -24,8 +24,9 @@ public class AStarAgent : IAgent
         };
 
         //Lancer le job
+        job.summedScores.Dispose();
 
-        return actionsToDo;
+        return ;
     }
 
     [BurstCompile]
@@ -43,16 +44,19 @@ public class AStarAgent : IAgent
         public long score;
 
         public int playerId;
-
+        public int currentDepth;
         public float2 playerPos;
 
         public float2 projectilePos;
 
         public NativeList<Asteroid> asteroids;
+        [WriteOnly]
+        public NativeArray<long> summedScores;
 
         public void Execute(int index)
         {
             var gsCopy = Rules.Clone(ref gs);
+            var maxIteration = 100;
 
             for (var n = 0; n < availableActions.Length; n++)
             {
@@ -67,9 +71,7 @@ public class AStarAgent : IAgent
                 //Choix
                 while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
-                    Rules.Step(ref gameParameters, ref gsCopy,
-                    agent.Act(ref gsCopy, availableActions, 0),
-                    agent.Act(ref gsCopy, availableActions, 1));
+                    Rules.Step(ref gameParameters, ref gsCopy, availableActions[index], availableActions[index]);
                     currentDepth++;
                     if (currentDepth > maxIteration)
                     {
