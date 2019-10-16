@@ -1,84 +1,115 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Unity.Burst;
+using Unity.Jobs;
 using Unity.Collections;
+using Random = Unity.Mathematics.Random;
+using Rules = GameStateRules;
 
 //Auteur : Félix
+//Modifications : Attika
 
 public class RandomRollOut : IAgent
 {
     public ActionsTypes[] Act(ref GameState gs, ActionsTypes[] availableActions, int playerId)
     {
-        //TODO: implementer la fonction
-        var epochs = 20;
-        var agent = new RandomAgent();
-
-        //TODO : Change to Long
-        var summedScores = new NativeArray<float>(availableActions.Length, Allocator.Temp);
-
-        for (var i = 0; i < availableActions.Length; i++)
+        var job = new RandomRolloutJob
         {
-            for (var n = 0; n < epochs; n++)
-            {
-                var gsCopy = GameStateRules.Clone(ref gs);
-                GameStateRules.Step(ref gsCopy,
-                agent.Act(ref gsCopy, GameStateRules.GetAvailableActions(ref gs), 0),
-                agent.Act(ref gsCopy, GameStateRules.GetAvailableActions(ref gs), 0));
+            availableActions = availableActions,
+            gs = gs,
+            summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob),
+            rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
+            playerId = playerId
+        };
 
-                var currentDepth = 0;
-                var maxIteration = 150;
-                while (!gsCopy.players[playerId].isGameOver)
+        var handle = job.Schedule(availableActions.Length, 1);
+        handle.Complete();
+
+        int[] bestActionIndex = new int[3];
+        for(var i = 0; i < job.summedScores.Length; i++)
+        {
+            var bestActionId = -1;
+            var bestScore = long.MinValue;
+            for (var j = 0; j < job.summedScores.Length; j++)
+            {
+                if (bestScore > job.summedScores[j] || !isValidIndex(j))
                 {
-                    GameStateRules.Step(ref gsCopy, agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
-                        agent.Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
-                    currentDepth++;
-                    if (currentDepth > maxIteration)
-                    {
-                        break;
-                    }
-                }
-
-                summedScores[i] += gsCopy.players[playerId].score;
-                gsCopy.projectiles.Dispose();
-                gsCopy.asteroids.Dispose();
-
-            }
-        }
-        int[] bestIndex = new int[3];
-        for (int i = 0; i < 3; i++)
-        {
-            var bestActionIndex = -1;
-            var bestScore = float.MinValue;
-            for (int j = 0; j < summedScores.Length; j++)
-            {
-                if (bestScore > summedScores[j] || !IsValidIndex(j))
                     continue;
+                }
 
-                bestScore = summedScores[j];
-                bestActionIndex = j;
-
+                bestScore = job.summedScores[i];
+                bestActionId = i;
             }
 
-            bestIndex[i] = bestActionIndex;
+            bestActionIndex[i] = bestActionId;
         }
 
-        bool IsValidIndex(int i)
+        bool isValidIndex(int i)
         {
-            for (int j = 0; j < bestIndex.Length; j++)
+            for(var j = 0; j < bestActionIndex.Length; j++)
             {
-                if (bestIndex[j] == i)
-                {
+                if (bestActionIndex[j] == i)
                     return false;
-                }
             }
             return true;
         }
 
+        job.summedScores.Dispose();
 
-        return new ActionsTypes[] {
-            availableActions[bestIndex[0]],
-            availableActions[bestIndex[1]],
-            availableActions[bestIndex[2]]
-            };
+        return new ActionsTypes[]
+        {
+            availableActions[bestActionIndex[0]],
+            availableActions[bestActionIndex[1]],
+            availableActions[bestActionIndex[2]]
+        };
+    }
+
+    [BurstCompile]
+    struct RandomRolloutJob : IJobParallelFor
+    {
+        public GameState gs;
+
+        [ReadOnly]
+        public ActionsTypes[] availableActions;
+
+        public RandomAgent rdmAgent;
+
+        [WriteOnly]
+        public NativeArray<long> summedScores;
+
+        public int playerId;
+
+        public void Execute(int index)
+        {
+            var epochs = 100;
+            var agent = rdmAgent;
+
+            var gsCopy = Rules.Clone(ref gs);
+
+            for(var n = 0; n < epochs; n++)
+            {
+                Rules.CopyTo(ref gs, ref gsCopy);
+                Rules.Step(ref gsCopy, 
+                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 0),
+                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 1));
+
+                var currentDepth = 0;
+                var maxIteration = 150;
+                while(!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
+                {
+                    Rules.Step(ref gsCopy,
+                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 0),
+                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 1));
+                    currentDepth++;
+                    if(currentDepth > maxIteration)
+                    {
+                        break;
+                    }
+                }
+                
+                summedScores[index] += gsCopy.players[playerId].score;
+                gsCopy.projectiles.Dispose();
+                gsCopy.asteroids.Dispose();
+            }
+        }
     }
 }

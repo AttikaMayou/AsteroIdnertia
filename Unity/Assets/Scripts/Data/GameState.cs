@@ -6,10 +6,14 @@ using System;
 
 public struct GameState
 {
+    [ReadOnly]
     public NativeList<Asteroid> asteroids;
+    [ReadOnly]
     public NativeList<Projectile> projectiles;
 
-    public Player[] players;
+    //public Player[] players;
+    [ReadOnly]
+    public NativeArray<Player> players;
 
     public long currentGameStep;
     public long scoreStepDelay;

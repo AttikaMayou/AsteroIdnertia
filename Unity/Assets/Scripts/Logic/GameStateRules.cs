@@ -13,7 +13,7 @@ public class GameStateRules : MonoBehaviour
 
         gs.scoreStepDelay = -GameParameters.Instance.StepScoreDelay;
 
-        gs.players = new Player[2];
+        gs.players = new NativeArray<Player>(2, Allocator.Persistent);
 
         var player = new Player
         {
@@ -341,12 +341,29 @@ public class GameStateRules : MonoBehaviour
     public static GameState Clone(ref GameState gs)
     {
         GameState clone = new GameState();
-        clone.asteroids = gs.asteroids;
-        clone.projectiles = gs.projectiles;
+        clone.asteroids = new NativeList<Asteroid>(gs.asteroids.Length, Allocator.Temp);
+        clone.asteroids.AddRange(gs.asteroids);
+        clone.projectiles = new NativeList<Projectile>(gs.projectiles.Length, Allocator.Temp);
+        clone.projectiles.AddRange(gs.projectiles);
+        clone.players = new Player[gs.players.Length];
+        //TODO : is there  another method to get content of players array ? clone.players.Clone ? Gotta check this out ! 
         clone.players[0] = gs.players[0];
         clone.players[1] = gs.players[1];
         clone.currentGameStep = gs.currentGameStep;
+
         return clone;
+    }
+
+    public static void CopyTo(ref GameState gs, ref GameState gsCopy)
+    {
+        gsCopy.asteroids.Clear();
+        gsCopy.asteroids.AddRange(gs.asteroids);
+        gsCopy.projectiles.Clear();
+        gsCopy.projectiles.AddRange(gs.projectiles);
+        gsCopy.players = new Player[gs.players.Length];
+        gsCopy.players[0] = gs.players[0];
+        gsCopy.players[1] = gs.players[1];
+        gsCopy.currentGameStep = gs.currentGameStep;
     }
 
 }
