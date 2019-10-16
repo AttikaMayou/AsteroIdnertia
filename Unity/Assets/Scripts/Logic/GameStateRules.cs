@@ -136,7 +136,7 @@ public class GameStateRules : MonoBehaviour
         }
         else
         {
-          // HandleCollisions(ref gs);
+             HandleCollisions(ref gs);
         }
         gs.currentGameStep += 1;
         if(gs.currentGameStep - gs.scoreStepDelay < GameParameters.Instance.StepScoreDelay)
