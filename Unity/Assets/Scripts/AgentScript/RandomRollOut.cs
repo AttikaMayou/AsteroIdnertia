@@ -9,7 +9,7 @@ using Rules = GameStateRules;
 
 public struct RandomRollOut : IAgent
 {
-    public NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
+    public ActionsTypes Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
     {
         var job = new RandomRolloutJob
         {
@@ -88,7 +88,7 @@ public struct RandomRollOut : IAgent
         tempReturnBestActionIndex[0] = availableActions[bestActionIndex[0]];
         tempReturnBestActionIndex[1] = availableActions[bestActionIndex[1]];
         tempReturnBestActionIndex[2] = availableActions[bestActionIndex[2]];
-        return tempReturnBestActionIndex;
+        return ActionsTypes.RotateLeftS;
     }
 
     [BurstCompile]

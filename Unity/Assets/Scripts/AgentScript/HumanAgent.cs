@@ -7,69 +7,95 @@ using UnityEngine;
 
 public class HumanAgent : IAgent
 {
-    public NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
+    public ActionsTypes Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
     {
-        NativeArray<ActionsTypes> actions = new NativeArray<ActionsTypes>(3, Allocator.Temp);
-        actions[0] = ActionsTypes.Nothing;
-        actions[1] = ActionsTypes.Nothing;
-        actions[2] = ActionsTypes.NoShoot;
-
         if (playerId == 0)
         {
-            
+            //Shoot
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.Z))
+            {
+                return ActionsTypes.MoveUpS;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S))
+            {
+                return ActionsTypes.MoveDownS;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.Q))
+            {
+                return ActionsTypes.RotateLeftS;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.D))
+            {
+                return ActionsTypes.RotateRightS;
+            }
+
             if (Input.GetKey(KeyCode.Z))
             {
-                actions[0] = ActionsTypes.MoveUp;
+                return ActionsTypes.MoveUpNS;
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                actions[0] = ActionsTypes.MoveDown;
+                return ActionsTypes.MoveDownNS;
             }
 
             if (Input.GetKey(KeyCode.Q))
             {
-                actions[1] = ActionsTypes.RotateLeft;
+                return ActionsTypes.RotateLeftNS;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                actions[1] = ActionsTypes.RotateRight;
+                return ActionsTypes.RotateRightNS;
             }
 
-            if (Input.GetKey(KeyCode.Space))
-            {
-                actions[2] = ActionsTypes.Shoot;
-            }
+
         }
         else if(playerId == 1)
         {
+            //Shoot
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.UpArrow))
+            {
+                return ActionsTypes.MoveUpS;
+            }
+
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.DownArrow))
+            {
+                return ActionsTypes.MoveDownS;
+            }
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.LeftArrow))
+            {
+                return ActionsTypes.RotateLeftS;
+            }
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.RightArrow))
+            {
+                return ActionsTypes.RotateRightS;
+            }
+
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                actions[0] = ActionsTypes.MoveUp;
+                return ActionsTypes.MoveUpNS;
             }
 
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                actions[0] = ActionsTypes.MoveDown;
+                return ActionsTypes.MoveDownNS;
             }
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                actions[1] = ActionsTypes.RotateLeft;
+                return ActionsTypes.RotateLeftNS;
             }
 
             if (Input.GetKey(KeyCode.RightArrow))
             {
-                actions[1] = ActionsTypes.RotateRight;
-            }
-
-            if (Input.GetKey(KeyCode.Return))
-            {
-                actions[2] = ActionsTypes.Shoot;
+                return ActionsTypes.RotateRightNS;
             }
         }
-        
-        return actions;
+
+        return ActionsTypes.Nothing;
     }
 }

@@ -2,12 +2,19 @@
 {
     Nothing = 0,
 
-    RotateRight = 1,
-    RotateLeft = 2,
+    //rotate right 
+    RotateRightNS = 1,
+    RotateRightS = 2,
 
-    MoveDown = 3,
-    MoveUp = 4,
+    //rotateLeft
+    RotateLeftNS = 3,
+    RotateLeftS = 4,
 
-    Shoot = 5,
-    NoShoot = 6
+    //moveDown
+    MoveDownNS = 5,
+    MoveDownS = 6,
+
+    //MoveUp
+    MoveUpNS = 7,
+    MoveUpS = 8,
 }
