@@ -13,7 +13,7 @@ public struct GameState
 
     //public Player[] players;
     [ReadOnly]
-    public NativeArray<Player> players;
+    public NativeList<Player> players;
 
     public long currentGameStep;
     public long scoreStepDelay;

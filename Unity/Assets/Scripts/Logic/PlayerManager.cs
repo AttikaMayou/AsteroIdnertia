@@ -152,9 +152,14 @@ public class PlayerManager : MonoBehaviour
 
     public void ResetGameOver()
     {
-        gs.players[0].position = new Vector2(170f, 170f);
-        gs.players[1].position = new Vector2(170f, 170f);
-        gs.players[0].isGameOver = false;
-        gs.players[1].isGameOver = false;
+        Player oldPlayer1 = gs.players[0];
+        Vector2 position1 = new Vector2(170f, 170f);
+        gs.players[0] = GameStateRules.createPlayer(oldPlayer1.score, oldPlayer1.speed, position1,
+    oldPlayer1.lastShootStep, false, oldPlayer1.velocity, oldPlayer1.rotationVelocity, oldPlayer1.lookDirection);
+
+        Player oldPlayer2 = gs.players[1];
+        Vector2 position2 = new Vector2(170f, 170f);
+        gs.players[1] = GameStateRules.createPlayer(oldPlayer2.score, oldPlayer2.speed, position2,
+    oldPlayer2.lastShootStep, false, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
     }
 }
