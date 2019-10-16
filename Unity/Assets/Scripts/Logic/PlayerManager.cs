@@ -135,8 +135,12 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < projectileToSpawn; i++)
         {
             var projectileView = Instantiate(ProjectilePrefab/*, new Vector3(0, 0, 5), Quaternion.identity*/);
+            
             //projectilesView[i].position = gs.projectiles[i].position;
             projectilesView.Add(projectileView.transform);
+            Vector3 dir = gs.projectiles[projectilesView.Count - 1].direction;
+            dir = new Vector3(dir.x, projectileView.transform.rotation.eulerAngles.y, dir.y);
+            projectileView.transform.rotation = Quaternion.LookRotation(Vector3.down, dir);
         }
 
         for (int i = 0; i < -projectileToSpawn; i++)
