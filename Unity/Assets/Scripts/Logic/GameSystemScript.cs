@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using Random = Unity.Mathematics.Random;
 
 //Auteur : Arthur & Margot
 
@@ -26,7 +27,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer1 = new HumanAgent();
                 break;
             case 1:
-                agentPlayer1 = new RandomAgent();
+                agentPlayer1 = new RandomAgent { rdm = new Random((uint)Time.frameCount) };
                 break;
             case 2:
                 agentPlayer1 = new RandomRollOut();
@@ -48,7 +49,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer2 = new HumanAgent();
                 break;
             case 1:
-                agentPlayer2 = new RandomAgent();
+                agentPlayer2 = new RandomAgent { rdm = new Random((uint)Time.frameCount) };
                 break;
             case 2:
                 agentPlayer2 = new RandomRollOut();
