@@ -6,6 +6,7 @@ using Random = Unity.Mathematics.Random;
 using Rules = GameStateRules;
 
 //Auteur : Félix et Attika
+//Modifications : Margot
 
 public struct RandomRollOut : IAgent
 {
