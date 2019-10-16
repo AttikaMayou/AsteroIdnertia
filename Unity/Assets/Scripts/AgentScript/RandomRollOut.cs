@@ -61,7 +61,7 @@ public class RandomRollOut : IAgent
         return tempReturnBestActionIndex;
     }
 
-    //[BurstCompile]
+   // [BurstCompile]
     struct RandomRolloutJob : IJobParallelFor
     {
         public GameState gs;
@@ -87,16 +87,16 @@ public class RandomRollOut : IAgent
             {
                 Rules.CopyTo(ref gs, ref gsCopy);
                 Rules.Step(ref gsCopy, 
-                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 0),
-                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 1));
+                    agent.Act(ref gsCopy, availableActions, 0),
+                    agent.Act(ref gsCopy, availableActions, 1));
 
                 var currentDepth = 0;
                 var maxIteration = 150;
                 while(!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
                     Rules.Step(ref gsCopy,
-                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 0),
-                    agent.Act(ref gsCopy, Rules.GetAvailableActions(ref gsCopy), 1));
+                    agent.Act(ref gsCopy, availableActions, 0),
+                    agent.Act(ref gsCopy, availableActions, 1));
                     currentDepth++;
                     if(currentDepth > maxIteration)
                     {
