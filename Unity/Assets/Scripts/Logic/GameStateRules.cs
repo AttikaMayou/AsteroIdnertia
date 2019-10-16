@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.Burst;
 
+//Auteur : Félix
+//Modifications : Margot et Attika
+
 public class GameStateRules : MonoBehaviour
 {
     public static void Init(ref GameState gs, PlayerManager playerManager)

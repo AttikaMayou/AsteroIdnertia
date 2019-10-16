@@ -2,6 +2,9 @@
 using UnityEngine;
 using TMPro;
 
+//Auteur : Félix
+//Modifications : Arthur, Margot et Attika
+
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField]
