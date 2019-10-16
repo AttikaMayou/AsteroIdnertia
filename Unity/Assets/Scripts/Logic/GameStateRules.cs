@@ -466,7 +466,6 @@ public class GameStateRules : MonoBehaviour
         return AvailableActions;
     }
 
-
     public static GameState Clone(ref GameState gs)
     {
         GameState clone = new GameState();
