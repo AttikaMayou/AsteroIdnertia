@@ -20,7 +20,7 @@ public class GameSystemScript : MonoBehaviour
     private IAgent agentPlayer1;
     private IAgent agentPlayer2;
 
-    [SerializeField]PlayerManager playerManager;
+    [SerializeField] PlayerManager playerManager;
 
     private bool LaunchGame = false;
 
@@ -60,15 +60,15 @@ public class GameSystemScript : MonoBehaviour
             case 2:
                 agentPlayer2 = new RandomRollOut();
                 break;
-            /*case 3:
-                agentPlayer2 = new Dijktra();
-                break;
-            case 4:
-                agentPlayer2 = new MCTS();
-                break;
-            case 5:
-                agentPlayer2 = new QLearning();
-                break;*/
+                /*case 3:
+                    agentPlayer2 = new Dijktra();
+                    break;
+                case 4:
+                    agentPlayer2 = new MCTS();
+                    break;
+                case 5:
+                    agentPlayer2 = new QLearning();
+                    break;*/
         }
         IAgent[] agents = { agentPlayer1, agentPlayer2 };
         playerManager.StartGame(agents);
@@ -81,13 +81,14 @@ public class GameSystemScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Time.timeScale = 0;
+                //Time.timeScale = 0;
                 Pause();
-                isPaused = true;
+                isPaused = !isPaused;
             }
             else
             {
-                playerManager.UpdatePlayerState();
+                if (!isPaused)
+                    playerManager.UpdatePlayerState();
             }
         }
 
@@ -100,8 +101,8 @@ public class GameSystemScript : MonoBehaviour
             PauseMenu.SetActive(false);
         }
         else
-        { 
-        PauseMenu.SetActive(true);
+        {
+            PauseMenu.SetActive(true);
         }
     }
 }
