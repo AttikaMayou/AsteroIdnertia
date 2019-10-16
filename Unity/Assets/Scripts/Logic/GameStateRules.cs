@@ -273,25 +273,25 @@ public class GameStateRules : MonoBehaviour
 
     static void HandleAgentInputs(ref GameParametersStruct gameParameters, ref GameState gs, ActionsTypes chosenPlayer1Actions, ActionsTypes chosenPlayer2Actions)
     {
-
         for (var i = 0; i < gs.players.Length; i++)
         {
             float rotationVelocity = 0.0f;
             Vector2 velocity = new Vector2();
             Player oldPlayer = gs.players[i];
 
-            ActionsTypes tempChosenPlayer = 0;
+            ActionsTypes tempChosenActionPlayer = 0;
 
             if (i == 0)
             {
-                tempChosenPlayer = chosenPlayer1Actions;
+                tempChosenActionPlayer = chosenPlayer1Actions;
             }
             else if(i == 1)
             {
-                tempChosenPlayer = chosenPlayer2Actions;
+                tempChosenActionPlayer = chosenPlayer2Actions;
             }
+            Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1} / tempChosenPlayer : {2}", chosenPlayer1Actions, chosenPlayer2Actions, tempChosenActionPlayer);
 
-            switch (tempChosenPlayer)
+            switch (tempChosenActionPlayer)
             {
                 case ActionsTypes.RotateRightNS:
                     {
@@ -305,8 +305,6 @@ public class GameStateRules : MonoBehaviour
                         RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref  oldPlayer, i);
                         gs.players[i] = oldPlayer;
                         Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
-
-
                         break;
                     }
 
@@ -351,14 +349,20 @@ public class GameStateRules : MonoBehaviour
                         break;
                     }
             }
+        }
+
+        for (int i = 0; i < 2; i++)
+        {
+
+            Player oldPlayer = gs.players[i];
 
             Vector2 position = oldPlayer.position;
             position += gs.players[i].velocity;
-
+            Debug.LogFormat("position oldplayer{0} :{1}, velocity{2}", i, oldPlayer.position, gs.players[i].velocity);
             Vector2 lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
 
-            velocity = Vector2.ClampMagnitude(gs.players[i].velocity, gameParameters.MaxVelocity);
-            rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
+            Vector2 velocity = Vector2.ClampMagnitude(gs.players[i].velocity, gameParameters.MaxVelocity);
+            float rotationVelocity = Mathf.Clamp(gs.players[i].rotationVelocity, -2, 2);
 
             gs.players[i] = createPlayer(oldPlayer.score, oldPlayer.speed, position,
                    oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, lookDirection);
