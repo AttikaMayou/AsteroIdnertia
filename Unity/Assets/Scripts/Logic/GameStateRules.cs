@@ -136,7 +136,7 @@ public class GameStateRules : MonoBehaviour
         }
         else
         {
-           HandleCollisions(ref gs);
+          // HandleCollisions(ref gs);
         }
         gs.currentGameStep += 1;
         if(gs.currentGameStep - gs.scoreStepDelay < GameParameters.Instance.StepScoreDelay)
@@ -399,11 +399,18 @@ public class GameStateRules : MonoBehaviour
                    oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, lookDirection);
         }
     }
-
-    private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(6, Allocator.Persistent);
+    
+    private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(7, Allocator.Persistent);
     
     public static NativeArray<ActionsTypes> GetAvailableActions(ref GameState gs)
     {
+        AvailableActions[0] = ActionsTypes.Nothing;
+        AvailableActions[1] = ActionsTypes.RotateRight;
+        AvailableActions[2] = ActionsTypes.RotateLeft;
+        AvailableActions[3] = ActionsTypes.MoveDown ;
+        AvailableActions[4] = ActionsTypes.MoveUp ;
+        AvailableActions[5] = ActionsTypes.Shoot ;
+        AvailableActions[6] = ActionsTypes.NoShoot ;
         return AvailableActions;
     }
 
