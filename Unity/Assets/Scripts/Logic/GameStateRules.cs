@@ -406,6 +406,7 @@ public class GameStateRules : MonoBehaviour
                 case ActionsTypes.MoveUpS:
                     {
                         MoveUpAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
+                        DecelerateRotation(ref gameParameters, ref gs, ref oldPlayer, i);
                         Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
                         gs.players[i] = oldPlayer;
                         break;
@@ -562,11 +563,21 @@ public class GameStateRules : MonoBehaviour
     {
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
                            Mathf.Lerp(oldPlayer.velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
+
+        if(oldPlayer.velocity.magnitude <= Mathf.Epsilon)
+        {
+            oldPlayer.velocity = Vector2.zero;
+        }
     }
 
     static public void DecelerateRotation(ref GameParametersStruct gameParameters, ref GameState gs, ref Player oldPlayer, int i)
     {
         oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+
+        if(oldPlayer.rotationVelocity <= Mathf.Epsilon)
+        {
+            oldPlayer.rotationVelocity = 0;
+        }
     }
 
     public void GameOver(ref GameState gs)
@@ -630,6 +641,8 @@ public class GameStateRules : MonoBehaviour
             lookDirection = lookDirection
         };
     }
+
+    
 
 }
 
