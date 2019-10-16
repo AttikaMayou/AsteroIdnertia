@@ -564,7 +564,7 @@ public class GameStateRules : MonoBehaviour
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
                            Mathf.Lerp(oldPlayer.velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
-        if(oldPlayer.velocity.magnitude <= Mathf.Epsilon)
+        if(oldPlayer.velocity.magnitude <= 0.05f)
         {
             oldPlayer.velocity = Vector2.zero;
         }
@@ -574,7 +574,7 @@ public class GameStateRules : MonoBehaviour
     {
         oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
 
-        if(oldPlayer.rotationVelocity <= Mathf.Epsilon)
+        if(oldPlayer.rotationVelocity <= 0.05f)
         {
             oldPlayer.rotationVelocity = 0;
         }
@@ -585,7 +585,7 @@ public class GameStateRules : MonoBehaviour
 
     }
     [NativeDisableParallelForRestriction]
-    private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(9, Allocator.Persistent);
+    private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(12, Allocator.Persistent);
 
     public static NativeArray<ActionsTypes> GetAvailableActions(ref GameState gs)
     {
@@ -598,6 +598,9 @@ public class GameStateRules : MonoBehaviour
         AvailableActions[6] = ActionsTypes.MoveDownS;
         AvailableActions[7] = ActionsTypes.MoveUpNS;
         AvailableActions[8] = ActionsTypes.MoveUpS;
+        AvailableActions[9] = ActionsTypes.NothingS;
+        AvailableActions[10] = ActionsTypes.RotateRightUp;
+        AvailableActions[11] = ActionsTypes.RotateLeftUp;
         return AvailableActions;
     }
 
