@@ -8,14 +8,13 @@ public struct RandomAgent : IAgent
 {
     public Unity.Mathematics.Random rdm;
 
-    public NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int id = 0)
-    {
-        return new NativeList<ActionsTypes>
-        {
-            //TODO : use rdm instead of Random.Range
-            availableActions[Random.Range(0, 3)],
-            availableActions[Random.Range(3, 5)],
-            availableActions[Random.Range(5, 6)]
-        };
+    public NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int id = 0)
+    { 
+        NativeArray<ActionsTypes> tempRandomAgentActions = new NativeArray<ActionsTypes>(3, Allocator.Temp);
+        tempRandomAgentActions[0] =  availableActions[Random.Range(0, 3)];
+        tempRandomAgentActions[1] = availableActions[Random.Range(3, 5)];
+        tempRandomAgentActions[2] = availableActions[Random.Range(5, 6)];
+
+        return tempRandomAgentActions;
     }
 }

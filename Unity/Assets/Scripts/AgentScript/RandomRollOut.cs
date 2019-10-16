@@ -10,7 +10,7 @@ using Rules = GameStateRules;
 
 public class RandomRollOut : IAgent
 {
-    public NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int playerId)
+    public NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
     {
         var job = new RandomRolloutJob
         {
@@ -25,7 +25,7 @@ public class RandomRollOut : IAgent
         handle.Complete();
 
         int[] bestActionIndex = new int[3];
-        for(var i = 0; i < job.summedScores.Length; i++)
+        for (var i = 0; i < job.summedScores.Length; i++)
         {
             var bestActionId = -1;
             var bestScore = long.MinValue;
@@ -45,7 +45,7 @@ public class RandomRollOut : IAgent
 
         bool isValidIndex(int i)
         {
-            for(var j = 0; j < bestActionIndex.Length; j++)
+            for (var j = 0; j < bestActionIndex.Length; j++)
             {
                 if (bestActionIndex[j] == i)
                     return false;
@@ -55,12 +55,11 @@ public class RandomRollOut : IAgent
 
         job.summedScores.Dispose();
 
-        return new NativeList<ActionsTypes>
-        {
-            availableActions[bestActionIndex[0]],
-            availableActions[bestActionIndex[1]],
-            availableActions[bestActionIndex[2]]
-        };
+        NativeArray<ActionsTypes> tempReturnBestActionIndex = new NativeArray<ActionsTypes>(3, Allocator.Temp);
+        tempReturnBestActionIndex[0] = availableActions[bestActionIndex[0]];
+        tempReturnBestActionIndex[1] = availableActions[bestActionIndex[1]];
+        tempReturnBestActionIndex[2] = availableActions[bestActionIndex[2]];
+        return tempReturnBestActionIndex;
     }
 
     [BurstCompile]
@@ -69,7 +68,7 @@ public class RandomRollOut : IAgent
         public GameState gs;
 
         [ReadOnly]
-        public NativeList<ActionsTypes> availableActions;
+        public NativeArray<ActionsTypes> availableActions;
 
         public RandomAgent rdmAgent;
 

@@ -3,5 +3,5 @@ using Unity.Collections;
 
 public interface IAgent
 {
-    NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int playerId);
+    NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId);
 }

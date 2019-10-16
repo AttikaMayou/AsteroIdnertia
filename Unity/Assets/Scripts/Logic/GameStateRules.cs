@@ -11,7 +11,7 @@ public class GameStateRules : MonoBehaviour
         // Initialisation des players
         Debug.Log("Initialization");
 
-        //AvailableActions = new NativeList<ActionsTypes> { ActionsTypes.Nothing, ActionsTypes.RotateLeft, ActionsTypes.RotateRight, ActionsTypes.MoveUp, ActionsTypes.MoveDown, ActionsTypes.Shoot };
+        
 
         gs.scoreStepDelay = -GameParameters.Instance.StepScoreDelay;
 
@@ -99,7 +99,7 @@ public class GameStateRules : MonoBehaviour
         gs.asteroids.Add(asteroid);
     }
 
-    public static void Step(ref GameState gs, NativeList<ActionsTypes> actionPlayer1, NativeList<ActionsTypes> actionPlayer2)
+    public static void Step(ref GameState gs, NativeArray<ActionsTypes> actionPlayer1, NativeArray<ActionsTypes> actionPlayer2)
     {
         if (gs.players[0].isGameOver && gs.players[1].isGameOver)
         {
@@ -109,7 +109,16 @@ public class GameStateRules : MonoBehaviour
 
         UpdateAsteroidsPosition(ref gs);
         UpdateProjectiles(ref gs);
-        HandleAgentInputs(ref gs, new NativeList<ActionsTypes> { actionPlayer1[0], actionPlayer2[0], actionPlayer1[1], actionPlayer2[1], actionPlayer1[2], actionPlayer2[2] });
+        NativeArray<ActionsTypes> tempActionsTypeArray = new NativeArray<ActionsTypes>(6, Allocator.Temp);
+        tempActionsTypeArray[0] = actionPlayer1[0];
+        tempActionsTypeArray[1] = actionPlayer2[0];
+        tempActionsTypeArray[2] = actionPlayer1[1];
+        tempActionsTypeArray[3] = actionPlayer2[1];
+        tempActionsTypeArray[4] = actionPlayer1[2];
+        tempActionsTypeArray[5] = actionPlayer2[2];
+
+
+        HandleAgentInputs(ref gs, tempActionsTypeArray);
         if(gs.players[0].isGameOver || gs.players[1].isGameOver)
         {
             return;
@@ -256,7 +265,7 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
-    static void HandleAgentInputs(ref GameState gs, NativeList<ActionsTypes> actionPlayers)
+    static void HandleAgentInputs(ref GameState gs, NativeArray<ActionsTypes> actionPlayers)
     {
         //Switch between Rotation
         for (var i = 0; i < actionPlayers.Length; i++)
@@ -380,9 +389,9 @@ public class GameStateRules : MonoBehaviour
         }
     }
 
-    private static readonly NativeList<ActionsTypes> AvailableActions = new NativeList<ActionsTypes>(6, Allocator.Persistent);
+    private static readonly NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(6, Allocator.Persistent);
     
-    public static NativeList<ActionsTypes> GetAvailableActions(ref GameState gs)
+    public static NativeArray<ActionsTypes> GetAvailableActions(ref GameState gs)
     {
         return AvailableActions;
     }

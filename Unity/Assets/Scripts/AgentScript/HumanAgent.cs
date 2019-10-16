@@ -6,14 +6,12 @@ using UnityEngine;
 
 public class HumanAgent : IAgent
 {
-    public NativeList<ActionsTypes> Act(ref GameState gs, NativeList<ActionsTypes> availableActions, int playerId)
+    public NativeArray<ActionsTypes> Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
     {
-        NativeList<ActionsTypes> actions = new NativeList<ActionsTypes>
-        {
-            ActionsTypes.Nothing,
-            ActionsTypes.Nothing,
-            ActionsTypes.NoShoot
-        };
+        NativeArray<ActionsTypes> actions = new NativeArray<ActionsTypes>(3, Allocator.Temp);
+        actions[0] = ActionsTypes.Nothing;
+        actions[1] = ActionsTypes.Nothing;
+        actions[2] = ActionsTypes.NoShoot;
 
         if (playerId == 0)
         {
