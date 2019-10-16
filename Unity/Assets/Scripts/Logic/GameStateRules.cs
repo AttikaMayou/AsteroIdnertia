@@ -15,14 +15,14 @@ public class GameStateRules : MonoBehaviour
         Debug.Log("Initialization");
 
         //TODO : Debug initialization of AvailableActions (declared line 403)
-        AvailableActions = new NativeArray<ActionsTypes> {
+        /*AvailableActions = new NativeArray<ActionsTypes> {
             AvailableActions[0] = ActionsTypes.Nothing,
             ActionsTypes.RotateLeft,
             ActionsTypes.RotateRight,
             ActionsTypes.MoveUp,
             ActionsTypes.MoveDown,
             ActionsTypes.Shoot
-        };
+        };*/
 
         gs.scoreStepDelay = -GameParameters.Instance.StepScoreDelay;
 
