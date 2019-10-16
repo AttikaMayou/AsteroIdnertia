@@ -289,7 +289,7 @@ public class GameStateRules : MonoBehaviour
             {
                 tempChosenActionPlayer = chosenPlayer2Actions;
             }
-            Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1} / tempChosenPlayer : {2}", chosenPlayer1Actions, chosenPlayer2Actions, tempChosenActionPlayer);
+            //Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1} / tempChosenPlayer : {2}", chosenPlayer1Actions, chosenPlayer2Actions, tempChosenActionPlayer);
 
             switch (tempChosenActionPlayer)
             {
@@ -324,21 +324,11 @@ public class GameStateRules : MonoBehaviour
 
                         rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
                         velocity = new Vector2(Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
-                            Mathf.Lerp(gs.players[i % 2].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
-
-                        gs.players[i] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
-                        oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
-
-                        RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref  oldPlayer, i);
-                        gs.players[i] = oldPlayer;
-                        Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
-
-                        rotationVelocity = Mathf.Lerp(gs.players[i].rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
-                        velocity = new Vector2(Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
                             Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
-                        gs.players[i] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
-                        oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
+                        //RotateRightAgent(ref gameParameters, ref gs, rotationVelocity, velocity, ref  oldPlayer, i);
+                        //gs.players[i] = oldPlayer;
+                        //Shoot(ref gameParameters, ref gs, rotationVelocity, velocity, ref oldPlayer, i);
 
                         if (gs.currentGameStep - gs.players[i].lastShootStep > gameParameters.ShootDelay)
                         {
@@ -366,7 +356,7 @@ public class GameStateRules : MonoBehaviour
                         velocity = new Vector2(Mathf.Lerp(gs.players[i].velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
                             Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
-                        gs.players[i % 2] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
+                        gs.players[i] = createPlayer(oldPlayer.score, oldPlayer.speed, oldPlayer.position,
                     oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, oldPlayer.lookDirection);
                         break;
                     }
@@ -420,7 +410,7 @@ public class GameStateRules : MonoBehaviour
 
             Vector2 position = oldPlayer.position;
             position += gs.players[i].velocity;
-            Debug.LogFormat("position oldplayer{0} :{1}, velocity{2}", i, oldPlayer.position, gs.players[i].velocity);
+            //Debug.LogFormat("position oldplayer{0} :{1}, velocity{2}", i, oldPlayer.position, gs.players[i].velocity);
             Vector2 lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
 
             Vector2 velocity = Vector2.ClampMagnitude(gs.players[i].velocity, gameParameters.MaxVelocity);

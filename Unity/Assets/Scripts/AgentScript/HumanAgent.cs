@@ -11,6 +11,27 @@ public class HumanAgent : IAgent
     {
         if (playerId == 0)
         {
+            //Shoot
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.Z))
+            {
+                return ActionsTypes.MoveUpS;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.S))
+            {
+                return ActionsTypes.MoveDownS;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.Q))
+            {
+                return ActionsTypes.RotateLeftS;
+            }
+
+            if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.D))
+            {
+                return ActionsTypes.RotateRightS;
+            }
+
             if (Input.GetKey(KeyCode.Z))
             {
                 return ActionsTypes.MoveUpNS;
@@ -30,28 +51,30 @@ public class HumanAgent : IAgent
             {
                 return ActionsTypes.RotateRightNS;
             }
-            //Shoot
-            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Z))
-            {
-                return ActionsTypes.MoveUpS;
-            }
 
-            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.S))
-            {
-                return ActionsTypes.MoveDownS;
-            }
-            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Q))
-            {
-                return ActionsTypes.RotateLeftS;
-            }
-            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.D))
-            {
-                return ActionsTypes.RotateRightS;
-            }
 
         }
         else if(playerId == 1)
         {
+            //Shoot
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.UpArrow))
+            {
+                return ActionsTypes.MoveUpS;
+            }
+
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.DownArrow))
+            {
+                return ActionsTypes.MoveDownS;
+            }
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.LeftArrow))
+            {
+                return ActionsTypes.RotateLeftS;
+            }
+            if (Input.GetKey(KeyCode.Return) && Input.GetKey(KeyCode.RightArrow))
+            {
+                return ActionsTypes.RotateRightS;
+            }
+
             if (Input.GetKey(KeyCode.UpArrow))
             {
                 return ActionsTypes.MoveUpNS;
@@ -70,24 +93,6 @@ public class HumanAgent : IAgent
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 return ActionsTypes.RotateRightNS;
-            }
-            //Shoot
-            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.UpArrow))
-            {
-                return ActionsTypes.MoveUpS;
-            }
-
-            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.DownArrow))
-            {
-                return ActionsTypes.MoveDownS;
-            }
-            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                return ActionsTypes.RotateLeftS;
-            }
-            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.RightArrow))
-            {
-                return ActionsTypes.RotateRightS;
             }
         }
 

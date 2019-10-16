@@ -6184,7 +6184,7 @@ MonoBehaviour:
     InitialPlayerSpeed: 0
     AccelerationSpeed: 0.02
     DecelerationSpeed: 0.02
-    MaxVelocity: 1
+    MaxVelocity: 0.2
     RotationAccelerationSpeed: 0.02
     RotationDecelerationSpeed: 0.02
     MaxRotationVelocity: 5
