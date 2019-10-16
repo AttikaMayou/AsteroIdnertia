@@ -16,7 +16,7 @@ public class RandomRollOut : IAgent
             availableActions = availableActions,
             gs = gs,
             summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob),
-            rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
+            //rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
             playerId = playerId
         };
 
@@ -61,7 +61,7 @@ public class RandomRollOut : IAgent
         return tempReturnBestActionIndex;
     }
 
-    [BurstCompile]
+    //[BurstCompile]
     struct RandomRolloutJob : IJobParallelFor
     {
         public GameState gs;
@@ -71,7 +71,7 @@ public class RandomRollOut : IAgent
 
         public RandomAgent rdmAgent;
 
-        [WriteOnly]
+        //[WriteOnly]
         public NativeArray<long> summedScores;
 
         public int playerId;
