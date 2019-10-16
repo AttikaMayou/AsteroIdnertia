@@ -50,24 +50,31 @@ public class GameStateRules : MonoBehaviour
         };
         gs.players.Add(player2);
 
-        var allAsteroids = playerManager.asteroidsView;
+        //var allAsteroids = playerManager.asteroidsView;
 
-        var positions = GetAsteroidsInitialPositions(ref gameParameters, allAsteroids);
+        //var positions = GetAsteroidsInitialPositions(ref gameParameters, allAsteroids);
 
-        gs.asteroids = new NativeList<Asteroid>(allAsteroids.Count, Allocator.Persistent);
+        //gs.asteroids = new NativeList<Asteroid>(allAsteroids.Count, Allocator.Persistent);
 
-        for (var i = 0; i < allAsteroids.Count; i++)
+        //for (var i = 0; i < allAsteroids.Count; i++)
+        //{
+        //    var asteroid = new Asteroid
+        //    {
+        //        position = positions[i],
+        //        direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0),
+        //        initialPosition = positions[i]
+        //    };
+        //    asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
+        //    gs.asteroids.Add(asteroid);
+
+        //    allAsteroids[i].position = positions[i];
+        //}
+
+        //Taille de la liste à déterminer
+        gs.asteroids = new NativeList<Asteroid>(100, Allocator.Persistent);
+        for (var i = 0; i < gs.asteroids.Length; i++)
         {
-            var asteroid = new Asteroid
-            {
-                position = positions[i],
-                direction = positions[i] - new Vector2(Random.Range(-30f, 30.0f), 0),
-                initialPosition = positions[i]
-            };
-            asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
-            gs.asteroids.Add(asteroid);
-
-            allAsteroids[i].position = positions[i];
+            GenerateNewAsteroid(ref gameParameters, ref gs);
         }
 
         // Taille de la liste à déterminer
@@ -75,17 +82,17 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Generate random position for all asteroids at initialization
-    private static Vector2[] GetAsteroidsInitialPositions(ref GameParametersStruct gameParameters, List<Transform> asteroids)
-    {
-        var positions = new Vector2[asteroids.Count];
+    //private static Vector2[] GetAsteroidsInitialPositions(ref GameParametersStruct gameParameters, int asteroidNumber)
+    //{
+    //    var positions = new Vector2[asteroidNumber];
 
-        for (var i = 0; i < asteroids.Count; i++)
-        {
-            positions[i] = GetRandomPosition(ref gameParameters);
-        }
+    //    for (var i = 0; i < asteroidNumber; i++)
+    //    {
+    //        positions[i] = GetRandomPosition(ref gameParameters);
+    //    }
 
-        return positions;
-    }
+    //    return positions;
+    //}
 
     //Generate a random position within the world
     private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
@@ -95,6 +102,7 @@ public class GameStateRules : MonoBehaviour
         return position;
     }
 
+    //Generate a new asteroid and add it to asteroids list
     private static void GenerateNewAsteroid(ref GameParametersStruct gameParameters, ref GameState gs)
     {
         var position = GetRandomPosition(ref gameParameters);
@@ -102,7 +110,7 @@ public class GameStateRules : MonoBehaviour
         var asteroid = new Asteroid
         {
             position = position,
-            direction = position - new Vector2(Random.Range(-30f, 30.0f), 0),
+            direction = position - new Vector2(Random.Range(-50f, 50.0f), 0),
             initialPosition = position
         };
 
@@ -118,7 +126,7 @@ public class GameStateRules : MonoBehaviour
         //    throw new System.Exception("This player is in Game Over State");
         //}
 
-        UpdateAsteroidsPosition(ref gs);
+        UpdateAsteroids(ref gs);
         UpdateProjectiles(ref gs);
 
         HandleAgentInputs(ref gameParameters, ref gs, actionPlayer1, actionPlayer2);
@@ -147,12 +155,12 @@ public class GameStateRules : MonoBehaviour
             oldPlayer2.lastShootStep, oldPlayer2.isGameOver, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
     }
 
-    static void UpdateAsteroidsPosition(ref GameState gs)
+    static void UpdateAsteroids(ref GameState gs)
     {
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
-            asteroid.position += -gs.asteroids[i].direction * 0.005f;
+            asteroid.position += -gs.asteroids[i].direction;// * 0.005f;
             gs.asteroids[i] = asteroid;
         }
     }
@@ -182,6 +190,7 @@ public class GameStateRules : MonoBehaviour
                 {
                     gs.asteroids.RemoveAtSwapBack(i);
                     i--;
+                    GenerateNewAsteroid(ref gameParameters, ref gs);
                     continue;
                 }
 

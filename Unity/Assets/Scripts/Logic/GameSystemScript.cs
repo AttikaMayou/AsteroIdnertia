@@ -7,6 +7,11 @@ using Random = Unity.Mathematics.Random;
 public class GameSystemScript : MonoBehaviour
 {
     [SerializeField]
+    private GameObject PauseMenu;
+
+    static bool isPaused = false;
+
+    [SerializeField]
     private TMP_Dropdown Agent1Dropdown;
 
     [SerializeField]
@@ -21,6 +26,7 @@ public class GameSystemScript : MonoBehaviour
 
     public void StartGame()
     {
+        Time.timeScale = 1;
         switch (Agent1Dropdown.value)
         {
             case 0:
@@ -71,10 +77,31 @@ public class GameSystemScript : MonoBehaviour
 
     private void Update()
     {
-
         if (LaunchGame)
         {
-            playerManager.UpdatePlayerState();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Time.timeScale = 0;
+                Pause();
+                isPaused = true;
+            }
+            else
+            {
+                playerManager.UpdatePlayerState();
+            }
+        }
+
+    }
+
+    public void Pause()
+    {
+        if (isPaused)
+        {
+            PauseMenu.SetActive(false);
+        }
+        else
+        { 
+        PauseMenu.SetActive(true);
         }
     }
 }

@@ -88,9 +88,7 @@ public class AStarAgent : IAgent
         public float CalculateFrames()
         {
             float distProjectilePlayer = math.distance(playerPos, projectilePos);
-            float frames = gs.currentGameStep + distProjectilePlayer/gameParameters.ProjectileSpeed;
-
-            return frames;
+            return gs.currentGameStep + distProjectilePlayer/gameParameters.ProjectileSpeed;
         }
     }
 }
