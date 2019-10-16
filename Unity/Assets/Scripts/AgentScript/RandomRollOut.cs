@@ -16,17 +16,45 @@ public class RandomRollOut : IAgent
             availableActions = availableActions,
             gs = gs,
             summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob),
-            //rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
+            rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount) },
             playerId = playerId
         };
 
         var handle = job.Schedule(availableActions.Length, 1);
         handle.Complete();
 
-        int[] bestActionIndex = new int[3];
-        for (var i = 0; i < job.summedScores.Length; i++)
+        int[] bestActionIndex = new int[] { -1, -1, -1 };
+        int indexFound = 0;
+        var currBestActionIdex = -1;
+        var bestScoreValue = long.MinValue;
+        var i = 0;
+
+        while(bestActionIndex[2] == -1)
         {
-            var bestActionId = -1;
+            if (bestScoreValue > job.summedScores[i] || !isValidIndex(i))
+            {
+                i++;
+                if (i >= job.summedScores.Length) i = 0;
+                continue;
+            }
+
+            bestScoreValue = job.summedScores[i];
+            currBestActionIdex = i;
+            bestActionIndex[indexFound] = currBestActionIdex;
+            indexFound += 1;
+            i++;
+            if (i >= job.summedScores.Length) i = 0;
+        }
+
+        /*for ( i = 0; i < job.summedScores.Length; i++)
+        {
+            if (bestScoreValue > job.summedScores[i] || !isValidIndex(i))
+                continue;
+
+            bestScoreValue = job.summedScores[i];
+            currBestActionIdex = i;
+
+            var bestActionId = i;
             var bestScore = long.MinValue;
             for (var j = 0; j < job.summedScores.Length; j++)
             {
@@ -34,19 +62,20 @@ public class RandomRollOut : IAgent
                 {
                     continue;
                 }
-
                 bestScore = job.summedScores[i];
                 bestActionId = i;
             }
 
-            bestActionIndex[i] = bestActionId;
-        }
+            if(bestActionId != -1)
+                bestActionIndex[indexFound] = bestActionId;
+            indexFound += 1;
+        }*/
 
-        bool isValidIndex(int i)
+        bool isValidIndex(int index)
         {
             for (var j = 0; j < bestActionIndex.Length; j++)
             {
-                if (bestActionIndex[j] == i)
+                if (bestActionIndex[j] == index)
                     return false;
             }
             return true;

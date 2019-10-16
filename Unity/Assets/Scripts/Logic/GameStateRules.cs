@@ -401,6 +401,7 @@ public class GameStateRules : MonoBehaviour
                    oldPlayer.lastShootStep, oldPlayer.isGameOver, velocity, rotationVelocity, lookDirection);
         }
     }
+
     [NativeDisableParallelForRestriction]
     private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(7, Allocator.Persistent);
     
@@ -409,10 +410,10 @@ public class GameStateRules : MonoBehaviour
         AvailableActions[0] = ActionsTypes.Nothing;
         AvailableActions[1] = ActionsTypes.RotateRight;
         AvailableActions[2] = ActionsTypes.RotateLeft;
-        AvailableActions[3] = ActionsTypes.MoveDown ;
-        AvailableActions[4] = ActionsTypes.MoveUp ;
-        AvailableActions[5] = ActionsTypes.Shoot ;
-        AvailableActions[6] = ActionsTypes.NoShoot ;
+        AvailableActions[3] = ActionsTypes.MoveDown;
+        AvailableActions[4] = ActionsTypes.MoveUp;
+        AvailableActions[5] = ActionsTypes.Shoot;
+        AvailableActions[6] = ActionsTypes.NoShoot;
         return AvailableActions;
     }
 
@@ -430,7 +431,7 @@ public class GameStateRules : MonoBehaviour
         clone.projectiles = new NativeList<Projectile>(gs.projectiles.Length, Allocator.Temp);
         clone.projectiles.AddRange(gs.projectiles);
         clone.players = new NativeList<Player>(gs.players.Length, Allocator.Temp);
-        clone.players.AddRange(clone.players);
+        clone.players.AddRange(gs.players);
         clone.currentGameStep = gs.currentGameStep;
 
         return clone;
@@ -443,7 +444,7 @@ public class GameStateRules : MonoBehaviour
         gsCopy.projectiles.Clear();
         gsCopy.projectiles.AddRange(gs.projectiles);
         gsCopy.players = new NativeList<Player>(gs.players.Length, Allocator.Temp);
-        gsCopy.players.AddRange(gsCopy.players);
+        gsCopy.players.AddRange(gs.players);
         gsCopy.currentGameStep = gs.currentGameStep;
     }
     
