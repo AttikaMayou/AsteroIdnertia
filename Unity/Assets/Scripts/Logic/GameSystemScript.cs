@@ -38,15 +38,15 @@ public class GameSystemScript : MonoBehaviour
             case 2:
                 agentPlayer1 = new RandomRollOut();
                 break;
-                /* case 3:
-                     agentPlayer1 = new Dijktra();
-                     break;
-                 case 4:
-                     agentPlayer1 = new MCTS();
-                     break;
-                 case 5:
-                     agentPlayer1 = new QLearning();
-                     break;*/
+            case 3:
+                agentPlayer1 = new AStarAgent();
+                break;
+            /*case 4:
+                agentPlayer1 = new MCTS();
+                break;
+            case 5:
+                agentPlayer1 = new QLearning();
+                break;*/
         }
 
         switch (Agent2Dropdown.value)
@@ -60,15 +60,15 @@ public class GameSystemScript : MonoBehaviour
             case 2:
                 agentPlayer2 = new RandomRollOut();
                 break;
-                /*case 3:
-                    agentPlayer2 = new Dijktra();
-                    break;
-                case 4:
-                    agentPlayer2 = new MCTS();
-                    break;
-                case 5:
-                    agentPlayer2 = new QLearning();
-                    break;*/
+            case 3:
+                agentPlayer2 = new AStarAgent();
+                break;
+            /*case 4:
+                agentPlayer2 = new MCTS();
+                break;
+            case 5:
+                agentPlayer2 = new QLearning();
+                break;*/
         }
         IAgent[] agents = { agentPlayer1, agentPlayer2 };
         playerManager.StartGame(agents);
