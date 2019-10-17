@@ -93,7 +93,8 @@ public struct MCTSAgent : IAgent
 
             var gsCopy = Rules.Clone(ref gs);
 
-            var rootHash = Rules.GetHashCode(ref gsCopy, 0);
+            var rootHashPlayer1 = Rules.GetHashCode(ref gsCopy, 0);
+            //var rootHashPlayer2 = Rules.GetHashCode(ref gsCopy, 1);
 
             //mémoire player 1 et 2 
             var memory1 = new NativeHashMap<long, NativeList<NodeMCTS>>(2048, Allocator.Temp);
@@ -105,7 +106,7 @@ public struct MCTSAgent : IAgent
             //remplir le tableau de memory 
             for (int j = 0; j < 2; j++)
             {
-                memory[j].TryAdd(rootHash, new NativeList<NodeMCTS>(availableActions.Length, Allocator.Temp));
+                memory[j].TryAdd(rootHashPlayer1, new NativeList<NodeMCTS>(availableActions.Length, Allocator.Temp));
             }
 
             //remplir les memory1 et 2 avec des availablesActions
@@ -114,7 +115,7 @@ public struct MCTSAgent : IAgent
             {
                 for (var i = 0; i < availableActions.Length; i++)
                 {
-                    memory[j][rootHash].Add(new NodeMCTS
+                    memory[j][rootHashPlayer1].Add(new NodeMCTS
                     {
                         action = availableActions[i],
                         nc = 0,
@@ -127,7 +128,7 @@ public struct MCTSAgent : IAgent
             for (var n = 0; n < epochs; n++)
             {
                 Rules.CopyTo(ref gs, ref gsCopy);
-                var currentHash = rootHash;
+                var currentHash = rootHashPlayer1;
 
                 var selectedNodes = new NativeList<SelectedNodeInfo>(Allocator.Temp);
 

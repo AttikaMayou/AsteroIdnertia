@@ -10,6 +10,7 @@ using static Unity.Mathematics.math;
 
 public class GameStateRules : MonoBehaviour
 {
+
     public static void Init(ref GameParametersStruct gameParameters, ref GameState gs, PlayerManager playerManager)
     {
         gs.scoreStepDelay = -gameParameters.StepScoreDelay;
@@ -592,10 +593,19 @@ public class GameStateRules : MonoBehaviour
 
     */
         //return hash += 30 + (long)round(clamp(closestEnemyPlayerPosition, -14.99999f, 14.9999f) + 15f);
-        var enemyPosition = gs.players[playerId == 0 ? 1 : 0].position;
-
         long hash = 0;
-        hash += 30 + (long)gs.players[1].lookDirection.x;
+        var enemyPosition = gs.players[playerId].position;
+
+        var ennemyLookDirection = gs.players[playerId].lookDirection;
+        Debug.Log("player id:" + playerId);
+        Debug.Log("ennemyPosition:" + enemyPosition);
+        Debug.Log("ennemyLookDirection :" + ennemyLookDirection);
+
+
+        //mettre à jour la rotation
+
+
+        hash += 30 * (long)ennemyLookDirection.y;// (long)gs.players[playerId].lookDirection.x;
         Debug.Log("hash :" + hash);
         return hash;
     }
