@@ -167,6 +167,10 @@ public class PlayerManager : MonoBehaviour
         Vector2 position2 = new Vector2(170f, 170f);
         gs.players[1] = GameStateRules.createPlayer(oldPlayer2.score, oldPlayer2.speed, position2,
     oldPlayer2.lastShootStep, false, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
+
+        gs.asteroids.Clear();
+        gs.currentGameStep = 0;
+        //gs.projectiles.Dispose();
     }
 
     void GetBoundaries()
@@ -193,10 +197,6 @@ public class PlayerManager : MonoBehaviour
 
         GameParameters.Instance.Parameters.ScreenBordersBoundaryX = horizontalBoundary;
         GameParameters.Instance.Parameters.ScreenBordersBoundaryY = verticalBoundary;
-
-
-
-
 
     }
 }

@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using Unity.Collections;
-using System.Collections.Generic;
-using Unity.Jobs;
-using Unity.Burst;
 
 //Auteur : Félix
 //Modifications : Margot, Arthur et Attika
@@ -40,45 +37,51 @@ public class GameStateRules : MonoBehaviour
         };
         gs.players.Add(player2);
 
-        //Taille de la liste à déterminer
+        //Taille de la liste à déterminer 
+        //Initialisation d'une liste pour les astéroïdes
         gs.asteroids = new NativeList<Asteroid>(100, Allocator.Persistent);
-        for (var i = 0; i < gs.asteroids.Length; i++)
-        {
-            GenerateNewAsteroid(ref gameParameters, ref gs);
-        }
 
-        // Taille de la liste à déterminer
+        //Taille de la liste à déterminer
         gs.projectiles = new NativeList<Projectile>(100, Allocator.Persistent);
     }
 
     //Generate a random position within the world
     private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
     {
+        //Donne une position au hasard dans le monde entre les boundaries choisies (donc dans le carré de centre (0, 0, 0) et de côté "gameParameters.Boundary")
         var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
             Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
+
+        //Si la position est comprise dans l'écran, on l'éloigne
+        if (position.x < 90 && position.x > -90 &&
+            position.y < 90 && position.y > -90) position.y += 100f;
+
         return position;
     }
 
     //Generate a new asteroid and add it to asteroids list
     private static void GenerateNewAsteroid(ref GameParametersStruct gameParameters, ref GameState gs)
     {
+        //Récupère une random position 
         var position = GetRandomPosition(ref gameParameters);
 
+        //Créé un nouvel astéroïde à la position précédemment obtenue, donne une direction globalement orientée vers le centre (0, 0, 0) à +/- 50°)
         var asteroid = new Asteroid
         {
             position = position,
             direction = position - new Vector2(Random.Range(-50f, 50.0f), 0),
-            initialPosition = position
         };
 
+        //Multiplication de la direction par une valeur au hasard entre la minimum et maximum speed autorisée pour les astéroïdes
         asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
+        //ajout de cet astéroïde dans la liste
         gs.asteroids.Add(asteroid);
     }
 
     public static void Step(ref GameParametersStruct gameParameters, ref GameState gs, ActionsTypes actionPlayer1, ActionsTypes actionPlayer2)
     {
 
-        UpdateAsteroids(ref gs);
+        UpdateAsteroids(ref gameParameters, ref gs);
         UpdateProjectiles(ref gs);
 
         HandleAgentInputs(ref gameParameters, ref gs, actionPlayer1, actionPlayer2);
@@ -99,8 +102,21 @@ public class GameStateRules : MonoBehaviour
         gs.scoreStepDelay = gs.currentGameStep;
     }
 
-    static void UpdateAsteroids(ref GameState gs)
+    static void UpdateAsteroids(ref GameParametersStruct gameParameters, ref GameState gs)
     {
+        //facteur de spawn d'astéroïdes, qui va augmenter de façon exponentielle (ou presque)
+        var spawnAsteroid = gs.currentGameStep * 1.0f;
+        if (gs.currentGameStep > 100 * 60)
+            spawnAsteroid *= 0.2f;//Mathf.Pow(2.7f, gs.currentGameStep * 0.00005f);
+        else
+            spawnAsteroid *= 0.02f;
+        //itération sur ce facteur de spawn : on génère autant d'astéroïdes qu'il en manque pour en avoir "spawnAsteroid" objets dans la liste
+        for (var i = 0; i < spawnAsteroid - gs.asteroids.Length; i++)
+        {
+            GenerateNewAsteroid(ref gameParameters, ref gs);
+        }
+
+        //Update de la position des astéroïdes déjà existants
         for (var i = 0; i < gs.asteroids.Length; i++)
         {
             var asteroid = gs.asteroids[i];
@@ -123,8 +139,6 @@ public class GameStateRules : MonoBehaviour
     {
         for (int j = 0; j < gs.players.Length; j++)
         {
-
-
             //Collision entre asteroids et player 
             for (var i = 0; i < gs.asteroids.Length; i++)
             {
@@ -136,6 +150,7 @@ public class GameStateRules : MonoBehaviour
                 {
                     gs.asteroids.RemoveAtSwapBack(i);
                     i--;
+                    //Quand un astéroïde est détruit, on en génère un remplaçant
                     GenerateNewAsteroid(ref gameParameters, ref gs);
                     continue;
                 }
@@ -179,8 +194,6 @@ public class GameStateRules : MonoBehaviour
 
                 gs.projectiles.RemoveAtSwapBack(i);
                 i--;
-
-
 
                 return;
             }
@@ -381,8 +394,8 @@ public class GameStateRules : MonoBehaviour
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
             Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
-
     }
+
     //rotate left 
     static private void RotateLeftAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
@@ -391,7 +404,6 @@ public class GameStateRules : MonoBehaviour
         oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
         oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
             Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
-
     }
 
     //Movement when up
@@ -454,6 +466,7 @@ public class GameStateRules : MonoBehaviour
     {
 
     }
+
     [NativeDisableParallelForRestriction]
     private static NativeArray<ActionsTypes> AvailableActions = new NativeArray<ActionsTypes>(12, Allocator.Persistent);
 
