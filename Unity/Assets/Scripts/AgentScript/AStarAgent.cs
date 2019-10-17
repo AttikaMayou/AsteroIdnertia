@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections;
-using UnityEngine;
+﻿using Unity.Collections;
 using Unity.Jobs;
 using Rules = GameStateRules;
 using Random = Unity.Mathematics.Random;
@@ -17,11 +14,14 @@ public class AStarAgent : IAgent
             availableActions = availableActions,
             gs = gs,
             currentDepth = 0,
-            maxDepth = 1,
+            maxDepth = 500,
             gameParameters = GameParameters.Instance.Parameters,
-            playerPos = gs.players[playerId == 0 ? 1 : 0].position,
             projectilePos = new float2(500f, 500f),
-            bestFrame = 500
+            playerPos = gs.players[playerId == 0 ? 1 : 0].position,
+            playerId = playerId,
+            nodes = new NativeList<NodeASatr>(0, Allocator.TempJob),
+            selectedNodes = new NativeList<int>(0, Allocator.TempJob),
+            maxFrames = 500
         };
 
         var handle = job.Schedule();
@@ -30,8 +30,6 @@ public class AStarAgent : IAgent
         ActionsTypes chosenAction = availableActions[job.indexChoosenAction];
         return chosenAction;
     }
-
-    //public struct Node
 
     [BurstCompile]
     struct AStarJob : IJob
@@ -42,66 +40,121 @@ public class AStarAgent : IAgent
 
         [ReadOnly]
         public NativeArray<ActionsTypes> availableActions;
-        
+
+        public NativeList<NodeASatr> nodes;
+        public NativeList<int> selectedNodes;
+
+        //nb max itérations
         public int currentDepth;
-        public float2 playerPos;
-        public int playerId;
-        //max frame count 
-        public float bestFrame;
+        public int maxDepth;
+        public int maxFrames;
+        public int currentFrame;
 
         public float2 projectilePos;
+        public float2 playerPos;
+        public int playerId;
+        public float2 enemyPlayerPos;
 
-        public int stepBestAction;
+        public NodeASatr bestStepAction;
 
         [WriteOnly]
-        public int indexChoosenAction;
-
-        public int maxDepth;
+        public int indexChoosenAction; //Action à return
 
         public void Execute()
         {
             var gsCopy = Rules.Clone(ref gs);
 
-            //Copy GameState
-            Rules.CopyTo(ref gs, ref gsCopy);
+            //Init
+            bestStepAction.action = -1;
+            bestStepAction.framesToTarget = 50000;
+            bestStepAction.previousAction = -1;
+            enemyPlayerPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
 
-            while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver || currentDepth != maxDepth)
+            if (playerId == 0)
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.MoveUpS, ActionsTypes.Nothing);
+            else
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.Nothing, ActionsTypes.MoveUpS);
+
+            while (!gs.players[0].isGameOver && !gs.players[1].isGameOver && currentFrame <= maxFrames)
             {
-                for (var n = 0; n < availableActions.Length; n++)
+                //reset for next frame
+                if (currentDepth >= maxDepth || CalculateFrames(enemyPlayerPos, projectilePos) == 0)
                 {
-                    //Fait la première action
-                    Rules.Step(ref gameParameters, ref gsCopy, availableActions[n], ActionsTypes.Nothing);
-                    Debug.Log("dans le job step for");
-                    //Calcul du nb de frame 
-                    float Frames = CalculateFrames();
+                    selectedNodes.Clear();
+                    nodes.Clear();
+                    bestStepAction.action = -1;
+                    bestStepAction.framesToTarget = 50000;
+                    bestStepAction.previousAction = -1;
 
-                    if (bestFrame > Frames)
+                    //Init projectile
+                    for (int i = gs.projectiles.Length - 1; i >= 0; i--)
                     {
-                        stepBestAction = n;
-                        bestFrame = Frames;
+                        if (gs.projectiles[i].playerID == playerId)
+                            projectilePos = gs.projectiles[gs.projectiles.Length - 1].position;
+                        else if (i == 0)
+                            projectilePos = new float2(500f, 500f);
+                    }
+
+                }
+
+                //Ajout des nouveaux noeuds dans la liste
+                for (var i = 0; i < availableActions.Length; i++)
+                {
+                    //Copy GameState
+                    Rules.CopyTo(ref gs, ref gsCopy);
+
+                    if (playerId == 0)
+                        Rules.Step(ref gameParameters, ref gsCopy, availableActions[i], ActionsTypes.Nothing);
+                    else
+                        Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[i]);
+
+                    //Création et ajout du nouveau noeud
+                    NodeASatr tmpNode = new NodeASatr();
+                    tmpNode.framesToTarget = CalculateFrames(enemyPlayerPos, projectilePos);//à vérifier
+                    tmpNode.action = i;
+                    tmpNode.previousAction = bestStepAction.action;
+                    nodes.Add(tmpNode);
+                }
+
+                //Choix de la meilleur action
+                for (var i = 0; i < nodes.Length; i++)
+                {
+                    if (nodes[i].framesToTarget < bestStepAction.framesToTarget)
+                    {
+                        bestStepAction = nodes[i];
                     }
                 }
 
-                Rules.Step(ref gameParameters, ref gsCopy, availableActions[stepBestAction], ActionsTypes.Nothing);
+                //Fait la meilleur action
+                if (playerId == 0)
+                    Rules.Step(ref gameParameters, ref gsCopy, availableActions[bestStepAction.action], ActionsTypes.Nothing);
+                else
+                    Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[bestStepAction.action]);
 
-                if (stepBestAction == 2 || stepBestAction == 4 || stepBestAction == 6 || stepBestAction == 8)
+                //Retire la meilleur action de la liste
+                selectedNodes.Add(bestStepAction.action);
+                nodes.RemoveAtSwapBack(bestStepAction.action);
+
+                //return first action of the path
+                for (int i = selectedNodes.Length - 1; i > 0; i--)
                 {
-                    if (gsCopy.projectiles[gsCopy.projectiles.Length - 1].playerID == playerId || gsCopy.projectiles[gsCopy.projectiles.Length - 2].playerID == playerId)
+                    if (selectedNodes[i - 1] == -1)
                     {
-                        projectilePos = gsCopy.projectiles[gsCopy.projectiles.Length - 1].position;
+                        indexChoosenAction = selectedNodes[i];
+                        break;
                     }
                 }
 
+                indexChoosenAction = 0;
                 currentDepth++;
+                currentFrame++;
             }
-
-            gsCopy.projectiles.Dispose();
         }
 
-        public float CalculateFrames()
+        public float CalculateFrames(float2 playerPos, float2 projectilePos)
         {
             float distProjectilePlayer = math.distance(playerPos, projectilePos);
-            return gs.currentGameStep + distProjectilePlayer/gameParameters.ProjectileSpeed;
+            return gs.currentGameStep + distProjectilePlayer / gameParameters.ProjectileSpeed;
         }
     }
 }

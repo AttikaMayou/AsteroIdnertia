@@ -39,7 +39,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer1 = new RandomRollOut();
                 break;
             case 3:
-                agentPlayer1 = new AStarV2();
+                agentPlayer1 = new AStarAgent();
                 break;
             /*case 4:
                 agentPlayer1 = new MCTS();
@@ -61,7 +61,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer2 = new RandomRollOut();
                 break;
             case 3:
-                agentPlayer2 = new AStarV2();
+                agentPlayer2 = new AStarAgent();
                 break;
             /*case 4:
                 agentPlayer2 = new MCTS();
