@@ -12,9 +12,6 @@ public class GameStateRules : MonoBehaviour
 {
     public static void Init(ref GameParametersStruct gameParameters, ref GameState gs, PlayerManager playerManager)
     {
-        // Initialisation des players
-        Debug.Log("Initialization");
-
         gs.scoreStepDelay = -gameParameters.StepScoreDelay;
 
         gs.players = new NativeList<Player>(2, Allocator.Persistent);
@@ -245,7 +242,7 @@ public class GameStateRules : MonoBehaviour
             {
                 tempChosenActionPlayer = chosenPlayer2Actions;
             }
-            //Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1} / tempChosenPlayer : {2}", chosenPlayer1Actions, chosenPlayer2Actions, tempChosenActionPlayer);
+            Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1}", chosenPlayer1Actions, chosenPlayer2Actions);
 
             switch (tempChosenActionPlayer)
             {
@@ -598,7 +595,9 @@ public class GameStateRules : MonoBehaviour
         var enemyPosition = gs.players[playerId == 0 ? 1 : 0].position;
 
         long hash = 0;
-        return hash += (long)gs.players[playerId].lookDirection.x;
+        hash += 30 + (long)gs.players[1].lookDirection.x;
+        Debug.Log("hash :" + hash);
+        return hash;
     }
 
 }
