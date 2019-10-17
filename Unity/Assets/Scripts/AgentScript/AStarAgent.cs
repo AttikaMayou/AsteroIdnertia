@@ -24,23 +24,17 @@ public class AStarAgent : IAgent
             bestFrame = 500
         };
 
-        var handle = job.Schedule(availableActions.Length, 2);
+        var handle = job.Schedule();
         handle.Complete();
 
         ActionsTypes chosenAction = availableActions[job.indexChoosenAction];
         return chosenAction;
-
-        ////Lancer le job
-        //ActionsTypes chosenAction = availableActions[bestActionIndex];
-        //job.summedScores.Dispose();
-
-        //return chosenAction;
     }
 
     //public struct Node
 
     [BurstCompile]
-    struct AStarJob : IJobParallelFor
+    struct AStarJob : IJob
     {
         public GameState gs;
 
@@ -64,7 +58,7 @@ public class AStarAgent : IAgent
 
         public int maxDepth;
 
-        public void Execute(int index)
+        public void Execute()
         {
             var gsCopy = Rules.Clone(ref gs);
 

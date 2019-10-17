@@ -39,14 +39,14 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer1 = new RandomRollOut();
                 break;
             case 3:
-                agentPlayer1 = new AStarAgent();
+                agentPlayer1 = new AStarV2();
                 break;
-                 /*case 4:
-                     agentPlayer1 = new MCTS();
-                     break;
-                 case 5:
-                     agentPlayer1 = new QLearning();
-                     break;*/
+            /*case 4:
+                agentPlayer1 = new MCTS();
+                break;
+            case 5:
+                agentPlayer1 = new QLearning();
+                break;*/
         }
 
         switch (Agent2Dropdown.value)
@@ -61,7 +61,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer2 = new RandomRollOut();
                 break;
             case 3:
-                agentPlayer2 = new AStarAgent();
+                agentPlayer2 = new AStarV2();
                 break;
             /*case 4:
                 agentPlayer2 = new MCTS();
