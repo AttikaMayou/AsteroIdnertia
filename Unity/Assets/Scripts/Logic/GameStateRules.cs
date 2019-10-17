@@ -3,7 +3,6 @@ using Unity.Collections;
 using System.Collections.Generic;
 using Unity.Jobs;
 using Unity.Burst;
-using static Unity.Mathematics.math;
 
 //Auteur : Félix
 //Modifications : Margot, Arthur et Attika
@@ -35,7 +34,7 @@ public class GameStateRules : MonoBehaviour
             position = new Vector2(21.4f, 0f),
             lastShootStep = -gameParameters.ShootDelay,
             isGameOver = false,
-            lookDirection = new Vector2(0, 1)
+            lookDirection = new Vector2(0, 1),
         };
         gs.players.Add(player2);
 
@@ -53,9 +52,9 @@ public class GameStateRules : MonoBehaviour
     //Generate a random position within the world
     private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
     {
-        var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
-            Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
-        return position;
+        //var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
+        //   Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
+        return new Vector2(0,0);// position;
     }
 
     //Generate a new asteroid and add it to asteroids list
@@ -66,11 +65,11 @@ public class GameStateRules : MonoBehaviour
         var asteroid = new Asteroid
         {
             position = position,
-            direction = position - new Vector2(Random.Range(-50f, 50.0f), 0),
+           // direction = position - new Vector2(Random.Range(-50f, 50.0f), 0),
             initialPosition = position
         };
 
-        asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
+        //asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
         gs.asteroids.Add(asteroid);
     }
 
@@ -243,7 +242,7 @@ public class GameStateRules : MonoBehaviour
             {
                 tempChosenActionPlayer = chosenPlayer2Actions;
             }
-            Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1}", chosenPlayer1Actions, chosenPlayer2Actions);
+            //Debug.LogFormat("chosenPlayer1Actions : {0} / chosenPlayer2Actions : {1}", chosenPlayer1Actions, chosenPlayer2Actions);
 
             switch (tempChosenActionPlayer)
             {
@@ -594,19 +593,33 @@ public class GameStateRules : MonoBehaviour
     */
         //return hash += 30 + (long)round(clamp(closestEnemyPlayerPosition, -14.99999f, 14.9999f) + 15f);
         long hash = 0;
-        var enemyPosition = gs.players[playerId].position;
+        var enemyPosition = gs.players[1].position;
 
-        var ennemyLookDirection = gs.players[playerId].lookDirection;
-        Debug.Log("player id:" + playerId);
-        Debug.Log("ennemyPosition:" + enemyPosition);
-        Debug.Log("ennemyLookDirection :" + ennemyLookDirection);
+        Unity.Mathematics.float2 ennemyLookDirection = gs.players[playerId].lookDirection;
+        //Debug.LogFormat("Joueur {0}: est le joueur MTCS", playerId);
+        //Debug.Log("ennemyPosition:" + enemyPosition);
+        //Debug.Log("ennemyLookDirection :" + ennemyLookDirection);
 
+        //distance entre player et ennemyPlayer
+        Unity.Mathematics.float2 VectorBetweenPlayerAndEnnemy = 
+            new Unity.Mathematics.float2(gs.players[1].position.x - gs.players[0].position.x, 
+                                         gs.players[1].position.y - gs.players[0].position.y);
 
-        //mettre à jour la rotation
+        //produit scalaire de lookAt sur Player2
+        var ProjectionLookAtEnnemy = Unity.Mathematics.math.dot(ennemyLookDirection, VectorBetweenPlayerAndEnnemy);
 
+        if (ProjectionLookAtEnnemy >= 0)
+        {
+            //Debug.Log("droite");
+            hash =+ 10 * (long)gs.players[1].position.y;
+        }
+        else
+        {
+            //Debug.Log("gauche");
+            hash =- 10 * (long)gs.players[1].position.y;
+        }
 
-        hash += 30 * (long)ennemyLookDirection.y;// (long)gs.players[playerId].lookDirection.x;
-        Debug.Log("hash :" + hash);
+        //Debug.Log(hash);
         return hash;
     }
 
