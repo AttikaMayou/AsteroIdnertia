@@ -38,10 +38,10 @@ public class GameSystemScript : MonoBehaviour
             case 2:
                 agentPlayer1 = new RandomRollOut();
                 break;
-                /* case 3:
-                     agentPlayer1 = new Dijktra();
-                     break;
-                 case 4:
+            case 3:
+                agentPlayer1 = new AStarAgent();
+                break;
+                 /*case 4:
                      agentPlayer1 = new MCTS();
                      break;
                  case 5:
@@ -60,10 +60,10 @@ public class GameSystemScript : MonoBehaviour
             case 2:
                 agentPlayer2 = new RandomRollOut();
                 break;
-            /*case 3:
-                agentPlayer2 = new Dijktra();
+            case 3:
+                agentPlayer2 = new AStarAgent();
                 break;
-            case 4:
+            /*case 4:
                 agentPlayer2 = new MCTS();
                 break;
             case 5:
