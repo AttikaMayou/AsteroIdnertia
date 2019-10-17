@@ -5,6 +5,13 @@ using Random = Unity.Mathematics.Random;
 using Unity.Burst;
 using Unity.Mathematics;
 
+public struct NodeASatr
+{
+    public float framesToTarget;
+    public int action;
+    public int previousAction;
+}
+
 public class AStarAgent : IAgent
 {
     public ActionsTypes Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
