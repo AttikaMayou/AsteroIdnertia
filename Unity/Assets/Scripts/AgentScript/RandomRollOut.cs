@@ -4,6 +4,7 @@ using Unity.Jobs;
 using Unity.Collections;
 using Random = Unity.Mathematics.Random;
 using Rules = GameStateRules;
+using Unity.Mathematics;
 
 //Auteur : Félix et Attika
 //Modifications : Margot
@@ -16,17 +17,19 @@ public struct RandomRollOut : IAgent
         {
             availableActions = availableActions,
             gs = gs,
-            summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob),
+            summedScores = new NativeArray<float>(availableActions.Length, Allocator.TempJob),
             rdmAgent = new RandomAgent { rdm = new Random((uint)Time.frameCount + (uint)playerId) },
             playerId = playerId,
-            gameParameters = GameParameters.Instance.Parameters
+            gameParameters = GameParameters.Instance.Parameters,
+            projectilePos = new float2(500f, 500f),
+            playerPos = gs.players[playerId == 0 ? 0 : 1].position
         };
 
         var handle = job.Schedule(availableActions.Length, 1);
         handle.Complete();
 
         int bestActionIndex = -1;
-        var bestScore = long.MinValue;
+        var bestScore = float.MinValue;
 
         for (var i = 0; i < job.summedScores.Length; i++)
         {
@@ -34,10 +37,10 @@ public struct RandomRollOut : IAgent
             {
                 continue;
             }
-          //  Debug.Log(availableActions[i] + " : " + job.summedScores[i]);
             bestScore = job.summedScores[i];
             bestActionIndex = i;
         }
+
         // Check if all value are same
         var value = job.summedScores[0];
         bool same = true;
@@ -50,7 +53,7 @@ public struct RandomRollOut : IAgent
             }
         }
 
-        ActionsTypes chosenAction; 
+        ActionsTypes chosenAction = availableActions[0]; 
         if (!same)
             chosenAction = availableActions[bestActionIndex];
         else
@@ -76,10 +79,13 @@ public struct RandomRollOut : IAgent
 
         public RandomAgent rdmAgent;
 
-        [WriteOnly]
-        public NativeArray<long> summedScores;
+        //[WriteOnly]
+        public NativeArray<float> summedScores;
 
         public int playerId;
+        public float2 projectilePos;
+        public float2 enemyPos;
+        public float2 playerPos;
 
         public void Execute(int index)
         {
@@ -92,10 +98,6 @@ public struct RandomRollOut : IAgent
             {
                 Rules.CopyTo(ref gs, ref gsCopy);
                 Rules.Step(ref gameParameters, ref gsCopy, availableActions[index], 0);
-
-                //Rules.Step(ref gameParameters, ref gsCopy, availableActions[index], 0);
-                //agent.Act(ref gsCopy, availableActions[0], 0),
-                //agent.Act(ref gsCopy, availableActions, 1));
 
                 var currentDepth = 0;
                 var maxIteration = 200;
@@ -111,10 +113,16 @@ public struct RandomRollOut : IAgent
                     }
                 }
 
-                summedScores[index] += gsCopy.players[playerId].score;
+                summedScores[index] += CalculateFrames(enemyPos, projectilePos);
                 gsCopy.projectiles.Dispose();
                 gsCopy.asteroids.Dispose();
             }
+        }
+
+        public float CalculateFrames(float2 playerPos, float2 projectilePos)
+        {
+            float distance = math.distance(playerPos, projectilePos);
+            return gs.currentGameStep + distance / gameParameters.ProjectileSpeed;
         }
     }
 }
