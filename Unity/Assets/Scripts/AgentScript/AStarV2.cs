@@ -24,7 +24,7 @@ public class AStarV2 : IAgent
             availableActions = availableActions,
             gs = gs,
             currentDepth = 0,
-            maxDepth = 300,
+            maxDepth = 500,
             gameParameters = GameParameters.Instance.Parameters,
             projectilePos = new float2(500f, 500f),
             playerPos = gs.players[playerId == 0 ? 1 : 0].position,
@@ -63,6 +63,7 @@ public class AStarV2 : IAgent
         public float2 projectilePos;
         public float2 playerPos;
         public int playerId;
+        public float2 enemyPlayerPos;
 
         public NodeASatr bestStepAction;
 
@@ -77,19 +78,33 @@ public class AStarV2 : IAgent
             bestStepAction.action = -1;
             bestStepAction.framesToTarget = 50000;
             bestStepAction.previousAction = -1;
+            enemyPlayerPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
             
-            Rules.Step(ref gameParameters, ref gs, ActionsTypes.MoveUpS, ActionsTypes.Nothing);
+            if (playerId == 0)
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.MoveUpS, ActionsTypes.Nothing);
+            else
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.Nothing, ActionsTypes.MoveUpS);
 
             while (!gs.players[0].isGameOver && !gs.players[1].isGameOver && currentFrame <= maxFrames)
             {
                 //reset for next frame
-                if(currentDepth >= maxDepth)
+                if(currentDepth >= maxDepth || CalculateFrames(enemyPlayerPos, projectilePos) == 0)
                 {
                     selectedNodes.Clear();
                     nodes.Clear();
                     bestStepAction.action = -1;
                     bestStepAction.framesToTarget = 50000;
                     bestStepAction.previousAction = -1;
+
+                    //Init projectile
+                    for(int i = gs.projectiles.Length - 1; i >= 0; i--)
+                    {
+                        if (gs.projectiles[i].playerID == playerId)
+                            projectilePos = gs.projectiles[gs.projectiles.Length - 1].position;
+                        else if (i == 0)
+                            projectilePos = new float2(500f, 500f);
+                    }
+                        
                 }
 
                 //Ajout des nouveaux noeuds dans la liste
@@ -97,14 +112,15 @@ public class AStarV2 : IAgent
                 {
                     //Copy GameState
                     Rules.CopyTo(ref gs, ref gsCopy);
-                    Rules.Step(ref gameParameters, ref gsCopy, availableActions[i], ActionsTypes.Nothing);
 
-                    NodeASatr tmpNode = new NodeASatr();
-                    if(gsCopy.projectiles.Length != 0)
-                        tmpNode.framesToTarget = CalculateFrames(gsCopy.players[playerId == 0 ? 1 : 0].position, gsCopy.projectiles[gsCopy.projectiles.Length - 1].position);//à vérifier
+                    if (playerId == 0)
+                        Rules.Step(ref gameParameters, ref gsCopy, availableActions[i], ActionsTypes.Nothing);
                     else
-                        tmpNode.framesToTarget = CalculateFrames(gsCopy.players[playerId == 0 ? 1 : 0].position, new float2(500f, 500f));//à vérifier
+                        Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[i]);
 
+                    //Création et ajout du nouveau noeud
+                    NodeASatr tmpNode = new NodeASatr();
+                    tmpNode.framesToTarget = CalculateFrames(enemyPlayerPos, projectilePos);//à vérifier
                     tmpNode.action = i;
                     tmpNode.previousAction = bestStepAction.action;
                     nodes.Add(tmpNode);
@@ -120,7 +136,10 @@ public class AStarV2 : IAgent
                 }
 
                 //Fait la meilleur action
-                Rules.Step(ref gameParameters, ref gsCopy, availableActions[bestStepAction.action], ActionsTypes.Nothing);
+                if (playerId == 0)
+                    Rules.Step(ref gameParameters, ref gsCopy, availableActions[bestStepAction.action], ActionsTypes.Nothing);
+                else
+                    Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[bestStepAction.action]);
 
                 //Retire la meilleur action de la liste
                 selectedNodes.Add(bestStepAction.action);
@@ -135,13 +154,11 @@ public class AStarV2 : IAgent
                         break;
                     }
                 }
-                indexChoosenAction = 0;
 
+                indexChoosenAction = 0;
                 currentDepth++;
                 currentFrame++;
             }
-
-            
         }   
 
         public float CalculateFrames(float2 playerPos, float2 projectilePos)
