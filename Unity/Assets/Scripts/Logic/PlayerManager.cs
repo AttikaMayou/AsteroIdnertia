@@ -98,11 +98,11 @@ public class PlayerManager : MonoBehaviour
             Vector3 lookDir = new Vector3(gs.players[i].lookDirection.x, 0, gs.players[i].lookDirection.y);
             playerViews[i].position = new Vector3(gs.players[i].position.x, 0, gs.players[i].position.y);
             playerViews[i].rotation = Quaternion.LookRotation(lookDir, Vector3.up);
-        } 
-
+        }
+        GetBoundaries();
         GameStateRules.Step(ref GameParameters.Instance.Parameters, ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
                                     playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
-        
+
     }
 
     private void SyncAsteroidsViews()
@@ -135,8 +135,12 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < projectileToSpawn; i++)
         {
             var projectileView = Instantiate(ProjectilePrefab/*, new Vector3(0, 0, 5), Quaternion.identity*/);
+
             //projectilesView[i].position = gs.projectiles[i].position;
             projectilesView.Add(projectileView.transform);
+            Vector3 dir = gs.projectiles[projectilesView.Count - 1].direction;
+            dir = new Vector3(dir.x, projectileView.transform.rotation.eulerAngles.y, dir.y);
+            projectileView.transform.rotation = Quaternion.LookRotation(Vector3.down, dir);
         }
 
         for (int i = 0; i < -projectileToSpawn; i++)
@@ -163,5 +167,36 @@ public class PlayerManager : MonoBehaviour
         Vector2 position2 = new Vector2(170f, 170f);
         gs.players[1] = GameStateRules.createPlayer(oldPlayer2.score, oldPlayer2.speed, position2,
     oldPlayer2.lastShootStep, false, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
+
+        gs.asteroids.Clear();
+        gs.currentGameStep = 0;
+        //gs.projectiles.Dispose();
+    }
+
+    void GetBoundaries()
+    {
+        Camera cam = Camera.main;
+        Vector3 leftUpRay = new Vector3(0, 0);
+        Vector3 rightDownRay = new Vector3(Screen.width, Screen.height);
+        RaycastHit hit;
+
+        Ray ray = cam.ScreenPointToRay(leftUpRay);
+        if (Physics.Raycast(ray, out hit))
+        {
+            leftUpRay = hit.point;            
+        }
+
+        ray = cam.ScreenPointToRay(rightDownRay);
+        if (Physics.Raycast(ray, out hit))
+        {
+            rightDownRay = hit.point;
+        }
+        
+        Vector2 horizontalBoundary = new Vector2(leftUpRay.x, rightDownRay.x);
+        Vector2 verticalBoundary = new Vector2(leftUpRay.z, rightDownRay.z);
+
+        GameParameters.Instance.Parameters.ScreenBordersBoundaryX = horizontalBoundary;
+        GameParameters.Instance.Parameters.ScreenBordersBoundaryY = verticalBoundary;
+
     }
 }

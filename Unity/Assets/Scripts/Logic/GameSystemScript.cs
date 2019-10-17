@@ -20,7 +20,7 @@ public class GameSystemScript : MonoBehaviour
     private IAgent agentPlayer1;
     private IAgent agentPlayer2;
 
-    [SerializeField]PlayerManager playerManager;
+    [SerializeField] PlayerManager playerManager;
 
     private bool LaunchGame = false;
 
@@ -33,7 +33,7 @@ public class GameSystemScript : MonoBehaviour
                 agentPlayer1 = new HumanAgent();
                 break;
             case 1:
-                agentPlayer1 = new RandomAgent { rdm = new Random((uint)Time.frameCount) };
+                agentPlayer1 = new RandomAgent { rdm = new Random((uint)Time.frameCount + 213254) };
                 break;
             case 2:
                 agentPlayer1 = new RandomRollOut();
@@ -81,13 +81,13 @@ public class GameSystemScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Time.timeScale = 0;
                 Pause();
-                isPaused = true;
+                isPaused = !isPaused;
             }
             else
             {
-                playerManager.UpdatePlayerState();
+                if (!isPaused)
+                    playerManager.UpdatePlayerState();
             }
         }
 
@@ -100,8 +100,8 @@ public class GameSystemScript : MonoBehaviour
             PauseMenu.SetActive(false);
         }
         else
-        { 
-        PauseMenu.SetActive(true);
+        {
+            PauseMenu.SetActive(true);
         }
     }
 }

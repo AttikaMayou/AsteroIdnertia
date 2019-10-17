@@ -820,7 +820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.89, y: -0.5}
+  m_AnchoredPosition: {x: 0.89001465, y: -0.5}
   m_SizeDelta: {x: -11.78, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &103464875
@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50.8
+  m_fontSize: 50.1
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1380,6 +1380,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1790,6 +1795,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -2823,6 +2833,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3352,6 +3367,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -4288,10 +4308,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 728811054}
-    characterCount: 8
+    characterCount: 5
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 1
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -4943,6 +4963,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5335,6 +5360,7 @@ GameObject:
   - component: {fileID: 871082936}
   - component: {fileID: 871082935}
   - component: {fileID: 871082934}
+  - component: {fileID: 871082937}
   m_Layer: 0
   m_Name: BackgroundPlane
   m_TagString: Untagged
@@ -5403,6 +5429,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &871082937
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871082933}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &877436871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5806,6 +5846,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5952,7 +5997,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 62.3
+  m_fontSize: 61.65
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6040,6 +6085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -6181,24 +6231,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Parameters:
     ShootDelay: 30
-    PlayerRadius: 0.2
+    PlayerRadius: 2
     InitialPlayerSpeed: 0
-    AccelerationSpeed: 0.02
+    AccelerationSpeed: 0.1
     DecelerationSpeed: 0.02
-    MaxVelocity: 0.2
-    RotationAccelerationSpeed: 0.02
+    MaxVelocity: 0.4
+    RotationAccelerationSpeed: 1
     RotationDecelerationSpeed: 0.02
     MaxRotationVelocity: 5
     ProjectileRadius: 2
     ProjectileSpeed: 0.2
     AsteroidRadius: 5
-    AsteroidMinimumSpeed: 0.2
-    AsteroidMaximumSpeed: 0.5
+    AsteroidMinimumSpeed: 0.1
+    AsteroidMaximumSpeed: 0.2
     Boundary: 150
+    screenSideBoundary: 30
+    screenBoundary: 150
     StepScoreDelay: 100
     StepScore: 1
     AsteroidDestructionScore: 20
     EnemyDestroyScore: 500
+    ScreenBordersBoundaryX: {x: 0, y: 0}
+    ScreenBordersBoundaryY: {x: 0, y: 0}
 --- !u!114 &1026029444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6326,6 +6380,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -7005,7 +7064,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 43.35
+  m_fontSize: 48.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8375,6 +8434,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9405,7 +9469,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.89, y: -0.5}
+  m_AnchoredPosition: {x: 0.89001465, y: -0.5}
   m_SizeDelta: {x: -11.78, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1678881912
@@ -9454,7 +9518,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50.05
+  m_fontSize: 49.4
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10303,7 +10367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -11.2, y: 1.01}
+  m_AnchoredPosition: {x: -11.200012, y: 1.01}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832238534
@@ -10701,17 +10765,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 466222104}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &1867080981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11093,7 +11146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978345944}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.7, y: 115, z: 34.4}
+  m_LocalPosition: {x: 1.7, y: 115, z: 40.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11361,6 +11414,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
