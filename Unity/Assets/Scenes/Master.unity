@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 32.8
+  m_fontSize: 50.1
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5997,7 +5997,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 44.65
+  m_fontSize: 61.65
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6231,12 +6231,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Parameters:
     ShootDelay: 30
-    PlayerRadius: 0.2
+    PlayerRadius: 2
     InitialPlayerSpeed: 0
-    AccelerationSpeed: 0.02
+    AccelerationSpeed: 0.1
     DecelerationSpeed: 0.02
-    MaxVelocity: 0.2
-    RotationAccelerationSpeed: 0.02
+    MaxVelocity: 0.4
+    RotationAccelerationSpeed: 1
     RotationDecelerationSpeed: 0.02
     MaxRotationVelocity: 5
     ProjectileRadius: 2
@@ -7064,7 +7064,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 46.15
+  m_fontSize: 48.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9518,7 +9518,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 32.05
+  m_fontSize: 49.4
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11146,7 +11146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978345944}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.7, y: 115, z: 44.6}
+  m_LocalPosition: {x: 1.7, y: 115, z: 40.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

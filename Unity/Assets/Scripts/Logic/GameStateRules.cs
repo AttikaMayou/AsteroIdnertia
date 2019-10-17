@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Unity.Collections;
-
 //Auteur : Félix
 //Modifications : Margot, Arthur et Attika
 
@@ -49,14 +48,31 @@ public class GameStateRules : MonoBehaviour
     private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
     {
         //Donne une position au hasard dans le monde entre les boundaries choisies (donc dans le carré de centre (0, 0, 0) et de côté "gameParameters.Boundary")
-        var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
-            Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random(0x6E624EB7u);
+        //var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
+        //    Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
 
+        var position = new Vector2(r.NextFloat(-gameParameters.Boundary, gameParameters.Boundary),
+            r.NextFloat(-gameParameters.Boundary, gameParameters.Boundary));
+        //var position = new Vector2()
         //Si la position est comprise dans l'écran, on l'éloigne
         if (position.x < 90 && position.x > -90 &&
             position.y < 90 && position.y > -90) position.y += 100f;
 
         return position;
+    }
+
+    private static Vector2 GetDirection(Vector2 pos)
+    {
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random(0x6E624EB7u);
+        var target = new Vector2(r.NextFloat(-50, 50),  0);
+        return target;
+    }
+
+    private static float GetRandom(float min, float max)
+    {
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random(0x6E624EB7u);
+        return r.NextFloat(min, max);
     }
 
     //Generate a new asteroid and add it to asteroids list
@@ -69,11 +85,11 @@ public class GameStateRules : MonoBehaviour
         var asteroid = new Asteroid
         {
             position = position,
-            direction = position - new Vector2(Random.Range(-50f, 50.0f), 0),
+            direction = GetDirection(position)
         };
 
         //Multiplication de la direction par une valeur au hasard entre la minimum et maximum speed autorisée pour les astéroïdes
-        asteroid.direction = asteroid.direction.normalized * Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
+        asteroid.direction = asteroid.direction.normalized * GetRandom(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);// Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
         //ajout de cet astéroïde dans la liste
         gs.asteroids.Add(asteroid);
     }
@@ -335,8 +351,6 @@ public class GameStateRules : MonoBehaviour
                     }
                 case ActionsTypes.NothingS:
                     {
-
-
                         DecelerateRotation(ref gameParameters, ref gs, ref oldPlayer, i);
                         DecelerateVelocity(ref gameParameters, ref gs, ref oldPlayer, i);
 
@@ -372,7 +386,7 @@ public class GameStateRules : MonoBehaviour
                 position += gs.players[i].velocity;
             else
             {
-                velocity = new Vector2(0,0);
+                velocity = new Vector2(0, 0);
             }
             Vector2 lookDirection = Quaternion.Euler(0, 0, gs.players[i].rotationVelocity) * gs.players[i].lookDirection;
 
@@ -388,29 +402,29 @@ public class GameStateRules : MonoBehaviour
     //Movement when rotate right
     static private void RotateRightAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
-        var targetRotation = oldPlayer.rotationVelocity - gameParameters.RotationAccelerationSpeed * 200;
+        var targetRotation = oldPlayer.rotationVelocity - gameParameters.RotationAccelerationSpeed;
 
-        oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
-        oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
-            Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
+        oldPlayer.rotationVelocity = Unity.Mathematics.math.lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Unity.Mathematics.math.exp(-gameParameters.RotationAccelerationSpeed));
+        //oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.RotationAccelerationSpeed)),
+        //    Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
     }
 
     //rotate left 
     static private void RotateLeftAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
-        var targetRotation = oldPlayer.rotationVelocity + gameParameters.RotationAccelerationSpeed * 200;
+        var targetRotation = oldPlayer.rotationVelocity + gameParameters.RotationAccelerationSpeed;
 
-        oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
-        oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
-            Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
+        oldPlayer.rotationVelocity = Unity.Mathematics.math.lerp(oldPlayer.rotationVelocity, targetRotation, 1 - Mathf.Exp(-gameParameters.RotationAccelerationSpeed));
+        //oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
+        //    Mathf.Lerp(gs.players[i].velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
     }
 
     //Movement when up
     static private void MoveUpAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetVel = oldPlayer.velocity + oldPlayer.lookDirection * gameParameters.AccelerationSpeed * 200;
-        oldPlayer.velocity = Vector2.Lerp(oldPlayer.velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
+        oldPlayer.velocity = Unity.Mathematics.math.lerp(oldPlayer.velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
 
 
     }
@@ -418,7 +432,7 @@ public class GameStateRules : MonoBehaviour
     static private void MoveDownAgent(ref GameParametersStruct gameParameters, ref GameState gs, float rotationVelocity, Vector2 velocity, ref Player oldPlayer, int i)
     {
         var targetVel = oldPlayer.velocity - oldPlayer.lookDirection * gameParameters.AccelerationSpeed * 200;
-        oldPlayer.velocity = Vector2.Lerp(oldPlayer.velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
+        oldPlayer.velocity = Unity.Mathematics.math.lerp(oldPlayer.velocity, targetVel, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed));
 
     }
 
@@ -443,8 +457,8 @@ public class GameStateRules : MonoBehaviour
 
     static public void DecelerateVelocity(ref GameParametersStruct gameParameters, ref GameState gs, ref Player oldPlayer, int i)
     {
-        oldPlayer.velocity = new Vector2(Mathf.Lerp(oldPlayer.velocity.x, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)),
-                           Mathf.Lerp(oldPlayer.velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
+        oldPlayer.velocity = new Vector2(Unity.Mathematics.math.lerp(oldPlayer.velocity.x, 0, 1 - Unity.Mathematics.math.exp(-gameParameters.DecelerationSpeed)),
+                           Unity.Mathematics.math.lerp(oldPlayer.velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
         if (oldPlayer.velocity.magnitude <= 0.05f)
         {
@@ -454,12 +468,10 @@ public class GameStateRules : MonoBehaviour
 
     static public void DecelerateRotation(ref GameParametersStruct gameParameters, ref GameState gs, ref Player oldPlayer, int i)
     {
-        oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+        Unity.Mathematics.math.lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+       // oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
 
-        if (oldPlayer.rotationVelocity <= 0.05f)
-        {
-            oldPlayer.rotationVelocity = 0;
-        }
+       
     }
 
     public void GameOver(ref GameState gs)
@@ -530,10 +542,10 @@ public class GameStateRules : MonoBehaviour
     public static bool AllowMovement(ref GameParametersStruct gameParameters, ref GameState gs, Vector2 pos)
     {
         //Block players within screenBoundaries
-        if (pos.x + gameParameters.PlayerRadius > gameParameters.ScreenBordersBoundaryX.y
-            || pos.x - gameParameters.PlayerRadius < gameParameters.ScreenBordersBoundaryX.x
-            || pos.y + gameParameters.PlayerRadius > gameParameters.ScreenBordersBoundaryY.y
-            || pos.y - gameParameters.PlayerRadius < gameParameters.ScreenBordersBoundaryY.x)
+        if (pos.x + gameParameters.PlayerRadius * 3 > gameParameters.ScreenBordersBoundaryX.y
+            || pos.x - gameParameters.PlayerRadius * 3 < gameParameters.ScreenBordersBoundaryX.x
+            || pos.y + gameParameters.PlayerRadius * 3 > gameParameters.ScreenBordersBoundaryY.y
+            || pos.y - gameParameters.PlayerRadius * 3 < gameParameters.ScreenBordersBoundaryY.x)
         {
             return false;
         }
