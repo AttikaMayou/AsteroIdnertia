@@ -469,8 +469,8 @@ public class GameStateRules : MonoBehaviour
         AvailableActions[7] = ActionsTypes.MoveUpNS;
         AvailableActions[8] = ActionsTypes.MoveUpS;
         AvailableActions[9] = ActionsTypes.NothingS;
-        AvailableActions[10] = ActionsTypes.RotateRightUp;
-        AvailableActions[11] = ActionsTypes.RotateLeftUp;
+        AvailableActions[10] = ActionsTypes.RotateLeftUp;
+        AvailableActions[11] = ActionsTypes.RotateRightUp;
         return AvailableActions;
     }
 

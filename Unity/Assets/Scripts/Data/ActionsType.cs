@@ -19,6 +19,6 @@
     MoveUpS = 8,
 
     NothingS = 9,
-    RotateRightUp = 10,
-    RotateLeftUp = 11
+    RotateLeftUp = 10,
+    RotateRightUp = 11,
 }

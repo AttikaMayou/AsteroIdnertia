@@ -81,7 +81,6 @@ public class GameSystemScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                //Time.timeScale = 0;
                 Pause();
                 isPaused = !isPaused;
             }

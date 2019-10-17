@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 63.7
+  m_fontSize: 69.7
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1380,6 +1380,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1790,6 +1795,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -2823,6 +2833,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3352,6 +3367,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -4943,6 +4963,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5821,6 +5846,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6055,6 +6085,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -6345,6 +6380,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
@@ -8394,6 +8434,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: AsteroidsPlayer1
       objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9473,7 +9518,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 63
+  m_fontSize: 69
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11112,7 +11157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978345944}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.7, y: 115, z: 34.4}
+  m_LocalPosition: {x: 1.7, y: 115, z: 44.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11380,6 +11425,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: AsteroidsPlayer1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3379869590800084721, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3654742163656129736, guid: 8e0b3534192fa3a4ca5ee551cd1b7fd3,
         type: 3}
