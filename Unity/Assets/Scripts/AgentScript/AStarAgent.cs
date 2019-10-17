@@ -71,9 +71,9 @@ public class AStarAgent : IAgent
             enemyPlayerPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
 
             if (playerId == 0)
-                Rules.Step(ref gameParameters, ref gs, ActionsTypes.MoveUpS, ActionsTypes.Nothing);
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.NothingS, ActionsTypes.Nothing);
             else
-                Rules.Step(ref gameParameters, ref gs, ActionsTypes.Nothing, ActionsTypes.MoveUpS);
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.Nothing, ActionsTypes.NothingS);
 
             while (!gs.players[0].isGameOver && !gs.players[1].isGameOver && currentFrame <= maxFrames)
             {
