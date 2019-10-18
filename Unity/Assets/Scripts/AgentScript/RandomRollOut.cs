@@ -89,7 +89,7 @@ public struct RandomRollOut : IAgent
 
         public void Execute(int index)
         {
-            var epochs = 100;
+            var epochs = 400;
             var agent = rdmAgent;
 
             var gsCopy = Rules.Clone(ref gs);
