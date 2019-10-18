@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 3603240895444161761}
   - component: {fileID: 7107295308429606459}
   - component: {fileID: 3764968700772497106}
+  - component: {fileID: 7798055054090766068}
   m_Layer: 0
   m_Name: 48c57c128f9ed0548ae7b930787ff907_0_shared
   m_TagString: Untagged
@@ -140,6 +141,25 @@ MonoBehaviour:
   m_SerializedData:
     mesh: {fileID: 4068373912626513877, guid: 1f3c569f351d0d64dacd01643409252b, type: 3}
     material: {fileID: 2100000, guid: 2fa2461455b5f0b4980a6a9b51ad03ae, type: 2}
+    subMesh: 0
+    layer: 0
+    castShadows: 1
+    receiveShadows: 1
+--- !u!114 &7798055054090766068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6288606427864900941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0fd4427893a4a16ba0c267dfd00217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedData:
+    mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+    material: {fileID: 2100000, guid: b6f26e60e2855ae4fb8056e51ac9a400, type: 2}
     subMesh: 0
     layer: 0
     castShadows: 1

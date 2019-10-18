@@ -95,7 +95,8 @@ public class PlayerManager : MonoBehaviour
 
         //SyncAsteroidsViews();
         World.Active.GetExistingSystem<GameSystem>().UpdateAsteroidsViews(ref gs);
-        SyncProjectilesViews();
+        World.Active.GetExistingSystem<GameSystem>().UpdateProjectilesViews(ref gs);
+       // SyncProjectilesViews();
         //mettre à jour la position du players
         //for (int i = 0; i < players.Length; i++)
         //{

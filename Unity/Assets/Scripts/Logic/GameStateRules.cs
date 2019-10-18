@@ -45,10 +45,10 @@ public class GameStateRules : MonoBehaviour
     }
 
     //Generate a random position within the world
-    private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters)
+    private static Vector2 GetRandomPosition(ref GameParametersStruct gameParameters, ref GameState gs)
     {
         //Donne une position au hasard dans le monde entre les boundaries choisies (donc dans le carré de centre (0, 0, 0) et de côté "gameParameters.Boundary")
-        Unity.Mathematics.Random r = new Unity.Mathematics.Random(0x6E624EB7u);
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random((uint)gs.currentGameStep);
         //var position = new Vector2(Random.Range(-gameParameters.Boundary, gameParameters.Boundary),
         //    Random.Range(-gameParameters.Boundary, gameParameters.Boundary));
 
@@ -57,21 +57,23 @@ public class GameStateRules : MonoBehaviour
         //var position = new Vector2()
         //Si la position est comprise dans l'écran, on l'éloigne
         if (position.x < 90 && position.x > -90 &&
-            position.y < 90 && position.y > -90) position.y += 100f;
+            position.y < 90 && position.y > -90)
+                position.y += 100f;
 
         return position;
     }
 
-    private static Vector2 GetDirection(Vector2 pos)
+    private static Vector2 GetDirection(ref GameParametersStruct gameParameters, Vector2 pos, ref GameState gs)
     {
-        Unity.Mathematics.Random r = new Unity.Mathematics.Random(0x6E624EB7u);
-        var target = new Vector2(r.NextFloat(-50, 50),  0);
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random((uint)gs.currentGameStep);
+        var target = new Vector2(r.NextFloat(-gameParameters.ScreenBordersBoundaryX.x, gameParameters.ScreenBordersBoundaryX.y),  0);
+        target = target - pos;
         return target;
     }
 
-    private static float GetRandom(float min, float max)
+    private static float GetRandom(float min, float max, ref GameState gs)
     {
-        Unity.Mathematics.Random r = new Unity.Mathematics.Random(0x6E624EB7u);
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random((uint)gs.currentGameStep);
         return r.NextFloat(min, max);
     }
 
@@ -79,17 +81,17 @@ public class GameStateRules : MonoBehaviour
     private static void GenerateNewAsteroid(ref GameParametersStruct gameParameters, ref GameState gs)
     {
         //Récupère une random position 
-        var position = GetRandomPosition(ref gameParameters);
+        var position = GetRandomPosition(ref gameParameters, ref gs);
 
         //Créé un nouvel astéroïde à la position précédemment obtenue, donne une direction globalement orientée vers le centre (0, 0, 0) à +/- 50°)
         var asteroid = new Asteroid
         {
             position = position,
-            direction = GetDirection(position)
+            direction = GetDirection(ref gameParameters, position, ref gs)
         };
 
         //Multiplication de la direction par une valeur au hasard entre la minimum et maximum speed autorisée pour les astéroïdes
-        asteroid.direction = asteroid.direction.normalized * GetRandom(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);// Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
+        asteroid.direction = asteroid.direction.normalized * GetRandom(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed, ref gs);// Random.Range(gameParameters.AsteroidMinimumSpeed, gameParameters.AsteroidMaximumSpeed);
         //ajout de cet astéroïde dans la liste
         gs.asteroids.Add(asteroid);
     }

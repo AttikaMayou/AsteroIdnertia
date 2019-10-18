@@ -13,6 +13,7 @@ public class GameSystem : ComponentSystem
 
     public void UpdatePlayersViews(ref GameState gs)
     {
+        Debug.Log(gs.players.Length);
         var players = Entities.WithAll<PlayerComponent>().ToEntityQuery().ToEntityArray(Allocator.TempJob);
 
         for (int i = 0; i < gs.players.Length; i++)
@@ -34,11 +35,10 @@ public class GameSystem : ComponentSystem
     public void UpdateAsteroidsViews(ref GameState gs)
     {
         var asteroids = Entities.WithAll<AsteroidComponent>().ToEntityQuery().ToEntityArray(Allocator.TempJob);
-        var s = new NativeList<Entity>(asteroids.Length, Allocator.Temp);
+        var s = new NativeList<Entity>(asteroids.Length, Allocator.TempJob);
         s.AddRange(asteroids);
 
         var asteroidsToSpawn = gs.asteroids.Length - s.Length;
-        Debug.Log(asteroidsToSpawn);
         var spawner = Entities.WithAll<Spawner>().ToEntityQuery().ToComponentDataArray<Spawner>(Allocator.TempJob);
 
         for(int i = 0; i < asteroidsToSpawn; i++)
@@ -73,6 +73,54 @@ public class GameSystem : ComponentSystem
         
     }
 
+
+    public void UpdateProjectilesViews(ref GameState gs)
+    {
+        var projectiles = Entities.WithAll<ProjectileComponent>().ToEntityQuery().ToEntityArray(Allocator.TempJob);
+        var projectileList = new NativeList<Entity>(projectiles.Length, Allocator.TempJob);
+        projectileList.AddRange(projectiles);
+
+        var projectilesToSpawn = gs.projectiles.Length - projectileList.Length;
+        var spawner = Entities.WithAll<Spawner>().ToEntityQuery().ToComponentDataArray<Spawner>(Allocator.TempJob);
+
+        for (int i = 0; i < projectilesToSpawn; i++)
+        {
+            var entity = EntityManager.Instantiate(spawner[0].projectilePrefab);
+            projectileList.Add(entity);
+            
+            var rotation = new float3(gs.projectiles[projectileList.Length - 1].direction.x, 0, gs.projectiles[projectileList.Length - 1].direction.y);
+            EntityManager.SetComponentData(entity, new Rotation
+            {
+                Value = quaternion.LookRotation(new float3(0, -1, 0), rotation)
+            });
+            // s = Entities.WithAll<AsteroidComponent>().ToEntityQuery().ToEntityArray(Allocator.TempJob);
+        }
+
+        for (int i = 0; i < -projectilesToSpawn; i++)
+        {
+            EntityManager.DestroyEntity(projectileList[projectileList.Length - 1]);
+            projectileList.RemoveAtSwapBack(projectileList.Length - 1);
+            //s = Entities.WithAll<AsteroidComponent>().ToEntityQuery().ToEntityArray(Allocator.TempJob);
+        }
+
+        for (int i = 0; i < projectileList.Length; i++)
+        {
+            if (projectileList[i] == null)
+                continue;
+            float3 newPos = new float3(gs.projectiles[i].position.x, 0, gs.projectiles[i].position.y);
+            EntityManager.SetComponentData(projectileList[i], new Translation
+            {
+                Value = newPos
+            });
+
+        }
+
+        projectiles.Dispose();
+        spawner.Dispose();
+        projectileList.Dispose();
+
+    }
+
     protected override void OnCreate()
     {
         Entities.WithAll<PlayerComponent>().ForEach(x =>
@@ -87,6 +135,7 @@ public class GameSystem : ComponentSystem
                 Value = quaternion.identity
             });
         });
+
     }
 
     public void StartGame()
