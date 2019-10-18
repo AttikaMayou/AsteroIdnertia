@@ -6,8 +6,7 @@ using UnityEngine;
 using Unity.Mathematics;
 
 //Auteur : Attika
-
-public class MLAgent : IAgent
+public class MultiNiveauAgent : IAgent
 {
     public ActionsTypes Act(ref GameState gs, NativeArray<ActionsTypes> availableActions, int playerId)
     {
