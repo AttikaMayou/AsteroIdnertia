@@ -65,6 +65,7 @@ public struct MCTSAgent : IAgent
         }
 
         var chosenAction = availableActions[bestActionIndex];
+        Debug.Log("chosenAction:" + chosenAction);
         return chosenAction;
     }
 
@@ -87,7 +88,7 @@ public struct MCTSAgent : IAgent
 
         public void Execute()
         {
-            var epochs = 200;
+            var epochs = 20;
             var agent = rdmAgent;
 
             var gsCopy = Rules.Clone(ref gs);
@@ -97,7 +98,6 @@ public struct MCTSAgent : IAgent
             // CREATION DE LA MEMOIRE (Arbre)
             var memory = new NativeHashMap<long, NativeList<NodeMCTS>>(2048, Allocator.Temp);
             memory.TryAdd(rootHash, new NativeList<NodeMCTS>(availableActions.Length, Allocator.Temp));
-
 
             for (var i = 0; i < availableActions.Length; i++)
             {
@@ -119,7 +119,7 @@ public struct MCTSAgent : IAgent
                 var selectedNodes = new NativeList<SelectedNodeInfo>(Allocator.Temp);
 
                 //SELECT
-                while (!gsCopy.players[0].isGameOver)
+                while (!gsCopy.players[0].isGameOver|| !gsCopy.players[1].isGameOver)
                 {
                     var hasUnexploredNodes = false;
 
@@ -185,7 +185,7 @@ public struct MCTSAgent : IAgent
                 }
 
                 //EXPAND
-                if (!gsCopy.players[0].isGameOver)
+                if (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
                     var unexploredActions = new NativeList<int>(Allocator.Temp);
 
@@ -226,7 +226,7 @@ public struct MCTSAgent : IAgent
                 }
 
                 //SIMULATE
-                while (!gsCopy.players[0].isGameOver)
+                while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
                     var chosenActionIndex = agent.rdm.NextInt(0, availableActions.Length);
                     Rules.Step(ref gameParameters, ref gsCopy, (ActionsTypes)chosenActionIndex, availableActions[7]);

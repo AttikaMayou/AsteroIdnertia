@@ -533,9 +533,6 @@ public class GameStateRules : MonoBehaviour
         var enemyPosition = gs.players[1].position;
 
         Unity.Mathematics.float2 ennemyLookDirection = gs.players[playerId].lookDirection;
-        //Debug.LogFormat("Joueur {0}: est le joueur MTCS", playerId);
-        //Debug.Log("ennemyPosition:" + enemyPosition);
-        //Debug.Log("ennemyLookDirection :" + ennemyLookDirection);
 
         //distance entre player et ennemyPlayer
         Unity.Mathematics.float2 VectorBetweenPlayerAndEnnemy = 
@@ -547,18 +544,13 @@ public class GameStateRules : MonoBehaviour
 
         if (ProjectionLookAtEnnemy >= 0)
         {
-            Debug.Log("droite");
-            hash = + 10 * (long)gs.players[1].position.x; // * (long)gs.players[0].lookDirection.y;
+            hash = + 1; // * (long)gs.players[0].lookDirection.y;
         }
         else
         {
-            Debug.Log("gauche");
-            hash =- 10 * (long)gs.players[1].position.x;
+            hash = -1;
         }
 
-
-            
-        //Debug.Log(hash);
         return hash;
     }
 
