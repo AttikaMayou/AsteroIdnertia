@@ -56,9 +56,9 @@ public class GameStateRules : MonoBehaviour
             gameParameters.Rdm.NextFloat(-gameParameters.Boundary, gameParameters.Boundary));
         //var position = new Vector2()
         //Si la position est comprise dans l'écran, on l'éloigne
-        if (position.x < 90 && position.x > -90 &&
-            position.y < 90 && position.y > -90)
-                position.y += 200f;
+        if (position.x < gameParameters.ScreenBordersBoundaryX.y && position.x > gameParameters.ScreenBordersBoundaryX.x &&
+            position.y < gameParameters.ScreenBordersBoundaryY.y && position.y > gameParameters.ScreenBordersBoundaryY.x)
+                position.y += 100;
 
         return position;
     }
