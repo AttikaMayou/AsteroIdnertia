@@ -4,6 +4,7 @@ using Rules = GameStateRules;
 using Random = Unity.Mathematics.Random;
 using Unity.Burst;
 using Unity.Mathematics;
+using System.Collections.Generic;
 
 //Auteur : Arthur
 //Modifications : Attika
@@ -25,24 +26,21 @@ public class AStarAgent : IAgent
             availableActions = availableActions,
             gs = gs,
             currentDepth = 0,
-            maxDepth = 10,
+            maxDepth = 200,
             gameParameters = GameParameters.Instance.Parameters,
-            projectilePos = new float2(500f, 500f),
             playerPos = gs.players[playerId == 0 ? 1 : 0].position,
             playerId = playerId,
-            //nodes = new NativeList<NodeAStar>(0, Allocator.TempJob),
-            //selectedNodes = new NativeList<int>(0, Allocator.TempJob),
-            indexChoosenAction = 0
+            indexChoosenAction = new NativeArray<int>(2048, Allocator.TempJob)
     };
 
         var handle = job.Schedule();
         handle.Complete();
 
-        ActionsTypes chosenAction = availableActions[job.indexChoosenAction];
+        ActionsTypes chosenAction = availableActions[job.indexChoosenAction[0]];
         return chosenAction;
     }
 
-    [BurstCompile]
+    //[BurstCompile]
     struct AStarJob : IJob
     {
         public GameState gs;
@@ -51,9 +49,6 @@ public class AStarAgent : IAgent
 
         [ReadOnly]
         public NativeArray<ActionsTypes> availableActions;
-
-        //public NativeList<NodeAStar> nodes;
-        //public NativeList<int> selectedNodes;
 
         //nb max itérations
         public int currentDepth;
@@ -64,10 +59,11 @@ public class AStarAgent : IAgent
         public int playerId;
         public float2 enemyPlayerPos;
 
-        public NodeAStar bestStepAction;
 
         [WriteOnly]
-        public int indexChoosenAction; //Action à return
+        public NativeArray<int> indexChoosenAction; //Action à return
+
+        public Unity.Mathematics.Random rdm;
 
         public void Execute()
         {
@@ -75,13 +71,14 @@ public class AStarAgent : IAgent
             enemyPlayerPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
 
             //Init best action
-            bestStepAction = new NodeAStar();
+            var bestStepAction = new NodeAStar();
             bestStepAction.action = -1;
             bestStepAction.framesToTarget = 50000;
             bestStepAction.previousAction = -1;
             bestStepAction.currentGs = gsCopy;
-            var nodes = new NativeList<NodeAStar>(2048, Allocator.Temp);
-            var selectedNodes = new NativeList<int>(2048, Allocator.Temp);
+
+            var nodes = new List<NodeAStar>();
+            var selectedNodes = new List<int>();
 
             //Boucle qui cherche le meilleur chemin
             while (!gsCopy.players[0].isGameOver && !gsCopy.players[1].isGameOver && currentDepth <= maxDepth)
@@ -98,14 +95,9 @@ public class AStarAgent : IAgent
                         Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[i]);
 
                     //Updtate used projectile
+                    projectilePos = gsCopy.players[playerId].position;
                     for (int j = gsCopy.projectiles.Length - 1; j >= 0; j--)
                     {
-                        if (j == 0 && gsCopy.projectiles[j].playerID != playerId)
-                        {
-                            projectilePos = new float2(500f, 500f);
-                            break;
-                        }
-
                         if (gsCopy.projectiles[j].playerID != playerId)
                         {
                             continue;
@@ -124,7 +116,7 @@ public class AStarAgent : IAgent
                 }
 
                 //Choix de la meilleur action
-                for (var i = 0; i < nodes.Length; i++)
+                for (var i = 0; i < nodes.Count; i++)
                 {
                     if (nodes[i].framesToTarget < bestStepAction.framesToTarget)
                     {
@@ -150,11 +142,11 @@ public class AStarAgent : IAgent
                 if (CalculateFrames(enemyPlayerPos, projectilePos, bestStepAction.currentGs) == 0)
                 {
                     //return first action of the path
-                    for (int i = selectedNodes.Length - 1; i > 0; i--)
+                    for (int i = selectedNodes.Count - 1; i > 0; i--)
                     {
                         if (selectedNodes[i - 1] == -1)
                         {
-                            indexChoosenAction = selectedNodes[i];
+                            indexChoosenAction[0] = selectedNodes[i];
                             break;
                         }
                     }
