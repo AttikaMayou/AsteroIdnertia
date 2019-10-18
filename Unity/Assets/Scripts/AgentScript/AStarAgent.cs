@@ -25,13 +25,13 @@ public class AStarAgent : IAgent
             availableActions = availableActions,
             gs = gs,
             currentDepth = 0,
-            maxDepth = 500,
+            maxDepth = 10,
             gameParameters = GameParameters.Instance.Parameters,
             projectilePos = new float2(500f, 500f),
             playerPos = gs.players[playerId == 0 ? 1 : 0].position,
             playerId = playerId,
-            nodes = new NativeList<NodeAStar>(0, Allocator.TempJob),
-            selectedNodes = new NativeList<int>(0, Allocator.TempJob),
+            //nodes = new NativeList<NodeAStar>(0, Allocator.TempJob),
+            //selectedNodes = new NativeList<int>(0, Allocator.TempJob),
             indexChoosenAction = 0
     };
 
@@ -42,7 +42,7 @@ public class AStarAgent : IAgent
         return chosenAction;
     }
 
-    //[BurstCompile]
+    [BurstCompile]
     struct AStarJob : IJob
     {
         public GameState gs;
@@ -52,8 +52,8 @@ public class AStarAgent : IAgent
         [ReadOnly]
         public NativeArray<ActionsTypes> availableActions;
 
-        public NativeList<NodeAStar> nodes;
-        public NativeList<int> selectedNodes;
+        //public NativeList<NodeAStar> nodes;
+        //public NativeList<int> selectedNodes;
 
         //nb max itérations
         public int currentDepth;
@@ -80,9 +80,11 @@ public class AStarAgent : IAgent
             bestStepAction.framesToTarget = 50000;
             bestStepAction.previousAction = -1;
             bestStepAction.currentGs = gsCopy;
+            var nodes = new NativeList<NodeAStar>(2048, Allocator.Temp);
+            var selectedNodes = new NativeList<int>(2048, Allocator.Temp);
 
             //Boucle qui cherche le meilleur chemin
-            while (!gs.players[0].isGameOver && !gs.players[1].isGameOver && currentDepth <= maxDepth)
+            while (!gsCopy.players[0].isGameOver && !gsCopy.players[1].isGameOver && currentDepth <= maxDepth)
             {
                 //Ajout des nouveaux noeuds dans la liste
                 for (var i = 0; i < availableActions.Length; i++)
@@ -96,27 +98,28 @@ public class AStarAgent : IAgent
                         Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[i]);
 
                     //Updtate used projectile
-                    for (int j = gs.projectiles.Length - 1; j >= 0; j--)
+                    for (int j = gsCopy.projectiles.Length - 1; j >= 0; j--)
                     {
-                        if (j == 0 && gs.projectiles[j].playerID != playerId)
+                        if (j == 0 && gsCopy.projectiles[j].playerID != playerId)
                         {
                             projectilePos = new float2(500f, 500f);
                             break;
                         }
 
-                        if (gs.projectiles[j].playerID != playerId)
+                        if (gsCopy.projectiles[j].playerID != playerId)
                         {
                             continue;
                         }
-                        projectilePos = gs.projectiles[gs.projectiles.Length - 1].position;
+                        projectilePos = gsCopy.projectiles[gsCopy.projectiles.Length - 1].position;
                         break;
                     }
 
                     //Création et ajout du nouveau noeud
                     NodeAStar tmpNode = new NodeAStar();
-                    tmpNode.framesToTarget = CalculateFrames(enemyPlayerPos, projectilePos);//à vérifier
+                    tmpNode.framesToTarget = CalculateFrames(enemyPlayerPos, projectilePos, gsCopy);//à vérifier
                     tmpNode.action = i;
                     tmpNode.previousAction = bestStepAction.action;
+                    tmpNode.currentGs = gsCopy;
                     nodes.Add(tmpNode);
                 }
 
@@ -144,7 +147,7 @@ public class AStarAgent : IAgent
                 currentDepth++;
 
                 //end
-                if (CalculateFrames(enemyPlayerPos, projectilePos) == 0)
+                if (CalculateFrames(enemyPlayerPos, projectilePos, bestStepAction.currentGs) == 0)
                 {
                     //return first action of the path
                     for (int i = selectedNodes.Length - 1; i > 0; i--)
@@ -159,27 +162,10 @@ public class AStarAgent : IAgent
             }
         }
 
-         ////Init projectile
-         //           for (int i = gs.projectiles.Length - 1; i >= 0; i--)
-         //           {
-         //               if (i == 0 && gs.projectiles[i].playerID != playerId)
-         //               {
-         //                   projectilePos = new float2(500f, 500f);
-         //                   break;
-         //               }
-
-         //               if (gs.projectiles[i].playerID != playerId)
-         //               {
-         //                   continue;
-         //               }
-         //               projectilePos = gs.projectiles[gs.projectiles.Length - 1].position;
-         //               break;
-         //           }
-
-public float CalculateFrames(float2 playerPos, float2 projectilePos)
+public float CalculateFrames(float2 playerPos, float2 projectilePos, GameState currentGs)
         {
             float distProjectilePlayer = math.distance(playerPos, projectilePos);
-            return gs.currentGameStep + distProjectilePlayer / gameParameters.ProjectileSpeed;
+            return currentGs.currentGameStep + distProjectilePlayer / gameParameters.ProjectileSpeed;
         }
     }
 }
