@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 50.1
+  m_fontSize: 62.45
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4216,10 +4216,10 @@ RectTransform:
   m_Father: {fileID: 841167182}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12, y: 48}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 11, y: 48}
+  m_SizeDelta: {x: 190, y: 66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &728811054
 MonoBehaviour:
@@ -4267,11 +4267,11 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 36
+  m_fontSize: 59.05
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 25
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_textAlignment: 514
@@ -5344,10 +5344,10 @@ RectTransform:
   m_Father: {fileID: 1800450230}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: -712, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &871082933
 GameObject:
@@ -5997,7 +5997,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 61.65
+  m_fontSize: 72
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7064,7 +7064,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 48.9
+  m_fontSize: 50.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7681,11 +7681,9 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: RandomRollOut
       m_Image: {fileID: 0}
-    - m_Text: Dijkstra
+    - m_Text: A*
       m_Image: {fileID: 0}
     - m_Text: MCTS
-      m_Image: {fileID: 0}
-    - m_Text: Q-learning
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9518,7 +9516,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 49.4
+  m_fontSize: 61.7
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11247,11 +11245,9 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: RandomRollOut
       m_Image: {fileID: 0}
-    - m_Text: Dijkstra
+    - m_Text: A*
       m_Image: {fileID: 0}
     - m_Text: MCTS
-      m_Image: {fileID: 0}
-    - m_Text: Q-learning
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
