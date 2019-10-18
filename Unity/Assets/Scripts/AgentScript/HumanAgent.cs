@@ -3,7 +3,6 @@ using Unity.Collections;
 using UnityEngine;
 
 //Auteur : Arthur & Margot
-//Modifications : Attika
 
 public class HumanAgent : IAgent
 {

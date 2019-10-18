@@ -2,7 +2,6 @@
 using Unity.Collections;
 
 //Auteur : Margot & Arthur
-//Modifications : Attika
 
 public struct RandomAgent : IAgent
 {

@@ -5,7 +5,9 @@ using Random = Unity.Mathematics.Random;
 using Unity.Burst;
 using Unity.Mathematics;
 
-public struct NodeASatr
+//Auteur : Arthur
+
+public struct NodeAStar
 {
     public float framesToTarget;
     public int action;
@@ -26,7 +28,7 @@ public class AStarAgent : IAgent
             projectilePos = new float2(500f, 500f),
             playerPos = gs.players[playerId == 0 ? 1 : 0].position,
             playerId = playerId,
-            nodes = new NativeList<NodeASatr>(0, Allocator.TempJob),
+            nodes = new NativeList<NodeAStar>(0, Allocator.TempJob),
             selectedNodes = new NativeList<int>(0, Allocator.TempJob),
             maxFrames = 500
         };
@@ -48,7 +50,7 @@ public class AStarAgent : IAgent
         [ReadOnly]
         public NativeArray<ActionsTypes> availableActions;
 
-        public NativeList<NodeASatr> nodes;
+        public NativeList<NodeAStar> nodes;
         public NativeList<int> selectedNodes;
 
         //nb max itérations
@@ -62,7 +64,7 @@ public class AStarAgent : IAgent
         public int playerId;
         public float2 enemyPlayerPos;
 
-        public NodeASatr bestStepAction;
+        public NodeAStar bestStepAction;
 
         [WriteOnly]
         public int indexChoosenAction; //Action à return
@@ -116,7 +118,7 @@ public class AStarAgent : IAgent
                         Rules.Step(ref gameParameters, ref gsCopy, ActionsTypes.Nothing, availableActions[i]);
 
                     //Création et ajout du nouveau noeud
-                    NodeASatr tmpNode = new NodeASatr();
+                    NodeAStar tmpNode = new NodeAStar();
                     tmpNode.framesToTarget = CalculateFrames(enemyPlayerPos, projectilePos);//à vérifier
                     tmpNode.action = i;
                     tmpNode.previousAction = bestStepAction.action;
