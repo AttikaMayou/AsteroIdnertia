@@ -461,15 +461,15 @@ public class GameStateRules : MonoBehaviour
         oldPlayer.velocity = new Vector2(Unity.Mathematics.math.lerp(oldPlayer.velocity.x, 0, 1 - Unity.Mathematics.math.exp(-gameParameters.DecelerationSpeed)),
                            Unity.Mathematics.math.lerp(oldPlayer.velocity.y, 0, 1 - Mathf.Exp(-gameParameters.DecelerationSpeed)));
 
-        if (oldPlayer.velocity.magnitude <= 0.05f)
+        /*if (oldPlayer.velocity.magnitude <= 0.05f)
         {
             oldPlayer.velocity = Vector2.zero;
-        }
+        }*/
     }
 
     static public void DecelerateRotation(ref GameParametersStruct gameParameters, ref GameState gs, ref Player oldPlayer, int i)
     {
-        Unity.Mathematics.math.lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
+        oldPlayer.rotationVelocity = Unity.Mathematics.math.lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
        // oldPlayer.rotationVelocity = Mathf.Lerp(oldPlayer.rotationVelocity, 0, 1 - Mathf.Exp(-gameParameters.RotationDecelerationSpeed));
 
        
