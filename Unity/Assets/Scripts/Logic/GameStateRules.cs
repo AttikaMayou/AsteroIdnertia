@@ -538,17 +538,26 @@ public class GameStateRules : MonoBehaviour
         Unity.Mathematics.float2 VectorBetweenPlayerAndEnnemy = 
             new Unity.Mathematics.float2(gs.players[1].position.x - gs.players[0].position.x, 
                                          gs.players[1].position.y - gs.players[0].position.y);
+        
 
         //produit scalaire de lookAt sur Player2
-        long ProjectionLookAtEnnemy = (long)Unity.Mathematics.math.dot(ennemyLookDirection, VectorBetweenPlayerAndEnnemy);
+        float ProjectionLookAtEnnemy = (float)Unity.Mathematics.math.dot(ennemyLookDirection, VectorBetweenPlayerAndEnnemy);
+        
+        var angle = Unity.Mathematics.math.acos(
+            Unity.Mathematics.math.clamp(
+                Unity.Mathematics.math.dot(gs.players[0].lookDirection, ProjectionLookAtEnnemy), -1f, 1f)) * 57.29578f;
 
+
+        return (long)angle;
         if (ProjectionLookAtEnnemy >= 0)
         {
-            hash = + 1; // * (long)gs.players[0].lookDirection.y;
+            hash = (long)(10 * ProjectionLookAtEnnemy); // * (long)gs.players[0].lookDirection.y;
+            //Debug.Log("droite");
         }
         else
         {
-            hash = -1;
+            //Debug.Log("gauche");
+            hash = (long)(10 * ProjectionLookAtEnnemy);
         }
 
         return hash;

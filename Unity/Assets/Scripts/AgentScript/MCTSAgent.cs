@@ -88,15 +88,14 @@ public struct MCTSAgent : IAgent
 
         public void Execute()
         {
-            var epochs = 20;
+            var epochs = 5;
             var agent = rdmAgent;
 
             var gsCopy = Rules.Clone(ref gs);
 
             var rootHash = Rules.GetHashCode(ref gsCopy, 0);
-
             // CREATION DE LA MEMOIRE (Arbre)
-            var memory = new NativeHashMap<long, NativeList<NodeMCTS>>(2048, Allocator.Temp);
+            var memory = new NativeHashMap<long, NativeList<NodeMCTS>>(360, Allocator.Temp);
             memory.TryAdd(rootHash, new NativeList<NodeMCTS>(availableActions.Length, Allocator.Temp));
 
             for (var i = 0; i < availableActions.Length; i++)
@@ -117,12 +116,12 @@ public struct MCTSAgent : IAgent
                 var currentHash = rootHash;
 
                 var selectedNodes = new NativeList<SelectedNodeInfo>(Allocator.Temp);
-
+                var it = 0;
                 //SELECT
-                while (!gsCopy.players[0].isGameOver|| !gsCopy.players[1].isGameOver)
+                while (!gsCopy.players[0].isGameOver && it < 50)
                 {
                     var hasUnexploredNodes = false;
-
+                    it++;
                     for (var i = 0; i < memory[currentHash].Length; i++)
                     {
                         if (memory[currentHash][i].nc == 0)
