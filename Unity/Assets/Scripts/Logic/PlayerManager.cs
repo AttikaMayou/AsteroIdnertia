@@ -93,7 +93,8 @@ public class PlayerManager : MonoBehaviour
         scorePlayer1.text = score1.ToString();
         scorePlayer2.text = score2.ToString();
 
-        SyncAsteroidsViews();
+        //SyncAsteroidsViews();
+        World.Active.GetExistingSystem<GameSystem>().UpdateAsteroidsViews(ref gs);
         SyncProjectilesViews();
         //mettre à jour la position du players
         //for (int i = 0; i < players.Length; i++)
