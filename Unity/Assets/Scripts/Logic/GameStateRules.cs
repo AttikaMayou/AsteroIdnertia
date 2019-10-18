@@ -529,69 +529,6 @@ public class GameStateRules : MonoBehaviour
     //MCTS Agent
     public static long GetHashCode(ref GameState gs, int playerId)
     {
-        //position de notre joueur 
-        //clamp la position du joueur
-        /*long hashx = (long)round(clamp(gs.players[playerId].lookDirection.x, -14.99999f, 14.9999f) + 15f);
-        long hashy = (long)round(clamp(gs.players[playerId].lookDirection.y, -14.99999f, 14.9999f) + 15f);
-
-        //long hash = 0;
-
-        long x = 0L;
-        long y = 0L;
-        long xmax = 30;
-
-        for (long i = 0; i < 900; i++)
-        {
-            if (x == hashx && y == hashy)
-            {
-                hash = i;
-                break;
-            }
-            x++;
-            if (x > xmax)
-            {
-                x = 0;
-                y++;
-            }
-        }
-
-        //position du joueur ennemi
-        //clamp la position de l'ennemi ?
-        var enemyPlayerPosition = 0;
-        var closestEnemyPlayerPosition = 0;
-
-        //position de notre tir => manque test si c'est nous ou l'ennemi
-        for (int i = 0; i < gs.projectiles.Length; i++)
-        {
-            if (playerId == 0)
-            {
-                playerId = 0;
-                var projectilePos = gs.projectiles[i].position;
-            }
-            else
-            {
-                playerId = 1;
-            }
-        }
-
-        //calcul projectile avec notre player ennemi
-        //var distanceEnnemyProjectile = abs(distance.(gs.players[playerId == 0 ? 1 : 0].position, gs.players[playerId == 1 ? 0 : 1].position));
-
-        //calcul distance player ennemi/notre projectile
-
-        //si il ça bouge pas 
-        //return hash = hash;
-
-        //sinon
-        //hash += 30 + (long) math.round(math.clamp(closestEnemyPlayerPosition, -14.99999f, 14.9999f) + 15f);
-        //return hash;
-
-
-        //closestAsteroidsPosition
-
-
-    */
-        //return hash += 30 + (long)round(clamp(closestEnemyPlayerPosition, -14.99999f, 14.9999f) + 15f);
         long hash = 0;
         var enemyPosition = gs.players[1].position;
 
@@ -606,19 +543,21 @@ public class GameStateRules : MonoBehaviour
                                          gs.players[1].position.y - gs.players[0].position.y);
 
         //produit scalaire de lookAt sur Player2
-        var ProjectionLookAtEnnemy = Unity.Mathematics.math.dot(ennemyLookDirection, VectorBetweenPlayerAndEnnemy);
+        long ProjectionLookAtEnnemy = (long)Unity.Mathematics.math.dot(ennemyLookDirection, VectorBetweenPlayerAndEnnemy);
 
         if (ProjectionLookAtEnnemy >= 0)
         {
-            //Debug.Log("droite");
-            hash =+ 10 * (long)gs.players[1].position.y;
+            Debug.Log("droite");
+            hash = + 10 * (long)gs.players[1].position.x; // * (long)gs.players[0].lookDirection.y;
         }
         else
         {
-            //Debug.Log("gauche");
-            hash =- 10 * (long)gs.players[1].position.y;
+            Debug.Log("gauche");
+            hash =- 10 * (long)gs.players[1].position.x;
         }
 
+
+            
         //Debug.Log(hash);
         return hash;
     }
