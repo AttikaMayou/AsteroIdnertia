@@ -33,7 +33,7 @@ public struct RandomRollOut : IAgent
 
         for (var i = 0; i < job.summedScores.Length; i++)
         {
-            Debug.Log(job.summedScores[i]);
+            //Debug.Log(job.summedScores[i]);
             if (bestScore > job.summedScores[i])
             {
                 continue;
