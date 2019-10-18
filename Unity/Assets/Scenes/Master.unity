@@ -869,7 +869,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 61.85
+  m_fontSize: 50.8
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2361,9 +2361,9 @@ RectTransform:
   m_Father: {fileID: 731493115}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 262.6, y: -203.6}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 212.6, y: -153.6}
   m_SizeDelta: {x: 38.6, y: 41.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &316744033
@@ -5903,7 +5903,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 72
+  m_fontSize: 62.3
   m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6146,7 +6146,7 @@ MonoBehaviour:
     RotationDecelerationSpeed: 0.02
     MaxRotationVelocity: 3
     ProjectileRadius: 2
-    ProjectileSpeed: 0.2
+    ProjectileSpeed: 0.5
     AsteroidRadius: 5
     AsteroidMinimumSpeed: 0.1
     AsteroidMaximumSpeed: 0.2
@@ -6157,6 +6157,8 @@ MonoBehaviour:
     StepScore: 1
     AsteroidDestructionScore: 20
     EnemyDestroyScore: 500
+    Rdm:
+      state: 0
     ScreenBordersBoundaryX: {x: 0, y: 0}
     ScreenBordersBoundaryY: {x: 0, y: 0}
 --- !u!114 &1026029444
@@ -7111,7 +7113,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 48.75
+  m_fontSize: 43.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9565,7 +9567,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 61.1
+  m_fontSize: 50.05
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1

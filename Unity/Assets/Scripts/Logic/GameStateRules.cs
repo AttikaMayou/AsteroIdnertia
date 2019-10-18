@@ -447,12 +447,12 @@ public class GameStateRules : MonoBehaviour
             oldPlayer.lastShootStep = gs.currentGameStep;
             gs.projectiles.Add(new Projectile
             {
-                position = oldPlayer.position,
                 speed = gameParameters.ProjectileSpeed,
                 direction = oldPlayer.lookDirection.normalized,
+                position = oldPlayer.position,
                 playerID = i
             });
-
+            
             gs.players[i] = oldPlayer;
         }
     }
