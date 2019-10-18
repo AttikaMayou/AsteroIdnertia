@@ -58,7 +58,7 @@ public class GameStateRules : MonoBehaviour
         //Si la position est comprise dans l'écran, on l'éloigne
         if (position.x < 90 && position.x > -90 &&
             position.y < 90 && position.y > -90)
-                position.y += 100f;
+                position.y += 200f;
 
         return position;
     }
