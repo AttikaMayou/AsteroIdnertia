@@ -33,6 +33,7 @@ public struct RandomRollOut : IAgent
 
         for (var i = 0; i < job.summedScores.Length; i++)
         {
+            Debug.Log(job.summedScores[i]);
             if (bestScore > job.summedScores[i])
             {
                 continue;
@@ -111,6 +112,15 @@ public struct RandomRollOut : IAgent
                     {
                         break;
                     }
+                }
+
+                //Init projectile
+                for (int i = gs.projectiles.Length - 1; i >= 0; i--)
+                {
+                    if (gs.projectiles[i].playerID == playerId)
+                        projectilePos = gs.projectiles[gs.projectiles.Length - 1].position;
+                    else if (i == 0)
+                        projectilePos = new float2(500f, 500f);
                 }
 
                 summedScores[index] += CalculateFrames(enemyPos, projectilePos);
