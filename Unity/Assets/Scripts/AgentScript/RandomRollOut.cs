@@ -100,6 +100,7 @@ public struct RandomRollOut : IAgent
                 Rules.CopyTo(ref gs, ref gsCopy);
                 Rules.Step(ref gameParameters, ref gsCopy, availableActions[index], 0);
 
+                enemyPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
                 var currentDepth = 0;
                 var maxIteration = 200;
                 while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
@@ -123,7 +124,7 @@ public struct RandomRollOut : IAgent
                         projectilePos = new float2(500f, 500f);
                 }
 
-                summedScores[index] += CalculateFrames(enemyPos, projectilePos);
+                summedScores[index] = CalculateFrames(enemyPos, projectilePos);
                 gsCopy.projectiles.Dispose();
                 gsCopy.asteroids.Dispose();
             }

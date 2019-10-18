@@ -6,6 +6,7 @@ using Unity.Burst;
 using Unity.Mathematics;
 
 //Auteur : Arthur
+//Modifications : Attika
 
 public struct NodeAStar
 {

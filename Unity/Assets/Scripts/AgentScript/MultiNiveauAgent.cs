@@ -18,7 +18,9 @@ public class MultiNiveauAgent : IAgent
             intermediateSteps = new NativeList<float2>(10, Allocator.TempJob),
             playerId = playerId,
             gameParameters = GameParameters.Instance.Parameters,
-            summedScores = new NativeArray<long>(availableActions.Length, Allocator.TempJob)
+            summedScores = new NativeArray<float>(availableActions.Length, Allocator.TempJob),
+            playerPos = gs.players[playerId == 0 ? 0 : 1].position
+
         };
 
         var handleLong = longJob.Schedule(availableActions.Length, 1);
@@ -45,9 +47,12 @@ public class MultiNiveauAgent : IAgent
         [WriteOnly]
         public NativeList<float2> intermediateSteps;
 
-        public NativeArray<long> summedScores;
+        public NativeArray<float> summedScores;
 
         public int playerId;
+        public float2 projectilePos;
+        public float2 enemyPos;
+        public float2 playerPos;
 
         public void Execute(int index)
         {
@@ -63,6 +68,7 @@ public class MultiNiveauAgent : IAgent
 
                 var currentDepth = 0;
                 var maxIteration = 1000;
+                enemyPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
 
                 while (currentDepth < maxIteration || !gsCopy.players[1].isGameOver)
                 {
@@ -72,13 +78,22 @@ public class MultiNiveauAgent : IAgent
                     currentDepth++;
                 }
 
-                summedScores[index] += gsCopy.players[playerId].score;
+                //Init projectile
+                for (int i = gs.projectiles.Length - 1; i >= 0; i--)
+                {
+                    if (gs.projectiles[i].playerID == playerId)
+                        projectilePos = gs.projectiles[gs.projectiles.Length - 1].position;
+                    else if (i == 0)
+                        projectilePos = new float2(500f, 500f);
+                }
+
+                summedScores[index] = CalculateFrames(enemyPos, projectilePos);
                 gsCopy.projectiles.Dispose();
                 gsCopy.asteroids.Dispose();
             }
 
             int bestActionIndex = -1;
-            var bestScore = long.MinValue;
+            var bestScore = float.MinValue;
 
             for (var i = 0; i < summedScores.Length; i++)
             {
@@ -108,6 +123,12 @@ public class MultiNiveauAgent : IAgent
             else
                 chosenAction = rdmAgent.Act(ref gs, availableActions);
             summedScores.Dispose();
+        }
+
+        public float CalculateFrames(float2 playerPos, float2 projectilePos)
+        {
+            float distance = math.distance(playerPos, projectilePos);
+            return gs.currentGameStep + distance / gameParameters.ProjectileSpeed;
         }
     }
 }
