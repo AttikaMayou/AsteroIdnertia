@@ -4,6 +4,7 @@ using Rules = GameStateRules;
 using Random = Unity.Mathematics.Random;
 using Unity.Burst;
 using Unity.Mathematics;
+using UnityEngine;
 
 //Auteur : Arthur
 //Modifications : Attika
@@ -21,21 +22,27 @@ public class AStarAgent : IAgent
     {
         var job = new AStarJob
         {
-            availableActions = availableActions,
             gs = gs,
+            gameParameters = GameParameters.Instance.Parameters,
+            availableActions = availableActions,
+            nodes = new NativeList<NodeAStar>(0, Allocator.TempJob),
+            selectedNodes = new NativeList<int>(0, Allocator.TempJob),
             currentDepth = 0,
             maxDepth = 500,
-            gameParameters = GameParameters.Instance.Parameters,
+            maxFrames = 500,
             projectilePos = new float2(500f, 500f),
             playerPos = gs.players[playerId == 0 ? 1 : 0].position,
             playerId = playerId,
-            nodes = new NativeList<NodeAStar>(0, Allocator.TempJob),
-            selectedNodes = new NativeList<int>(0, Allocator.TempJob),
-            maxFrames = 500
+            enemyPlayerPos = gs.players[playerId == 0 ? 0 : 1].position
         };
 
         var handle = job.Schedule();
         handle.Complete();
+
+       //for(var i = 0; i < job.nodes.Length; i++)
+       // {
+       //     Debug.Log(job.nodes[i].framesToTarget + " from " + i + " and action index is " + job.nodes[i].action);
+       // }
 
         ActionsTypes chosenAction = availableActions[job.indexChoosenAction];
         return chosenAction;
@@ -75,15 +82,16 @@ public class AStarAgent : IAgent
             var gsCopy = Rules.Clone(ref gs);
 
             //Init
+            bestStepAction = new NodeAStar();
             bestStepAction.action = -1;
             bestStepAction.framesToTarget = 50000;
             bestStepAction.previousAction = -1;
             enemyPlayerPos = gsCopy.players[playerId == 0 ? 1 : 0].position;
 
-            if (playerId == 0)
+            /*if (playerId == 0)
                 Rules.Step(ref gameParameters, ref gs, ActionsTypes.NothingS, ActionsTypes.Nothing);
             else
-                Rules.Step(ref gameParameters, ref gs, ActionsTypes.Nothing, ActionsTypes.NothingS);
+                Rules.Step(ref gameParameters, ref gs, ActionsTypes.Nothing, ActionsTypes.NothingS);*/
 
             while (!gs.players[0].isGameOver && !gs.players[1].isGameOver && currentFrame <= maxFrames)
             {
