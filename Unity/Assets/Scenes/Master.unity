@@ -7730,11 +7730,9 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: RandomRollOut
       m_Image: {fileID: 0}
-    - m_Text: Dijkstra
+    - m_Text: A*
       m_Image: {fileID: 0}
     - m_Text: MCTS
-      m_Image: {fileID: 0}
-    - m_Text: Q-learning
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11296,11 +11294,9 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: RandomRollOut
       m_Image: {fileID: 0}
-    - m_Text: Dijkstra
+    - m_Text: A*
       m_Image: {fileID: 0}
     - m_Text: MCTS
-      m_Image: {fileID: 0}
-    - m_Text: Q-learning
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
