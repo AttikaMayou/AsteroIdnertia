@@ -529,7 +529,6 @@ public class GameStateRules : MonoBehaviour
     //MCTS Agent
     public static long GetHashCode(ref GameState gs, int playerId)
     {
-        long hash = 0;
         var enemyPosition = gs.players[1].position;
 
         Unity.Mathematics.float2 ennemyLookDirection = gs.players[playerId].lookDirection;
@@ -539,28 +538,12 @@ public class GameStateRules : MonoBehaviour
             new Unity.Mathematics.float2(gs.players[1].position.x - gs.players[0].position.x, 
                                          gs.players[1].position.y - gs.players[0].position.y);
         
-
-        //produit scalaire de lookAt sur Player2
-        float ProjectionLookAtEnnemy = (float)Unity.Mathematics.math.dot(ennemyLookDirection, VectorBetweenPlayerAndEnnemy);
-        
         var angle = Unity.Mathematics.math.acos(
             Unity.Mathematics.math.clamp(
-                Unity.Mathematics.math.dot(gs.players[0].lookDirection, ProjectionLookAtEnnemy), -1f, 1f)) * 57.29578f;
+                Unity.Mathematics.math.dot(gs.players[0].lookDirection, VectorBetweenPlayerAndEnnemy), -1f, 1f)) * 57.29578f;
 
 
         return (long)angle;
-        if (ProjectionLookAtEnnemy >= 0)
-        {
-            hash = (long)(10 * ProjectionLookAtEnnemy); // * (long)gs.players[0].lookDirection.y;
-            //Debug.Log("droite");
-        }
-        else
-        {
-            //Debug.Log("gauche");
-            hash = (long)(10 * ProjectionLookAtEnnemy);
-        }
-
-        return hash;
     }
 
 }
