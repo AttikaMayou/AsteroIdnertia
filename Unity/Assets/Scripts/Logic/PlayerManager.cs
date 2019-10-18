@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Entities;
 
 //Auteur : Félix
 //Modifications : Arthur, Margot et Attika
 
 public class PlayerManager : MonoBehaviour
 {
+    
+
     [SerializeField]
     private GameObject AsteroidPrefab;
 
@@ -51,7 +54,7 @@ public class PlayerManager : MonoBehaviour
         for (var i = 0; i < players.Length; i++)
         {
             playerAgents[i] = agents[i];
-            playerViews[i] = players[i].transform;
+        //    playerViews[i] = players[i].transform;
         }
 
         GameStateRules.Init(ref GameParameters.Instance.Parameters, ref gs, this);
@@ -90,15 +93,21 @@ public class PlayerManager : MonoBehaviour
         scorePlayer1.text = score1.ToString();
         scorePlayer2.text = score2.ToString();
 
-        SyncAsteroidsViews();
-        SyncProjectilesViews();
+        //SyncAsteroidsViews();
+        World.Active.GetExistingSystem<GameSystem>().UpdateAsteroidsViews(ref gs);
+        World.Active.GetExistingSystem<GameSystem>().UpdateProjectilesViews(ref gs);
+       // SyncProjectilesViews();
         //mettre à jour la position du players
-        for (int i = 0; i < players.Length; i++)
-        {
-            Vector3 lookDir = new Vector3(gs.players[i].lookDirection.x, 0, gs.players[i].lookDirection.y);
-            playerViews[i].position = new Vector3(gs.players[i].position.x, 0, gs.players[i].position.y);
-            playerViews[i].rotation = Quaternion.LookRotation(lookDir, Vector3.up);
-        }
+        //for (int i = 0; i < players.Length; i++)
+        //{
+        //    Vector3 lookDir = new Vector3(gs.players[i].lookDirection.x, 0, gs.players[i].lookDirection.y);
+        //    playerViews[i].position = new Vector3(gs.players[i].position.x, 0, gs.players[i].position.y);
+        //    playerViews[i].rotation = Quaternion.LookRotation(lookDir, Vector3.up);
+        //}
+
+        World.Active.GetExistingSystem<GameSystem>().UpdatePlayersViews(ref gs);
+
+
         GetBoundaries();
         GameStateRules.Step(ref GameParameters.Instance.Parameters, ref gs, playerAgents[0].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 0),
                                     playerAgents[1].Act(ref gs, GameStateRules.GetAvailableActions(ref gs), 1));
@@ -167,6 +176,10 @@ public class PlayerManager : MonoBehaviour
         Vector2 position2 = new Vector2(170f, 170f);
         gs.players[1] = GameStateRules.createPlayer(oldPlayer2.score, oldPlayer2.speed, position2,
     oldPlayer2.lastShootStep, false, oldPlayer2.velocity, oldPlayer2.rotationVelocity, oldPlayer2.lookDirection);
+
+        gs.asteroids.Clear();
+        gs.currentGameStep = 0;
+        //gs.projectiles.Dispose();
     }
 
     void GetBoundaries()
@@ -193,10 +206,6 @@ public class PlayerManager : MonoBehaviour
 
         GameParameters.Instance.Parameters.ScreenBordersBoundaryX = horizontalBoundary;
         GameParameters.Instance.Parameters.ScreenBordersBoundaryY = verticalBoundary;
-
-
-
-
 
     }
 }

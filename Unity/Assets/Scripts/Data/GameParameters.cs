@@ -24,6 +24,7 @@ public struct GameParametersStruct
     public int StepScore;
     public int AsteroidDestructionScore;
     public int EnemyDestroyScore;
+    public Unity.Mathematics.Random Rdm;
     /// <summary>
     /// x = min, y = max
     /// </summary>
@@ -47,6 +48,7 @@ public class GameParameters : MonoBehaviour
             if (_instance == null)
             {
                 _instance = FindObjectOfType<GameParameters>();
+                _instance.Parameters.Rdm = new Unity.Mathematics.Random((uint)Random.Range(0, 11111111));
                 if (_instance == null)
                 {
                     throw new System.Exception("There is no active object of type " + typeof(GameParameters).ToString() + " in the scene");
