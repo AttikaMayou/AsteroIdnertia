@@ -83,7 +83,7 @@ public struct RandomRollOut : IAgent
 
         public void Execute(int index)
         {
-            var epochs = 200;
+            var epochs = 100;
             var agent = rdmAgent;
 
             var gsCopy = Rules.Clone(ref gs);
@@ -98,7 +98,7 @@ public struct RandomRollOut : IAgent
                 //agent.Act(ref gsCopy, availableActions, 1));
 
                 var currentDepth = 0;
-                var maxIteration = 500;
+                var maxIteration = 200;
                 while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
                 {
                     Rules.Step(ref gameParameters, ref gsCopy,
