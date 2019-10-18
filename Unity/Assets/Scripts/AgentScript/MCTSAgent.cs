@@ -66,6 +66,7 @@ public struct MCTSAgent : IAgent
 
         var chosenAction = availableActions[bestActionIndex];
         Debug.Log("chosenAction:" + chosenAction);
+        job.summedScores.Dispose();
         return chosenAction;
     }
 
@@ -118,7 +119,7 @@ public struct MCTSAgent : IAgent
                 var selectedNodes = new NativeList<SelectedNodeInfo>(Allocator.Temp);
                 var it = 0;
                 //SELECT
-                while (!gsCopy.players[0].isGameOver && it < 50)
+                while (!gsCopy.players[0].isGameOver && it < 10)
                 {
                     var hasUnexploredNodes = false;
                     it++;
@@ -225,10 +226,11 @@ public struct MCTSAgent : IAgent
                 }
 
                 //SIMULATE
-                while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver)
+                while (!gsCopy.players[0].isGameOver || !gsCopy.players[1].isGameOver && it < 10)
                 {
                     var chosenActionIndex = agent.rdm.NextInt(0, availableActions.Length);
                     Rules.Step(ref gameParameters, ref gsCopy, (ActionsTypes)chosenActionIndex, availableActions[7]);
+                    it++;
                 }
 
 
